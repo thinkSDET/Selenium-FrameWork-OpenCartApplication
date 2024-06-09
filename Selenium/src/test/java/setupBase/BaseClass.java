@@ -2,21 +2,17 @@ package setupBase;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
-
-import java.time.Duration;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class BaseClass extends Waits {
 
-    protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
+    protected ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
 
     /**
      *  set the driver
      */
-    public static void set(){
-        WebDriver driver = new ChromeDriver();
+    public void set(){
+        WebDriver driver = new FirefoxDriver();
         driverThreadLocal.set(driver);
     }
 
@@ -24,7 +20,7 @@ public class BaseClass extends Waits {
      * get the driver
      * @return
      */
-    public static WebDriver get(){
+    public WebDriver get(){
        return driverThreadLocal.get();
     }
 
@@ -32,7 +28,6 @@ public class BaseClass extends Waits {
      * launch the browser
      * @return
      */
-    @BeforeSuite
     public void launchBrowser(){
         set();
         get().manage().window().maximize();

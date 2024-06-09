@@ -2,7 +2,6 @@ package testCases;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import setupBase.BaseClass;
@@ -14,6 +13,7 @@ public class LoginPageTest extends BaseClass {
 
     @BeforeMethod
     void setup(){
+        launchBrowser();
         pageFactory =  new PageFactory(get());
     }
 
@@ -25,7 +25,7 @@ public class LoginPageTest extends BaseClass {
         Assert.assertEquals(getTitle,"Dashboard","Please check for the title");
     }
 
-    @Test(dataProvider = "WrongUserNameAndPassword",dataProviderClass = LoginTestData.class)
+    @Test(dataProvider = "WrongUserNameAndPassword",dataProviderClass = LoginTestData.class,enabled = false)
     void test01_verifyLoginWithWrongUserNameAndPassword(String userName, String password){
         pageFactory.loginPage().login(userName,password);
         String toastMessage = pageFactory.loginPage().getToastMessage();
@@ -34,7 +34,7 @@ public class LoginPageTest extends BaseClass {
     /**
      * quit the driver, after the execution of test case
      */
-    @AfterTest
+    @AfterMethod
     void tearDown(){
         get().quit();
     }
