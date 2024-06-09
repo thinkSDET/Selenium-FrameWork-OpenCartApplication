@@ -1,39 +1,40 @@
 package testCases;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.DashBoardPage;
-import pages.LoginPage;
-import setupBase.SetupBrowser;
+import setupBase.BaseClass;
+import setupBase.PageFactory;
+import testData.LoginTestData;
 
-public class LoginPageTest {
-    WebDriver driver;
-    LoginPage loginPage;
-    DashBoardPage dashBoardPage;
-    SetupBrowser setupBrowser;
+public class LoginPageTest extends BaseClass {
+    PageFactory pageFactory;
 
     @BeforeMethod
     void setup(){
-        setupBrowser = new SetupBrowser();
-        driver =  setupBrowser.getDriver();
-        loginPage = new LoginPage(driver);
-        dashBoardPage =  new DashBoardPage(driver);
+        pageFactory =  new PageFactory(get());
     }
 
-    @Test
-    void loginPage(){
-        loginPage.login("demo","demo");
-        boolean b = dashBoardPage.userNameDisplay();
-        System.out.println(b);
-        String getTitle = dashBoardPage.getTitleOfDashBoardPage();
+    @Test (dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)
+    void verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
+        pageFactory.loginPage().login(userName,password);
+        pageFactory.dashBoardPage().userNameDisplay();
+        String getTitle = pageFactory.dashBoardPage().getTitleOfDashBoardPage();
         Assert.assertEquals(getTitle,"Dashboard","Please check for the title");
     }
 
+    @Test(dataProvider = "WrongUserNameAndPassword",dataProviderClass = LoginTestData.class)
+    void verifyLoginWithWrongUserNameAndPassword(String userName, String password){
+        pageFactory.loginPage().login(userName,password);
+        String toastMessage = pageFactory.loginPage().getToastMessage();
+        Assert.assertEquals(toastMessage,"No match for Username and/or Password.","Message is not correct please check");
+    }
+    /**
+     * quit the driver, after the execution of test case
+     */
     @AfterMethod
     void tearDown(){
-        driver.quit();
+        get().quit();
     }
 }

@@ -4,11 +4,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import setupBase.BaseClass;
 
-public class LoginPage  {
-
+public class LoginPage extends BaseClass {
+    WebDriver driver;
     public LoginPage(WebDriver driver){
         PageFactory.initElements(driver,this);
+        this.driver=driver;
     }
 
     @FindBy(id="input-username")
@@ -19,6 +21,9 @@ public class LoginPage  {
 
     @FindBy(xpath="//button[@type='submit']")
     private WebElement submitBtn;
+
+    @FindBy(xpath = "//div[@id='alert']//div")
+    private WebElement toastMessage;
 
     /**
      *  Login into open cart application
@@ -38,6 +43,14 @@ public class LoginPage  {
     public void clearUserNameAndPassword(){
         userName.clear();
         password.clear();
+    }
+
+    /**
+     * get toast message while un-successful login
+     */
+    public String getToastMessage(){
+        visibilityOfElement(driver,toastMessage);
+        return toastMessage.getText();
     }
 
 }
