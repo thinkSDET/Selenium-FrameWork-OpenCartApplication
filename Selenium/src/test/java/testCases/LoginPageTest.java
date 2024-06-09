@@ -2,6 +2,7 @@ package testCases;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import setupBase.BaseClass;
@@ -16,8 +17,8 @@ public class LoginPageTest extends BaseClass {
         pageFactory =  new PageFactory(get());
     }
 
-    @Test (dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)
-    void verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
+    @Test(dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)
+    void test02_verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
         pageFactory.loginPage().login(userName,password);
         pageFactory.dashBoardPage().userNameDisplay();
         String getTitle = pageFactory.dashBoardPage().getTitleOfDashBoardPage();
@@ -25,7 +26,7 @@ public class LoginPageTest extends BaseClass {
     }
 
     @Test(dataProvider = "WrongUserNameAndPassword",dataProviderClass = LoginTestData.class)
-    void verifyLoginWithWrongUserNameAndPassword(String userName, String password){
+    void test01_verifyLoginWithWrongUserNameAndPassword(String userName, String password){
         pageFactory.loginPage().login(userName,password);
         String toastMessage = pageFactory.loginPage().getToastMessage();
         Assert.assertEquals(toastMessage,"No match for Username and/or Password.","Message is not correct please check");
@@ -33,7 +34,7 @@ public class LoginPageTest extends BaseClass {
     /**
      * quit the driver, after the execution of test case
      */
-    @AfterMethod
+    @AfterTest
     void tearDown(){
         get().quit();
     }

@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
 
 import java.time.Duration;
 
@@ -14,7 +15,7 @@ public class BaseClass extends Waits {
     /**
      *  set the driver
      */
-    public void set(){
+    public static void set(){
         WebDriver driver = new ChromeDriver();
         driverThreadLocal.set(driver);
     }
@@ -23,7 +24,7 @@ public class BaseClass extends Waits {
      * get the driver
      * @return
      */
-    public WebDriver get(){
+    public static WebDriver get(){
        return driverThreadLocal.get();
     }
 
@@ -31,7 +32,7 @@ public class BaseClass extends Waits {
      * launch the browser
      * @return
      */
-    @BeforeSuite
+    @BeforeTest
     public void launchBrowser(){
         set();
         get().manage().window().maximize();

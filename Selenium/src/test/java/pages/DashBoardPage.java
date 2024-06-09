@@ -18,7 +18,6 @@ public class DashBoardPage extends BaseClass {
 
     /**
      *
-     * @return
      */
     public void userNameDisplay(){
         visibilityOfElement(driver,userName);
@@ -26,7 +25,7 @@ public class DashBoardPage extends BaseClass {
     }
 
     /**
-     *
+     * get the title of DashBoardPage
      * @return
      */
     public String getTitleOfDashBoardPage(){
