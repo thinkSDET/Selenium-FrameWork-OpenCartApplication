@@ -32,7 +32,7 @@ public class BaseClass extends Waits {
      * launch the browser
      * @return
      */
-    @BeforeTest
+    @BeforeSuite
     public void launchBrowser(){
         set();
         get().manage().window().maximize();
