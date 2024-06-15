@@ -20,9 +20,12 @@ public class MyInfoPage extends BaseClass {
     private WebElement job;
     @FindBy(xpath = "//h6[text()='Job Details']")
     private WebElement jobDetailsTitle;
+    @FindBy(xpath = "//h6[text()='Personal Details']")
+    private WebElement personalDetailsTitle;
 
    public void clickPersonalDetailsOption(){
        personalDetails.click();
+       visibilityOfElement(driver,personalDetailsTitle);
     }
     public void clickJobOption(){
        job.click();

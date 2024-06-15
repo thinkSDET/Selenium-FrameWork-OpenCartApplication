@@ -1,4 +1,4 @@
-package navigationPages.salesPage;
+package navigationPages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

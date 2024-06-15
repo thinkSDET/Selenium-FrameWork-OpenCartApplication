@@ -1,11 +1,11 @@
 package setupBase;
 
-import commonMethods.ActionsMethods;
+import commonMethods.ReusableMethods;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-public class BaseClass extends ActionsMethods {
+public class BaseClass extends ReusableMethods {
 
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
 
