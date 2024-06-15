@@ -1,2 +1,3 @@
-# Selenium-FrameWork-OpenCartApplication
-Create a framework for Open Cart application
+# Selenium-FrameWork-Creation
+# Crafting a Selenium-based framework for web UI automation.
+
