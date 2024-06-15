@@ -7,8 +7,8 @@ public class LoginTestData {
     @DataProvider(name = "loginWithAdmin")
     public static Object[][] loginWithAdmin(){
         Object [][] testData = new Object[1][2];
-        testData[0][0] = "demo";
-        testData[0][1] = "demo";
+        testData[0][0] = "Admin";
+        testData[0][1] = "admin123";
         return testData;
     }
 

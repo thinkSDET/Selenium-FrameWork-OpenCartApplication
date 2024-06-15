@@ -13,7 +13,7 @@ public class DashBoardPage extends BaseClass {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "//span[contains(text(),'demo demo')]")
+    @FindBy(xpath = "//p[contains(text(),'manda user')]")
     private WebElement userName;
 
     /**

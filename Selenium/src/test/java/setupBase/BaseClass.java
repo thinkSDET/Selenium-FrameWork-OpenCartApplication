@@ -1,38 +1,41 @@
 package setupBase;
 
+import commonMethods.ActionsMethods;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
-public class BaseClass extends Waits {
+public class BaseClass extends ActionsMethods {
 
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
 
     /**
      *  set the driver
      */
-    public static void set(){
-        WebDriver driver = new ChromeDriver();
+    @BeforeTest
+    public static void setDriver(){
+        WebDriver driver = BrowserManager.browserSetup("chrome");
         driverThreadLocal.set(driver);
+        System.out.println("Before Test Thread-->"+ Thread.currentThread().getId());
+        //get URL
+        getDriver().manage().window().maximize();
+        implicitWait(getDriver());
+        getDriver().manage().deleteAllCookies();
+        getDriver().get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
     }
 
     /**
      * get the driver
      * @return
      */
-    public static WebDriver get(){
+    public static WebDriver getDriver(){
        return driverThreadLocal.get();
     }
 
-    /**
-     * launch the browser
-     * @return
-     */
-    public void launchBrowser(){
-        set();
-        get().manage().window().maximize();
-        implicitWait(get());
-        get().manage().deleteAllCookies();
-        get().get("https://demo.opencart.com/admin/");
+    @AfterTest
+    public void tearDown(){
+        getDriver().quit();
+        System.out.println("After Test Thread ID-->"+Thread.currentThread().getId());
+        driverThreadLocal.remove();
     }
 }

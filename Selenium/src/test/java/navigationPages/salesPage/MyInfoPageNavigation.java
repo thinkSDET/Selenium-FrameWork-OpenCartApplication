@@ -6,17 +6,17 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import setupBase.BaseClass;
 
-public class ReturnsPageNavigation extends BaseClass {
+public class MyInfoPageNavigation extends BaseClass {
 
     WebDriver driver;
-    public ReturnsPageNavigation(WebDriver driver){
+    public MyInfoPageNavigation(WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver=driver;
     }
-    @FindBy(xpath = "//a[text()=' Sales']/parent::li//ul//li//a[text()='Returns']")
-    private WebElement clickReturns;
+    @FindBy(xpath = "//span[text()='My Info']")
+    private WebElement clickMyInfo;
 
-    public void clickOnReturns(){
-        clickReturns.click();
+    public void clickOnMyInfoOption(){
+        clickMyInfo.click();
     }
 }

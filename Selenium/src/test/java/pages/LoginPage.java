@@ -13,10 +13,10 @@ public class LoginPage extends BaseClass {
         this.driver=driver;
     }
 
-    @FindBy(id="input-username")
+    @FindBy(xpath = "//input[@name='username']")
     private WebElement userName;
 
-    @FindBy(id="input-password")
+    @FindBy(xpath = "//input[@name='password']")
     private WebElement password;
 
     @FindBy(xpath="//button[@type='submit']")
@@ -24,6 +24,9 @@ public class LoginPage extends BaseClass {
 
     @FindBy(xpath = "//div[@id='alert']//div")
     private WebElement toastMessage;
+
+    @FindBy(xpath = "//div[@role='alert']//p")
+    private WebElement getInvalidCredentialMessage;
 
     /**
      *  Login into open cart application
@@ -53,4 +56,7 @@ public class LoginPage extends BaseClass {
         return toastMessage.getText();
     }
 
+    public String getInvalidCredentialValidationMessage() {
+       return getInvalidCredentialMessage.getText();
+    }
 }

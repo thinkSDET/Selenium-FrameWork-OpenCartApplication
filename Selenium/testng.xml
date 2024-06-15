@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suite" parallel="methods" thread-count="2">
-    <test name ="test">
+<suite name="All Test Suite" parallel="tests" thread-count="2">
+    <test name ="Test class for Login">
         <classes>
         <class name="testCases.LoginPageTest"/>
+        </classes>
+    </test>
+    <test name="Test class for MyInfo Page">
+        <classes>
+            <class name="testCases.MyInfoPageTest"/>
         </classes>
     </test>
 </suite>

@@ -1,11 +1,11 @@
 package setupBase;
 
-import navigationPages.salesPage.ReturnsPageNavigation;
+import navigationPages.salesPage.MyInfoPageNavigation;
 import navigationPages.salesPage.SalesPageNavigation;
 import org.openqa.selenium.WebDriver;
 import pages.DashBoardPage;
 import pages.LoginPage;
-import pages.ReturnsPage;
+import pages.MyInfoPage;
 
 public class PageFactory {
     WebDriver driver;
@@ -18,13 +18,10 @@ public class PageFactory {
     public DashBoardPage dashBoardPage(){
         return new DashBoardPage(driver);
     }
-    public SalesPageNavigation salesPageNavigation(){
-        return new SalesPageNavigation(driver);
+    public MyInfoPageNavigation myInfoPageNavigation(){
+        return new MyInfoPageNavigation(driver);
     }
-    public ReturnsPageNavigation returnsPageNavigation(){
-        return new ReturnsPageNavigation(driver);
-    }
-    public ReturnsPage returnsPage(){
-        return new ReturnsPage(driver);
+    public MyInfoPage myInfoPage(){
+        return new MyInfoPage(driver);
     }
 }
