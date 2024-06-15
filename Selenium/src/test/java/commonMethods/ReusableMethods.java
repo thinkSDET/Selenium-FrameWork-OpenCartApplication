@@ -1,9 +1,12 @@
 package commonMethods;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+
+import java.util.List;
 
 public class ReusableMethods extends Waits {
     protected Actions actions;
@@ -41,6 +44,23 @@ public class ReusableMethods extends Waits {
         element.click();
         while (element.getAttribute("")!=null){
             element.sendKeys(Keys.BACK_SPACE);
+        }
+    }
+
+    /**
+     *
+     * @param element
+     * @param value
+     * @param driver
+     */
+    protected void selectValueFromDropDown(WebElement element, String value,WebDriver driver){
+        element.click();
+        List<WebElement> nationalityList = driver.findElements(By.xpath("//div[@class='oxd-select-option' and @role='option']"));
+        for(WebElement list : nationalityList){
+            if(list.getText().equalsIgnoreCase(value)){
+                list.click();
+                break;
+            }
         }
     }
 }
