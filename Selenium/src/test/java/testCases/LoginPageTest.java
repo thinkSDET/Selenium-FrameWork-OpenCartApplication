@@ -16,20 +16,18 @@ public class LoginPageTest extends BaseClass {
         launchBrowser();
         pageFactory =  new PageFactory(get());
     }
-
+    @Test(dataProvider = "WrongUserNameAndPassword",dataProviderClass = LoginTestData.class,enabled = false)
+    void test02_verifyLoginWithWrongUserNameAndPassword(String userName, String password){
+        pageFactory.loginPage().login(userName,password);
+        String toastMessage = pageFactory.loginPage().getToastMessage();
+        Assert.assertEquals(toastMessage,"No match for Username and/or Password.","Message is not correct please check");
+    }
     @Test(dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)
-    void test02_verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
+    void test01_verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
         pageFactory.loginPage().login(userName,password);
         pageFactory.dashBoardPage().userNameDisplay();
         String getTitle = pageFactory.dashBoardPage().getTitleOfDashBoardPage();
         Assert.assertEquals(getTitle,"Dashboard","Please check for the title");
-    }
-
-    @Test(dataProvider = "WrongUserNameAndPassword",dataProviderClass = LoginTestData.class,enabled = false)
-    void test01_verifyLoginWithWrongUserNameAndPassword(String userName, String password){
-        pageFactory.loginPage().login(userName,password);
-        String toastMessage = pageFactory.loginPage().getToastMessage();
-        Assert.assertEquals(toastMessage,"No match for Username and/or Password.","Message is not correct please check");
     }
     /**
      * quit the driver, after the execution of test case

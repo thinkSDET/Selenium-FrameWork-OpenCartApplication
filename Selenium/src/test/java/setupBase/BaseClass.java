@@ -6,13 +6,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class BaseClass extends Waits {
 
-    protected ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
+    protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
 
     /**
      *  set the driver
      */
-    public void set(){
-        WebDriver driver = new FirefoxDriver();
+    public static void set(){
+        WebDriver driver = new ChromeDriver();
         driverThreadLocal.set(driver);
     }
 
@@ -20,7 +20,7 @@ public class BaseClass extends Waits {
      * get the driver
      * @return
      */
-    public WebDriver get(){
+    public static WebDriver get(){
        return driverThreadLocal.get();
     }
 
