@@ -72,18 +72,4 @@ public class PersonalDetailsPage extends BaseClass {
         selectValueFromDropDown(this.nationality,personalDetails.nationality,driver);
         selectValueFromDropDown(this.maritalStatus,personalDetails.maritalStatus,driver);
     }
-
-/*    *//**
-     * @param nationality
-     *//*
-    public void selectNationality(String nationality){
-        this.nationality.click();
-        List<WebElement> nationalityList = driver.findElements(By.xpath("//div[@class='oxd-select-option' and @role='option']"));
-       for(WebElement list : nationalityList){
-           if(list.getText().equalsIgnoreCase(nationality)){
-            list.click();
-            break;
-           }
-       }
-    }*/
 }
