@@ -11,6 +11,7 @@ import testData.PersonalDetailsTestData;
 public class MyInfoPageTest extends BaseClass {
     PageFactory pageFactory;
     PersonalDetails personalDetails;
+
     @BeforeTest
     void setup(){
         pageFactory =  new PageFactory(getDriver());
@@ -28,6 +29,6 @@ public class MyInfoPageTest extends BaseClass {
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();
         pageFactory.personalDetailsPage().fillPersonalDetails(personalDetails);
-        System.out.println(1);
+        System.out.println("My Test Pass");
     }
 }
