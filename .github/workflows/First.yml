@@ -1,11 +1,10 @@
 name: Run our first automation on GitHub
-on:workflow_dispatch
+'on': workflow_dispatch
 jobs:
   first-job:
-   runs-on: ubuntu-latest
-   steps:
-   - name: Print greeting
-     run: echo "Hello I am learning!"
-   - name: Print goodbye
-     run: echo "Hello I am still learning! Bye"
- 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print greeting
+        run: echo "Hello I am learning!"
+      - name: Print goodbye
+        run: echo "Hello I am still learning! Bye"
