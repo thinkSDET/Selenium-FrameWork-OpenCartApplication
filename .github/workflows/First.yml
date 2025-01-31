@@ -1,4 +1,4 @@
-name: Run our first automation on GitHub
+name: First Work Flow Test
 'on': workflow_dispatch
 jobs:
   first-job:
