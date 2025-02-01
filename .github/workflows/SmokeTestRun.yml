@@ -1,44 +1,44 @@
-name: Custom Test Workflow
+name: Custom Test Workflow  # The name of the workflow that will appear on GitHub UI
 
 on:  
-  workflow_dispatch:  # Allows manual trigger
+  workflow_dispatch:  # Allows you to trigger this workflow manually from the GitHub UI
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
+jobs:  # A job is a set of steps that are executed on a VM
+  test:  # The name of the job, in this case 'test'
+    runs-on: ubuntu-latest  # The virtual environment to run the job in (Ubuntu latest version)
 
-    env:
-      JAVA_VERSION: 17  # Change Java version if needed
-      MAVEN_COMMAND: "mvn test"  # Change Maven command if needed
+    env:  # Environment variables that will be used in this job
+      JAVA_VERSION: 17  # Specifies the Java version (you can adjust this as needed)
+      MAVEN_COMMAND: "mvn test"  # The Maven command that will run tests
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    steps:  # List of steps that will be run as part of this job
+      - name: Checkout code  # This step uses GitHub's built-in action to checkout the code
+        uses: actions/checkout@v4  # GitHub Action to checkout the repository code
 
-      - name: Set up Java
-        uses: actions/setup-java@v3
+      - name: Set up Java  # This step sets up the Java environment
+        uses: actions/setup-java@v3  # GitHub Action to install the specified Java version
         with:
-          distribution: 'temurin'
-          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'  # Specifies which JDK distribution to use
+          java-version: ${{ env.JAVA_VERSION }}  # Uses the Java version defined in env
 
-      - name: Install Chrome
+      - name: Install Chrome  # Installs Google Chrome on the VM
         run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+          sudo apt-get update  # Updates the package list
+          sudo apt-get install -y google-chrome-stable  # Installs the stable version of Google Chrome
 
-      - name: Install Xvfb (Virtual Display)
+      - name: Install Xvfb (Virtual Display)  # Install Xvfb to simulate a display (needed for non-headless mode)
         run: |
-          sudo apt-get install -y xvfb
-          Xvfb :99 -screen 0 1920x1080x24 &  # Start a virtual display
+          sudo apt-get install -y xvfb  # Install Xvfb package
+          Xvfb :99 -screen 0 1920x1080x24 &  # Starts Xvfb on display 99 (sets up a virtual display)
 
-      - name: Verify Chrome Installation
-        run: google-chrome --version
+      - name: Verify Chrome Installation  # Verifies that Chrome is installed correctly
+        run: google-chrome --version  # Runs the command to display the Chrome version
 
-      - name: Verify ChromeDriver Installation
-        run: chromedriver --version
+      - name: Verify ChromeDriver Installation  # Verifies that ChromeDriver is installed correctly
+        run: chromedriver --version  # Runs the command to display the ChromeDriver version
 
-      - name: Run Tests
+      - name: Run Tests  # This step will run your tests
         run: |
-          export DISPLAY=:99  # Set display for non-headless mode
-          ${{ env.MAVEN_COMMAND }}
-        working-directory: Selenium
+          export DISPLAY=:99  # Sets the display variable to use the Xvfb display
+          ${{ env.MAVEN_COMMAND }}  # Runs the Maven command defined in 'env'
+        working-directory: Selenium  # Specifies the working directory for Maven to run the command
