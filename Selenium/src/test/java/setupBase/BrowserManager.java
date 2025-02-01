@@ -12,7 +12,7 @@ public class BrowserManager {
         switch (browserName.toLowerCase()){
             case "chrome" :
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--headless=new");  // Run in headless mode (needed for GitHub Actions)
+               // options.addArguments("--headless=new");  // Run in headless mode (needed for GitHub Actions)
                 options.addArguments("--no-sandbox");
                 options.addArguments("--disable-dev-shm-usage");
                 driver = new ChromeDriver(options);
