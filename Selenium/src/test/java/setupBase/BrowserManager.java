@@ -13,8 +13,9 @@ public class BrowserManager {
             case "chrome" :
                 ChromeOptions options = new ChromeOptions();
                // options.addArguments("--headless=new");  // Run in headless mode (needed for GitHub Actions)
-                options.addArguments("--no-sandbox");
-                options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--no-sandbox");  // Bypass container security
+                options.addArguments("--disable-dev-shm-usage");  // Prevent shared memory issues
+                options.addArguments("--remote-allow-origins=*");  // Allow cross-origin requests
                 driver = new ChromeDriver(options);
                 break;
             case "firefox" :
