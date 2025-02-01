@@ -20,6 +20,19 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
+          
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Install Xvfb (Virtual Display)
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb :99 -screen 0 1920x1080x24 &  # Start a virtual display
+
+      - name: Verify Chrome Installation
+        run: google-chrome --version
 
       - name: Run Tests
         run: ${{ env.MAVEN_COMMAND }}
