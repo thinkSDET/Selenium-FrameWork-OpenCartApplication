@@ -12,8 +12,9 @@ public class BrowserManager {
         switch (browserName.toLowerCase()){
             case "chrome" :
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--user-data-dir=/tmp/selenium-profile-" + System.currentTimeMillis()); // Unique directory
-                options.addArguments("--disable-dev-shm-usage"); // Helps avoid crashes in Docker/Linux
+                options.addArguments("--headless=new");  // Run in headless mode (needed for GitHub Actions)
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
                 driver = new ChromeDriver(options);
                 break;
             case "firefox" :
