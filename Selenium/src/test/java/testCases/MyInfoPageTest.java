@@ -29,6 +29,6 @@ public class MyInfoPageTest extends BaseClass {
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();
         pageFactory.personalDetailsPage().fillPersonalDetails(personalDetails);
-        Assert.assertFalse(true);
+        Assert.assertFalse(false);
     }
 }

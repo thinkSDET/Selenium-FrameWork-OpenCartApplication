@@ -1,7 +1,6 @@
 package testCases;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import setupBase.BaseClass;
@@ -20,8 +19,7 @@ public class LoginPageTest extends BaseClass {
     void test01_verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
         pageFactory.loginPage().login(userName,password);
         pageFactory.dashBoardPage().userNameDisplay();
-        String getTitle = pageFactory.dashBoardPage().getTitleOfDashBoardPage();
-        Assert.assertEquals(getTitle,"OrangeHRM","Please check for the title");
+        Assert.assertEquals(pageFactory.dashBoardPage().getTitleOfDashBoardPage(),"OrangeHRM","Please check for the title");
     }
     /**
      * quit the driver, after the execution of test case
