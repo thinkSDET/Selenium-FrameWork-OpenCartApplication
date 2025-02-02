@@ -8,13 +8,14 @@ import org.testng.annotations.BeforeTest;
 public class BaseClass extends ReusableMethods {
 
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
+    private  static String browser = System.getProperty("browser", "chrome"); // Default to Chrome if not set
 
     /**
      *  set the driver
      */
     @BeforeTest
     public static void setDriver(){
-        WebDriver driver = BrowserManager.browserSetup("chrome");
+        WebDriver driver = BrowserManager.browserSetup(browser);
         driverThreadLocal.set(driver);
         System.out.println("Before Test Thread-->"+ Thread.currentThread().getId());
         //get URL

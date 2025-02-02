@@ -12,6 +12,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <browser>${BROWSER}</browser>  <!-- Picks up the environment variable -->
     </properties>
 
     <dependencies>
@@ -35,6 +36,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
+                    <systemPropertyVariables>
+                        <browser>${browser}</browser>  <!-- Passes the property to TestNG/Selenium -->
+                    </systemPropertyVariables>
                     <suiteXmlFiles>
                         <suiteXmlFile>SmokeTest.xml</suiteXmlFile>
                     </suiteXmlFiles>
