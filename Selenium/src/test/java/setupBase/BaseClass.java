@@ -15,10 +15,15 @@ public class BaseClass extends ReusableMethods {
      */
     @BeforeTest
     public static void setDriver(){
+        if (browser == null || browser.isEmpty()) {
+            browser = "chrome";  // Ensure default to Chrome if not set
+        }
+
         WebDriver driver = BrowserManager.browserSetup(browser);
         driverThreadLocal.set(driver);
         System.out.println("Before Test Thread-->"+ Thread.currentThread().getId());
-        //get URL
+
+        // Get URL
         getDriver().manage().window().maximize();
         implicitWait(getDriver());
         getDriver().manage().deleteAllCookies();
