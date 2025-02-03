@@ -1,5 +1,6 @@
 package pages;
 
+import commonMethods.WaitManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,7 +26,8 @@ public class MyInfoPage extends BaseClass {
 
    public void clickPersonalDetailsOption(){
        personalDetails.click();
-       visibilityOfElement(driver,personalDetailsTitle);
+       WaitManager.setWait(driver,30);
+       WaitManager.waitForVisibility(personalDetailsTitle);
     }
     public void clickJobOption(){
        job.click();

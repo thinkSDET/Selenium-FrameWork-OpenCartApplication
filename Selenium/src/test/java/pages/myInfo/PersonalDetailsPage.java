@@ -1,5 +1,6 @@
 package pages.myInfo;
 
+import commonMethods.ReusableMethods;
 import dataClasses.PersonalDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -55,13 +56,13 @@ public class PersonalDetailsPage extends BaseClass {
      * @param personalDetails
      */
     public void fillPersonalDetails(PersonalDetails personalDetails){
-        sendKeyWithSelectAllTextAndRemove(firstName);
-        sendKeyWithSelectAllTextAndRemove(middleName);
-        sendKeyWithSelectAllTextAndRemove(lastname);
-        sendKeyWithSelectAllTextAndRemove(employeeId);
-        sendKeyWithSelectAllTextAndRemove(otherId);
-        sendKeyWithSelectAllTextAndRemove(driverLicenseNumber);
-        sendKeyWithSelectAllTextAndRemove(driverLicenseExpDate);
+        ReusableMethods.sendKeyWithSelectAllTextAndRemove(firstName);
+        ReusableMethods.sendKeyWithSelectAllTextAndRemove(middleName);
+        ReusableMethods.sendKeyWithSelectAllTextAndRemove(lastname);
+        ReusableMethods.sendKeyWithSelectAllTextAndRemove(employeeId);
+        ReusableMethods.sendKeyWithSelectAllTextAndRemove(otherId);
+        ReusableMethods.sendKeyWithSelectAllTextAndRemove(driverLicenseNumber);
+        ReusableMethods.sendKeyWithSelectAllTextAndRemove(driverLicenseExpDate);
         firstName.sendKeys(personalDetails.firstName);
         middleName.sendKeys(personalDetails.middleName);
         lastname.sendKeys(personalDetails.lastName);
@@ -69,7 +70,7 @@ public class PersonalDetailsPage extends BaseClass {
         otherId.sendKeys(personalDetails.otherId);
         driverLicenseNumber.sendKeys(personalDetails.drivingLicId);
         driverLicenseExpDate.sendKeys(personalDetails.licenseExpDate);
-        selectValueFromDropDown(this.nationality,personalDetails.nationality,driver);
-        selectValueFromDropDown(this.maritalStatus,personalDetails.maritalStatus,driver);
+        ReusableMethods.selectValueFromDropDown(this.nationality,personalDetails.nationality,driver);
+        ReusableMethods.selectValueFromDropDown(this.maritalStatus,personalDetails.maritalStatus,driver);
     }
 }

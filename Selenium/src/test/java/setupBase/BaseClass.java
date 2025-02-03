@@ -1,11 +1,11 @@
 package setupBase;
 
-import commonMethods.ReusableMethods;
+import commonMethods.WaitManager;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-public class BaseClass extends ReusableMethods {
+public class BaseClass {
 
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
     private  static String browser = System.getProperty("browser", "chrome"); // Default to Chrome if not set
@@ -25,7 +25,7 @@ public class BaseClass extends ReusableMethods {
 
         // Get URL
         getDriver().manage().window().maximize();
-        implicitWait(getDriver());
+        WaitManager.implicitWait(getDriver());
         getDriver().manage().deleteAllCookies();
         getDriver().get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
     }

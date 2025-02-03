@@ -8,7 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 
-public class ReusableMethods extends Waits {
+public class ReusableMethods {
     protected Actions actions;
 
     /**
@@ -31,7 +31,7 @@ public class ReusableMethods extends Waits {
      * This approach simulates the keyboard shortcut "Ctrl+A" (select all) followed by "Delete" to clear the field entirely.
      * @param element
      */
-    protected void sendKeyWithSelectAllTextAndRemove(WebElement element){
+    public static void sendKeyWithSelectAllTextAndRemove(WebElement element){
         element.click();
         element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
     }
@@ -53,7 +53,7 @@ public class ReusableMethods extends Waits {
      * @param value
      * @param driver
      */
-    protected void selectValueFromDropDown(WebElement element, String value,WebDriver driver){
+    public static void selectValueFromDropDown(WebElement element, String value,WebDriver driver){
         element.click();
         List<WebElement> nationalityList = driver.findElements(By.xpath("//div[@class='oxd-select-option' and @role='option']"));
         for(WebElement list : nationalityList){

@@ -1,5 +1,6 @@
 package pages;
 
+import commonMethods.WaitManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -20,7 +21,7 @@ public class DashBoardPage extends BaseClass {
      *
      */
     public void userNameDisplay(){
-        visibilityOfElement(driver,userName);
+        WaitManager.waitForVisibility(userName);
         userName.isDisplayed();
     }
 

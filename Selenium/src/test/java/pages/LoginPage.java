@@ -1,5 +1,6 @@
 package pages;
 
+import commonMethods.WaitManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -52,7 +53,7 @@ public class LoginPage extends BaseClass {
      * get toast message while un-successful login
      */
     public String getToastMessage(){
-        visibilityOfElement(driver,toastMessage);
+        WaitManager.waitForVisibility(toastMessage);
         return toastMessage.getText();
     }
 
