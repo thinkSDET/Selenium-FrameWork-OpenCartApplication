@@ -3,6 +3,7 @@ package testBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.logging.Logger;
@@ -18,7 +19,11 @@ public class BrowserManager {
                 driver = setupChromeDriver();
                 break;
             case "firefox":
+            case "ff":  // Both "firefox" and "ff" will result in the same action
                 driver = new FirefoxDriver();
+                break;
+            case "edge":
+                driver = new EdgeDriver();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid browser name: " + browserName + ". Supported browsers: Chrome, Firefox.");

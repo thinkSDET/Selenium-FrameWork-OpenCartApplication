@@ -15,11 +15,11 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- Default value for TestNG XML file, can be overridden by profiles -->
+       <!-- &lt;!&ndash; Default value for TestNG XML file, can be overridden by profiles &ndash;&gt;
         <testng.xml.file>src/test/resources/SmokeTest.xml</testng.xml.file>
-        <!-- Default base URL for the application (can be overridden by profile) -->
+        &lt;!&ndash; Default base URL for the application (can be overridden by profile) &ndash;&gt;
         <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL>
+        <browser>ff</browser>-->
     </properties>
 
     <!-- Profiles for different environments or configurations -->
