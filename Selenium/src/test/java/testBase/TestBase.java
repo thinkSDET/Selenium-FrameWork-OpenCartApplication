@@ -1,4 +1,4 @@
-package setupBase;
+package testBase;
 
 import commonMethods.WaitManager;
 import org.openqa.selenium.WebDriver;
@@ -26,7 +26,7 @@ public class TestBase {
         getDriver().manage().window().maximize();
         WaitManager.implicitWait(getDriver());
         getDriver().manage().deleteAllCookies();
-        getDriver().get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        getDriver().get(ConfigReader.getBaseUrl());
     }
 
     /**

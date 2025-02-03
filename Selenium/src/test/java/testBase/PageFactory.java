@@ -1,4 +1,4 @@
-package setupBase;
+package testBase;
 
 import navigationPages.MyInfoPageNavigation;
 import org.openqa.selenium.WebDriver;

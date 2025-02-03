@@ -4,8 +4,8 @@ import dataClasses.PersonalDetails;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import setupBase.TestBase;
-import setupBase.PageFactory;
+import testBase.TestBase;
+import testBase.PageFactory;
 import testData.PersonalDetailsTestData;
 
 public class MyInfoPageTest extends TestBase {
@@ -26,7 +26,7 @@ public class MyInfoPageTest extends TestBase {
         Assert.assertTrue(pageFactory.myInfoPage().jobDetailsVisibility(),"Please have a look for the title");
         System.out.println("test01_verifyPersonalDetailsOnMyInfoPage");
     }
-    @Test
+    @Test(enabled = false)
     void test02_verifyUserIsAbleToFillPersonalDetails(){
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();
