@@ -12,7 +12,8 @@ public class LoginPageTest extends BaseClass {
 
     @BeforeMethod
     void setup(){
-        pageFactory =  new PageFactory(getDriver());
+       /* pageFactory =  new PageFactory(getDriver());*/
+        PageFactory.setDriver(getDriver());
     }
 
     @Test(dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)

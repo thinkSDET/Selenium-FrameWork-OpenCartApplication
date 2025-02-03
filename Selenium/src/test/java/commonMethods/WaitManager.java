@@ -2,6 +2,7 @@ package commonMethods;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import setupBase.BaseClass;
@@ -43,6 +44,13 @@ public class WaitManager {
         }
         getWait().until(ExpectedConditions.elementToBeClickable(element));
     }
+    // Return the composite condition
+    public static ExpectedCondition<Boolean> elementToBeReady(WebElement element){
+        return ExpectedConditions.and(
+                ExpectedConditions.visibilityOf(element),
+                ExpectedConditions.elementToBeClickable(element)
+        );
+    }
     /**
      * Sets up an explicit wait (WebDriverWait) using ThreadLocal for thread safety.
      */
@@ -62,5 +70,9 @@ public class WaitManager {
      */
     public static void removeWait() {
         waitThreadLocal.remove();
+    }
+
+    public static void forceWait() throws InterruptedException {
+        Thread.sleep(500);
     }
 }

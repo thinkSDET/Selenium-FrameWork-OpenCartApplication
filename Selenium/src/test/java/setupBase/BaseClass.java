@@ -2,8 +2,8 @@ package setupBase;
 
 import commonMethods.WaitManager;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 public class BaseClass {
 
@@ -13,7 +13,7 @@ public class BaseClass {
     /**
      *  set the driver
      */
-    @BeforeTest
+    @BeforeMethod
     public static void setDriver(){
         if (browser == null || browser.isEmpty()) {
             browser = "chrome";  // Ensure default to Chrome if not set
@@ -21,9 +21,8 @@ public class BaseClass {
 
         WebDriver driver = BrowserManager.browserSetup(browser);
         driverThreadLocal.set(driver);
-        System.out.println("Before Test Thread-->"+ Thread.currentThread().getId());
+        System.out.println("Before Method Thread-->"+ Thread.currentThread().getId());
 
-        // Get URL
         getDriver().manage().window().maximize();
         WaitManager.implicitWait(getDriver());
         getDriver().manage().deleteAllCookies();
@@ -38,10 +37,13 @@ public class BaseClass {
        return driverThreadLocal.get();
     }
 
-    @AfterTest
+    @AfterMethod
     public void tearDown(){
-        getDriver().quit();
-        System.out.println("After Test Thread ID-->"+Thread.currentThread().getId());
-        driverThreadLocal.remove();
+        WebDriver driver = getDriver();
+        if (driver != null) {
+            driver.quit(); // Quit the driver after the test is finished
+            System.out.println("After Test Thread ID-->"+Thread.currentThread().getId());
+            driverThreadLocal.remove(); // Clean up the ThreadLocal reference
+        }
     }
 }

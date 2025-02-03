@@ -1,6 +1,7 @@
 package pages.myInfo;
 
 import commonMethods.ReusableMethods;
+import commonMethods.WaitManager;
 import dataClasses.PersonalDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +21,7 @@ public class PersonalDetailsPage extends BaseClass {
         this.driver=driver;
     }
 
-    @FindBy(xpath = "//input[@name='firstName']")
+    @FindBy(xpath = "//label[text()='Employee Full Name']/parent::div/following-sibling::div//input[@name='firstName']")
     private WebElement firstName;
     @FindBy(xpath = "//input[@name='middleName']")
     private WebElement middleName;
@@ -50,19 +51,21 @@ public class PersonalDetailsPage extends BaseClass {
     private WebElement test_Field;
     @FindBy(xpath = "//h6[text()='Personal Details']/parent::div//form//button[@type='submit']")
     private WebElement personalDetailsSubmitBtn;
+    @FindBy(xpath = "(//button[@type='submit'])[1]")
+    private WebElement saveButton;
 
     /**
      *
      * @param personalDetails
      */
     public void fillPersonalDetails(PersonalDetails personalDetails){
-        ReusableMethods.sendKeyWithSelectAllTextAndRemove(firstName);
-        ReusableMethods.sendKeyWithSelectAllTextAndRemove(middleName);
-        ReusableMethods.sendKeyWithSelectAllTextAndRemove(lastname);
-        ReusableMethods.sendKeyWithSelectAllTextAndRemove(employeeId);
-        ReusableMethods.sendKeyWithSelectAllTextAndRemove(otherId);
-        ReusableMethods.sendKeyWithSelectAllTextAndRemove(driverLicenseNumber);
-        ReusableMethods.sendKeyWithSelectAllTextAndRemove(driverLicenseExpDate);
+        ReusableMethods.clearInputField(firstName,driver);
+        ReusableMethods.clearInputField(middleName,driver);
+        ReusableMethods.clearInputField(lastname,driver);
+        ReusableMethods.clearInputField(employeeId,driver);
+        ReusableMethods.clearInputField(otherId,driver);
+        ReusableMethods.clearInputField(driverLicenseNumber,driver);
+        ReusableMethods.clearInputField(driverLicenseExpDate,driver);
         firstName.sendKeys(personalDetails.firstName);
         middleName.sendKeys(personalDetails.middleName);
         lastname.sendKeys(personalDetails.lastName);
@@ -72,5 +75,6 @@ public class PersonalDetailsPage extends BaseClass {
         driverLicenseExpDate.sendKeys(personalDetails.licenseExpDate);
         ReusableMethods.selectValueFromDropDown(this.nationality,personalDetails.nationality,driver);
         ReusableMethods.selectValueFromDropDown(this.maritalStatus,personalDetails.maritalStatus,driver);
+        saveButton.click();
     }
 }

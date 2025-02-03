@@ -8,23 +8,35 @@ import pages.MyInfoPage;
 import pages.myInfo.PersonalDetailsPage;
 
 public class PageFactory {
-    WebDriver driver;
-    public PageFactory(WebDriver driver){
-        this.driver = driver;
+  private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+    // Set the WebDriver for the current thread
+    public static void setDriver(WebDriver driverInstance) {
+        driver.set(driverInstance);
     }
-    public LoginPage loginPage(){
-       return new LoginPage(driver);
+
+    // Get the WebDriver for the current thread
+    public static WebDriver getDriver() {
+        return driver.get();
     }
-    public DashBoardPage dashBoardPage(){
-        return new DashBoardPage(driver);
+
+    public LoginPage loginPage() {
+        return new LoginPage(getDriver());
     }
-    public MyInfoPageNavigation myInfoPageNavigation(){
-        return new MyInfoPageNavigation(driver);
+
+    public DashBoardPage dashBoardPage() {
+        return new DashBoardPage(getDriver());
     }
-    public MyInfoPage myInfoPage(){
-        return new MyInfoPage(driver);
+
+    public MyInfoPageNavigation myInfoPageNavigation() {
+        return new MyInfoPageNavigation(getDriver());
     }
-    public PersonalDetailsPage personalDetailsPage(){
-       return new PersonalDetailsPage(driver);
+
+    public MyInfoPage myInfoPage() {
+        return new MyInfoPage(getDriver());
+    }
+
+    public PersonalDetailsPage personalDetailsPage() {
+        return new PersonalDetailsPage(getDriver());
     }
 }

@@ -1,29 +1,27 @@
 package commonMethods;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
 public class ReusableMethods {
-    protected Actions actions;
+    public static Actions actions;
 
     /**
      *  Move to an element and then click on element
      * @param driver
      * @param element
      */
-    protected void moveToElementAndClick(WebDriver driver, WebElement element){
+    public static void moveToElementAndClick(WebDriver driver, WebElement element){
         actions =  new Actions(driver);
         actions.moveToElement(element).click().perform();
     }
     /**
      * clear the existing text from the input field
      */
-    protected void clearTextFromField(WebElement element){
+    public static void clearTextFromField(WebElement element){
         element.clear();
     }
 
@@ -32,8 +30,7 @@ public class ReusableMethods {
      * @param element
      */
     public static void sendKeyWithSelectAllTextAndRemove(WebElement element){
-        WaitManager.waitForElementToBeClickable(element,30);
-        element.click();
+       // element.click();
         element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
     }
 
@@ -63,5 +60,37 @@ public class ReusableMethods {
                 break;
             }
         }
+    }
+
+    public static void clearInputField(WebElement element, WebDriver driver) {
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("arguments[0].click();", element);
+        try {
+            WaitManager.forceWait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
+        try {
+            WaitManager.forceWait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+       /* // Click on the element to focus it
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("arguments[0].click();", element);
+
+        // Wait for the element to be clickable again, just in case
+        WaitManager.waitForElementToBeClickable(element,20);
+
+        // Clear the input field using CTRL + A and DELETE
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+
+        // Wait for the input field to be cleared using JavaScript
+        WaitManager.getWait().until(d -> {
+            String inputValue = (String) ((JavascriptExecutor) driver).executeScript("return arguments[0].value;", element);// Get the value of the input field
+            System.out.println(inputValue);
+            return inputValue == null || inputValue.isEmpty(); // Ensure the value is empty
+        });*/
     }
 }
