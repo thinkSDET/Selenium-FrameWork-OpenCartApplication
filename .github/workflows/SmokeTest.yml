@@ -1,0 +1,10 @@
+name : Smoke Test to Validate Application Health and Basic Functionality
+on :
+ workflow_dispatch :
+ env:  # Environment variables that will be used in this job
+      JAVA_VERSION: 17  # Specifies the Java version (you can adjust this as needed)
+      MAVEN_COMMAND: "mvn test"  # The Maven command that will run tests
+ jobs:
+  set-env:
+   runs-on: ubuntu-latest  # The virtual environment to run the job in (Ubuntu latest version)
+   
