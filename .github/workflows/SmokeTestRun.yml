@@ -1,4 +1,4 @@
-name: Custom Test Workflow  # The name of the workflow that will appear on GitHub UI
+name: Smoke Test to Validate Application  # The name of the workflow that will appear on GitHub UI
 
 on:  
   workflow_dispatch:  # Allows you to trigger this workflow manually from the GitHub UI
