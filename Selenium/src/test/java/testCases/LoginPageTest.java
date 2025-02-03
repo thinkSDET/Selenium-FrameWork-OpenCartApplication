@@ -13,6 +13,7 @@ public class LoginPageTest extends BaseClass {
     @BeforeMethod
     void setup(){
         PageFactory.setDriver(getDriver());
+        pageFactory = new PageFactory();
     }
 
     @Test(dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)
