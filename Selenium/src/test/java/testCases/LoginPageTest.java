@@ -12,7 +12,6 @@ public class LoginPageTest extends BaseClass {
 
     @BeforeMethod
     void setup(){
-       /* pageFactory =  new PageFactory(getDriver());*/
         PageFactory.setDriver(getDriver());
     }
 
