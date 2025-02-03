@@ -1,12 +1,13 @@
 name: Smoke Test to Validate Application Health and Basic Functionality
 on:
   workflow_dispatch:
-  env: # Environment variables that will be used in this job
-    JAVA_VERSION: 17 # Specifies the Java version (you can adjust this as needed)
-    MAVEN_COMMAND: "mvn test -P qa -P smoke -P chrome" # The Maven command that will run tests
+
   jobs:
     set-env:
       runs-on: ubuntu-latest # The virtual environment to run the job in (Ubuntu latest version)
+    env: # Environment variables that will be used in this job
+    JAVA_VERSION: 17 # Specifies the Java version (you can adjust this as needed)
+    MAVEN_COMMAND: "mvn test -P qa -P smoke -P chrome" # The Maven command that will run tests
 
   steps: # List of steps that will be run as part of this job
     - name: Checkout code # This step uses GitHub's built-in action to checkout the code
