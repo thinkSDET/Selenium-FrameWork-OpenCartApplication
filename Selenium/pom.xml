@@ -4,47 +4,78 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Basic information about the project -->
     <groupId>org.example</groupId>
     <artifactId>Selenium</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!-- Properties section to define project-wide settings -->
     <properties>
+        <!-- Setting Java version to 17 for compiling the project -->
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Default value for TestNG XML file, can be overridden by profiles -->
+        <testng.xml.file>src/test/resources/SmokeTest.xml</testng.xml.file>
     </properties>
 
+    <!-- Profiles for different environments or configurations -->
     <profiles>
+
+        <!-- Profile for running tests on Chrome browser -->
         <profile>
             <id>chrome</id>
             <properties>
-                <browser>chrome</browser>
+                <browser>chrome</browser> <!-- Defines the browser to be used for tests -->
             </properties>
         </profile>
 
+        <!-- Profile for running tests on Firefox browser -->
         <profile>
             <id>firefox</id>
             <properties>
-                <browser>firefox</browser>
+                <browser>firefox</browser> <!-- Defines the browser to be used for tests -->
+            </properties>
+        </profile>
+
+        <!-- Profile for running smoke tests (uses the SmokeTest.xml file) -->
+        <profile>
+            <id>smoke</id>
+            <properties>
+                <!-- Overriding the TestNG XML file to use SmokeTest.xml for smoke tests -->
+                <testng.xml.file>src/test/resources/SmokeTest.xml</testng.xml.file>
+            </properties>
+        </profile>
+
+        <!-- Profile for running regression tests (uses the RegressionTest.xml file) -->
+        <profile>
+            <id>regression</id>
+            <properties>
+                <!-- Overriding the TestNG XML file to use RegressionTest.xml for regression tests -->
+                <testng.xml.file>src/test/resources/RegressionTest.xml</testng.xml.file>
             </properties>
         </profile>
     </profiles>
 
-
+    <!-- Dependencies section for including required libraries -->
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <!-- Selenium dependency for interacting with web browsers -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>4.21.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+
+        <!-- TestNG dependency for running and managing tests -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.10.2</version>
         </dependency>
     </dependencies>
+
+    <!-- Build configuration to set up plugins for the project -->
     <build>
         <plugins>
             <plugin>
@@ -52,11 +83,15 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
+                    <!-- Defining system property for passing browser choice to TestNG/Selenium -->
                     <systemPropertyVariables>
-                        <browser>${browser}</browser>  <!-- Passes the property to TestNG/Selenium -->
+                        <browser>${browser}</browser>  <!-- Passes the selected browser to TestNG -->
                     </systemPropertyVariables>
+
+                    <!-- Specifies the TestNG XML file to run tests from -->
                     <suiteXmlFiles>
-                        <suiteXmlFile>SmokeTest.xml</suiteXmlFile>
+                        <!-- Using the dynamic property ${testng.xml.file} to determine which XML to use -->
+                        <suiteXmlFile>${testng.xml.file}</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
