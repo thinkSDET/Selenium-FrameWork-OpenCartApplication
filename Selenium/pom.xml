@@ -18,6 +18,8 @@
 
         <!-- Default value for TestNG XML file, can be overridden by profiles -->
         <testng.xml.file>src/test/resources/SmokeTest.xml</testng.xml.file>
+        <!-- Default base URL for the application (can be overridden by profile) -->
+        <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL>
     </properties>
 
     <!-- Profiles for different environments or configurations -->
@@ -54,6 +56,28 @@
             <properties>
                 <!-- Overriding the TestNG XML file to use RegressionTest.xml for regression tests -->
                 <testng.xml.file>src/test/resources/RegressionTest.xml</testng.xml.file>
+            </properties>
+        </profile>
+
+        <!-- Profile for handling different environments dynamically -->
+        <profile>
+            <id>qa</id>
+            <properties>
+                <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> <!-- Overridden URL for QA -->
+            </properties>
+        </profile>
+
+        <profile>
+            <id>preprod</id>
+            <properties>
+                <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> <!-- Overridden URL for Preprod -->
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <properties>
+                <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> <!-- Overridden URL for Prod -->
             </properties>
         </profile>
     </profiles>
@@ -106,6 +130,7 @@
                     <!-- Defining system property for passing browser choice to TestNG/Selenium -->
                     <systemPropertyVariables>
                         <browser>${browser}</browser>  <!-- Passes the selected browser to TestNG -->
+                        <baseUrl>${envURL}</baseUrl> <!-- Passes the base URL (QA/Preprod/Prod) dynamically -->
                     </systemPropertyVariables>
 
                     <!-- Specifies the TestNG XML file to run tests from -->

@@ -9,7 +9,6 @@ public class TestBase {
 
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
     private  static String browser = System.getProperty("browser", "chrome"); // Default to Chrome if not set
-
     /**
      *  set the driver
      */
@@ -18,11 +17,9 @@ public class TestBase {
         if (browser == null || browser.isEmpty()) {
             browser = "chrome";  // Ensure default to Chrome if not set
         }
-
         WebDriver driver = BrowserManager.initializeBrowser(browser);
         driverThreadLocal.set(driver);
         System.out.println("Before Method Thread-->"+ Thread.currentThread().getId());
-
         getDriver().manage().window().maximize();
         WaitManager.implicitWait(getDriver());
         getDriver().manage().deleteAllCookies();

@@ -33,7 +33,7 @@ public class ConfigReader {
                 LOGGER.info("Configuration file loaded successfully.");
                 properties.load(file);
             } catch (IOException e) {
-               // LOGGER.error("Failed to load configuration file: {}", e.getMessage());
+                // LOGGER.error("Failed to load configuration file: {}", e.getMessage());
                 throw new RuntimeException("Failed to load configuration file: " + e.getMessage());
             }
         }
@@ -44,24 +44,31 @@ public class ConfigReader {
     }
 
     public static String getBaseUrl() {
-        String env = getProperty("ENV").toLowerCase();
-        String url;
+        String baseUrl = System.getProperty("baseUrl");
+        String env="";
 
-        switch (env) {
-            case "qa":
-                url = getProperty("QA_URL");
-                break;
-            case "preprod":
-                url = getProperty("PREPROD_URL");
-                break;
-            case "prod":
-                url = getProperty("PROD_URL");
-                break;
-            default:
-              //  LOGGER.error("Invalid ENV value: {}", env);
-                throw new RuntimeException("Invalid ENV value in config.properties");
+        if (baseUrl == null || baseUrl.isEmpty()) {
+             env = getProperty("ENV");// Fall back to the config.properties if baseUrl is not set
+            if (env == null || env.isEmpty()) {
+                // LOGGER.error("Missing 'ENV' property in config file.");
+                throw new RuntimeException("'ENV' property is required in config.properties");
+            }
+            switch (env) {
+                case "qa":
+                    baseUrl = getProperty("QA_URL");
+                    break;
+                case "preprod":
+                    baseUrl = getProperty("PREPROD_URL");
+                    break;
+                case "prod":
+                    baseUrl = getProperty("PROD_URL");
+                    break;
+                default:
+                    //  LOGGER.error("Invalid ENV value: {}", env);
+                    throw new RuntimeException("Invalid ENV value in config.properties");
+            }
         }
-        LOGGER.info("Launching tests on environment: " + env.toUpperCase() + " | URL: " + url);
-        return url;
+        //LOGGER.info("Launching tests on environment: " + env.toUpperCase() + " | URL: " + baseUrl);
+        return baseUrl;
     }
 }
