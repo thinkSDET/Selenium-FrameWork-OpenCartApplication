@@ -7,9 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import setupBase.BaseClass;
+import setupBase.TestBase;
 
-public class MyInfoPageNavigation extends BaseClass {
+public class MyInfoPageNavigation extends TestBase {
 
     WebDriver driver;
     public MyInfoPageNavigation(WebDriver driver){

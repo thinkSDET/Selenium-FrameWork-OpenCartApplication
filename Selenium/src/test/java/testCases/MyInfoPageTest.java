@@ -4,11 +4,11 @@ import dataClasses.PersonalDetails;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import setupBase.BaseClass;
+import setupBase.TestBase;
 import setupBase.PageFactory;
 import testData.PersonalDetailsTestData;
 
-public class MyInfoPageTest extends BaseClass {
+public class MyInfoPageTest extends TestBase {
     PageFactory pageFactory;
     PersonalDetails personalDetailsData;
 

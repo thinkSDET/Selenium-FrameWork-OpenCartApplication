@@ -1,19 +1,14 @@
 package pages.myInfo;
 
 import commonMethods.ReusableMethods;
-import commonMethods.WaitManager;
 import dataClasses.PersonalDetails;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.Select;
-import setupBase.BaseClass;
+import setupBase.TestBase;
 
-import java.util.List;
-
-public class PersonalDetailsPage extends BaseClass {
+public class PersonalDetailsPage extends TestBase {
 
     WebDriver driver;
     public PersonalDetailsPage(WebDriver driver){

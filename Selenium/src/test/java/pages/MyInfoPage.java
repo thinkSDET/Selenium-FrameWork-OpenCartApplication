@@ -5,9 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import setupBase.BaseClass;
+import setupBase.TestBase;
 
-public class MyInfoPage extends BaseClass {
+public class MyInfoPage extends TestBase {
 
     WebDriver driver;
     public MyInfoPage(WebDriver driver){

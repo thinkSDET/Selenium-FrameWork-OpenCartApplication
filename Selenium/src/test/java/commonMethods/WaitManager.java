@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import setupBase.BaseClass;
+import setupBase.TestBase;
 
 import java.time.Duration;
 
@@ -55,7 +55,7 @@ public class WaitManager {
      * Sets up an explicit wait (WebDriverWait) using ThreadLocal for thread safety.
      */
     public static void setWait(long timeoutInSeconds){
-        waitThreadLocal.set(new WebDriverWait(BaseClass.getDriver(), Duration.ofSeconds(timeoutInSeconds)));
+        waitThreadLocal.set(new WebDriverWait(TestBase.getDriver(), Duration.ofSeconds(timeoutInSeconds)));
     }
 
     /**
