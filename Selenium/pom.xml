@@ -132,7 +132,6 @@
                         <browser>${browser}</browser>  <!-- Passes the selected browser to TestNG -->
                         <baseUrl>${envURL}</baseUrl> <!-- Passes the base URL (QA/Preprod/Prod) dynamically -->
                     </systemPropertyVariables>
-
                     <!-- Specifies the TestNG XML file to run tests from -->
                     <suiteXmlFiles>
                         <!-- Using the dynamic property ${testng.xml.file} to determine which XML to use -->
