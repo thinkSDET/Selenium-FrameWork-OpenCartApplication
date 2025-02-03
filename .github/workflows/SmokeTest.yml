@@ -1,7 +1,7 @@
 name: Smoke Test to Validate Application Health and Basic Functionality
 
 on:
-  workflow_dispatch: null
+  workflow_dispatch: # Triggered manually via GitHub UI
 
 jobs:
   set-env:
