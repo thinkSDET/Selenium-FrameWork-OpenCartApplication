@@ -21,7 +21,7 @@ public class DashBoardPage extends BaseClass {
      *
      */
     public void userNameDisplay(){
-        WaitManager.waitForVisibility(userName);
+        WaitManager.waitForVisibility(userName,30);
         userName.isDisplayed();
     }
 

@@ -32,6 +32,7 @@ public class ReusableMethods {
      * @param element
      */
     public static void sendKeyWithSelectAllTextAndRemove(WebElement element){
+        WaitManager.waitForElementToBeClickable(element,30);
         element.click();
         element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
     }

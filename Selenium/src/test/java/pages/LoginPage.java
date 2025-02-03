@@ -53,7 +53,7 @@ public class LoginPage extends BaseClass {
      * get toast message while un-successful login
      */
     public String getToastMessage(){
-        WaitManager.waitForVisibility(toastMessage);
+        WaitManager.waitForVisibility(toastMessage,30);
         return toastMessage.getText();
     }
 

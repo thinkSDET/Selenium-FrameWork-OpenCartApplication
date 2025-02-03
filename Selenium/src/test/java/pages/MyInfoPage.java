@@ -26,8 +26,7 @@ public class MyInfoPage extends BaseClass {
 
    public void clickPersonalDetailsOption(){
        personalDetails.click();
-       WaitManager.setWait(driver,30);
-       WaitManager.waitForVisibility(personalDetailsTitle);
+       WaitManager.waitForVisibility(personalDetailsTitle,30);
     }
     public void clickJobOption(){
        job.click();

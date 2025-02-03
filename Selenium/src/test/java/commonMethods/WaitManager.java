@@ -23,7 +23,8 @@ public class WaitManager {
      * Waits until the given element is visible.
      * Uses the ThreadLocal wait instance to ensure thread safety.
      */
-    public static void waitForVisibility(WebElement element){
+    public static void waitForVisibility(WebElement element,long timeOut){
+        setWait(timeOut);
         WebDriverWait wait = getWait();
         if (wait == null) {
             throw new IllegalStateException("WebDriverWait is not initialized. Call setWait() first.");
@@ -34,7 +35,8 @@ public class WaitManager {
      * Waits until the given element is clickable.
      * Uses the ThreadLocal wait instance to ensure thread safety.
      */
-    public void waitForElementToBeClickable(WebElement element){
+    public static void waitForElementToBeClickable(WebElement element,long timeOut){
+        setWait(timeOut);
         WebDriverWait wait = getWait();
         if (wait == null) {
             throw new IllegalStateException("WebDriverWait is not initialized. Call setWait() first.");
@@ -44,8 +46,8 @@ public class WaitManager {
     /**
      * Sets up an explicit wait (WebDriverWait) using ThreadLocal for thread safety.
      */
-    public static void setWait(WebDriver driver,long timeoutInSeconds){
-        waitThreadLocal.set(new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds)));
+    public static void setWait(long timeoutInSeconds){
+        waitThreadLocal.set(new WebDriverWait(BaseClass.getDriver(), Duration.ofSeconds(timeoutInSeconds)));
     }
 
     /**
