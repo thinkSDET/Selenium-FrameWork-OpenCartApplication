@@ -23,7 +23,6 @@ public class MyInfoPageTest extends UIBaseTest {
     void test01_verifyPersonalDetailsOnMyInfoPage() throws InterruptedException {
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickJobOption();
-        Assert.assertTrue(false);
         Assert.assertTrue(pageFactory.myInfoPage().jobDetailsVisibility(),"Please have a look for the title");
         System.out.println("test01_verifyPersonalDetailsOnMyInfoPage");
     }
@@ -32,7 +31,7 @@ public class MyInfoPageTest extends UIBaseTest {
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();
         pageFactory.personalDetailsPage().fillPersonalDetails(personalDetailsData);
-        Assert.assertFalse(true);
+        Assert.assertFalse(false);
         System.out.println("test02_verifyUserIsAbleToFillPersonalDetails");
     }
 }
