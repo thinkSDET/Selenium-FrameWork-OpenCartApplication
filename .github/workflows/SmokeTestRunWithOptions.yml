@@ -45,3 +45,4 @@ jobs:
 
       - name: Run Maven tests
         run: mvn test -P ${{ github.event.inputs.environment }} -P ${{ github.event.inputs.test_type }} -P ${{ github.event.inputs.browser }}
+        working-directory: Selenium  # Specifies the working directory for Maven to run the command
