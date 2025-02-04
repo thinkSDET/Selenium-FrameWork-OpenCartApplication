@@ -1,6 +1,6 @@
 package testBase;
 
-import navigationPages.MyInfoPageNavigation;
+import pages.navigationPages.MyInfoPageNavigation;
 import org.openqa.selenium.WebDriver;
 import pages.DashBoardPage;
 import pages.LoginPage;

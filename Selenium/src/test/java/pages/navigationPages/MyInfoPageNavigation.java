@@ -1,4 +1,4 @@
-package navigationPages;
+package pages.navigationPages;
 
 import commonMethods.WaitManager;
 import org.openqa.selenium.By;
