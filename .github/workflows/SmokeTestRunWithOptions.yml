@@ -37,6 +37,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
+      - name: Install Chrome  # Installs Google Chrome on the VM
+        run: |
+          sudo apt-get update  # Updates the package list
+          sudo apt-get install -y google-chrome-stable  # Installs the stable version of Google Chrome
+
+      - name: Install Xvfb (Virtual Display)  # Install Xvfb to simulate a display (needed for non-headless mode)
+        run: |
+          sudo apt-get install -y xvfb  # Install Xvfb package
+          Xvfb :99 -screen 0 1920x1080x24 &  # Starts Xvfb on display 99 (sets up a virtual display)
+
+      - name: Verify Chrome Installation  # Verifies that Chrome is installed correctly
+        run: google-chrome --version  # Runs the command to display the Chrome version
+
+      - name: Verify ChromeDriver Installation  # Verifies that ChromeDriver is installed correctly
+        run: chromedriver --version  # Runs the command to display the ChromeDriver version
+        
       - name: Install Xvfb (Virtual Display)  # Install Xvfb to simulate a display (needed for non-headless mode)
         run: |
           sudo apt-get install -y xvfb  # Install Xvfb package
@@ -49,5 +65,7 @@ jobs:
           java-version: '17'
 
       - name: Run Maven tests
-        run: mvn test -P ${{ github.event.inputs.environment }} -P ${{ github.event.inputs.test_type }} -P ${{ github.event.inputs.browser }}
+        run: |
+          export DISPLAY=:99  # Sets the display variable to use the Xvfb display
+          mvn test -P ${{ github.event.inputs.environment }} -P ${{ github.event.inputs.test_type }} -P ${{ github.event.inputs.browser }}
         working-directory: Selenium  # Specifies the working directory for Maven to run the command
