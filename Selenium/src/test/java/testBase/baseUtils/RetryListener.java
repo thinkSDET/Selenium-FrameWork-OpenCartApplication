@@ -1,8 +1,7 @@
-package testBase;
+package testBase.baseUtils;
 
 
 import org.testng.IAnnotationTransformer;
-import org.testng.IRetryAnalyzer;
 import org.testng.annotations.ITestAnnotation;
 
 import java.lang.reflect.Constructor;

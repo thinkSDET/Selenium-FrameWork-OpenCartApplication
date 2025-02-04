@@ -3,11 +3,11 @@ package testCases;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import testBase.TestBase;
+import testBase.UIBaseTest;
 import testBase.PageFactory;
 import testData.LoginTestData;
 
-public class LoginPageTest extends TestBase {
+public class LoginPageTest extends UIBaseTest {
     PageFactory pageFactory;
 
     @BeforeMethod

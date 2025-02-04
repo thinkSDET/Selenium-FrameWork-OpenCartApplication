@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-public class TestBase {
+public class UIBaseTest {
 
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
     private  static String browser = System.getProperty("browser", "chrome"); // Default to Chrome if not set

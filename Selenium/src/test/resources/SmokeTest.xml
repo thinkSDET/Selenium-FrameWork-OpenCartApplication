@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Smoke Test Suite" parallel="methods" thread-count="2">
     <listeners>
-        <listener class-name="testBase.RetryListener"/>
+        <listener class-name="testBase.baseUtils.RetryListener"/>
     </listeners>
     <test name="Test class for MyInfo Page">
         <classes>
