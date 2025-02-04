@@ -20,14 +20,14 @@ public class MyInfoPageTest extends UIBaseTest {
         personalDetailsData =  PersonalDetailsTestData.getPersonalDetailsData();
     }
     @Test
-    void test01_verifyPersonalDetailsOnMyInfoPage() throws InterruptedException {
+    void test_01_verifyPersonalDetailsOnMyInfoPage() throws InterruptedException {
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickJobOption();
         Assert.assertTrue(pageFactory.myInfoPage().jobDetailsVisibility(),"Please have a look for the title");
         System.out.println("test01_verifyPersonalDetailsOnMyInfoPage");
     }
     @Test
-    void test02_verifyUserIsAbleToFillPersonalDetails(){
+    void test_02_verifyUserIsAbleToFillPersonalDetails(){
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();
         pageFactory.personalDetailsPage().fillPersonalDetails(personalDetailsData);

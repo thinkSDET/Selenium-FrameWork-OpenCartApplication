@@ -8,6 +8,15 @@ import java.util.List;
 public class ReusableMethods {
     public static Actions actions;
 
+
+    /**
+     * get the title of DashBoardPage
+     * @return
+     */
+    public static String getTitleOfPage(WebDriver driver){
+        return driver.getTitle();
+    }
+
     /**
      *  Move to an element and then click on element
      * @param driver

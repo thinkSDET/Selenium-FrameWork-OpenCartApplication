@@ -14,22 +14,20 @@ public class DashBoardPage extends UIBaseTest {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "//p[contains(text(),'manda user')]")
-    private WebElement userName;
+    @FindBy(xpath = "//h6[text()='Dashboard']")
+    private WebElement dashBoard;
 
     /**
-     *
-     */
-    public void userNameDisplay(){
-        WaitManager.waitForVisibility(userName,30);
-        userName.isDisplayed();
-    }
-
-    /**
-     * get the title of DashBoardPage
      * @return
      */
-    public String getTitleOfDashBoardPage(){
-       return driver.getTitle();
+    public boolean dashBoardDisplay(){
+        WaitManager.waitForVisibility(dashBoard,20);
+        try {
+            dashBoard.isDisplayed();
+            return true;
+        }catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        return false;
     }
 }

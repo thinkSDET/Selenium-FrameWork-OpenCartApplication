@@ -1,5 +1,6 @@
 package testCases;
 
+import commonMethods.ReusableMethods;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,12 +18,9 @@ public class LoginPageTest extends UIBaseTest {
     }
 
     @Test(dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)
-    void test01_verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
+    void test_01_verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
         pageFactory.loginPage().login(userName,password);
-        pageFactory.dashBoardPage().userNameDisplay();
-        Assert.assertEquals(pageFactory.dashBoardPage().getTitleOfDashBoardPage(),"OrangeHRM","Please check for the title");
+        Assert.assertTrue( pageFactory.dashBoardPage().dashBoardDisplay());
+        Assert.assertEquals(ReusableMethods.getTitleOfPage(getDriver()),"OrangeHRM","Please check for the title");
     }
-    /**
-     * quit the driver, after the execution of test case
-     */
 }
