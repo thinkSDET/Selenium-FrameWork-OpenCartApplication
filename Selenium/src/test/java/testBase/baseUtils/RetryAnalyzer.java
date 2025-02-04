@@ -3,6 +3,10 @@ package testBase.baseUtils;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
+/**
+ * The RetryAnalyzer class implements TestNG's IRetryAnalyzer interface, which allows you to retry failed tests a specified number of times.
+ * The class tracks the number of retry attempts for each test method, and once the number of retries exceeds the maximum allowed retries, it stops retrying.
+ */
 public class RetryAnalyzer implements IRetryAnalyzer {
 
     private int retryCount = 0;
