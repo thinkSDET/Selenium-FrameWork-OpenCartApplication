@@ -36,7 +36,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+        
+      - name: Install Xvfb (Virtual Display)  # Install Xvfb to simulate a display (needed for non-headless mode)
+        run: |
+          sudo apt-get install -y xvfb  # Install Xvfb package
+          Xvfb :99 -screen 0 1920x1080x24 &  # Starts Xvfb on display 99 (sets up a virtual display)
+          
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
