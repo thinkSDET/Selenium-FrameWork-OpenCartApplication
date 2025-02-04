@@ -1,0 +1,47 @@
+name: Run Tests Manually
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select Environment (qa/preprod/prod)'
+        required: true
+        default: 'qa'
+        type: choice
+        options:
+          - qa
+          - preprod
+          - prod
+      browser:
+        description: 'Select Browser (chrome/firefox/edge)'
+        required: true
+        default: 'firefox'
+        type: choice
+        options:
+          - chrome
+          - firefox
+          - edge
+      test_type:
+        description: 'Type of Testing (smoke/regression)'
+        required: true
+        default: 'smoke'
+        type: choice
+        options:
+          - smoke
+          - regression
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run Maven tests
+        run: mvn test -P ${{ github.event.inputs.environment }} -P ${{ github.event.inputs.test_type }} -P ${{ github.event.inputs.browser }}
