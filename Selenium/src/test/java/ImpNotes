@@ -1,1 +1,45 @@
 https://www.linkedin.com/pulse/selenium-parallel-testing-using-java-threadlocal-testng-shargo/
+
+===================================================================================================
+Test Execution Flow with @BeforeMethod in TestNG  -->
+You have @BeforeMethod in both UIBaseTest (parent class) and MyInfoPageTest (child class).
+When running the tests via testng.xml, TestNG follows the inheritance hierarchy and executes methods accordingly.
+
+Example Execution for One Test
+🔸 Test: test01_verifyPersonalDetailsOnMyInfoPage
+1️⃣ @BeforeMethod (from UIBaseTest)
+✅ Launch browser → Open URL → Maximize window
+
+2️⃣ @BeforeMethod (from MyInfoPageTest)
+✅ Set up PageFactory → Login as Admin → Load personal details data
+
+3️⃣ @Test (test01_verifyPersonalDetailsOnMyInfoPage)
+✅ Navigate to My Info → Click Job Option → Assert Job Details
+
+4️⃣ @AfterMethod (from UIBaseTest)
+✅ Quit the browser → Clean up the driver
+
+========================================
+
+🔹 How This Works for Multiple Test Cases?
+TestNG runs each test method independently, meaning that the full lifecycle (@BeforeMethod → @Test → @AfterMethod) repeats for each test case.
+If you run two test cases, the execution will be:
+
+1️⃣ @BeforeMethod (UIBaseTest)
+2️⃣ @BeforeMethod (MyInfoPageTest)
+3️⃣ @Test → test01_verifyPersonalDetailsOnMyInfoPage
+4️⃣ @AfterMethod (UIBaseTest)
+
+5️⃣ @BeforeMethod (UIBaseTest)
+6️⃣ @BeforeMethod (MyInfoPageTest)
+7️⃣ @Test → test02_verifyUserIsAbleToFillPersonalDetails
+8️⃣ @AfterMethod (UIBaseTest)
+
+===========================================================================
+🔹 Key Takeaways
+✅ Each test method runs in isolation.
+✅ Parent @BeforeMethod runs before child @BeforeMethod.
+✅ Parent @AfterMethod runs after each test method.
+✅ WebDriver is initialized and closed for each test execution, ensuring clean browser sessions.
+
+Let me know if you need any modifications! 🚀
