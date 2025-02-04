@@ -9,21 +9,31 @@ public class TestBase {
 
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
     private  static String browser = System.getProperty("browser", "chrome"); // Default to Chrome if not set
+
     /**
-     *  set the driver
+     * Initialize the WebDriver instance and store it in ThreadLocal.
      */
-    @BeforeMethod
-    public static void setDriver(){
+    private static void initializeDriver() {
         if (browser == null || browser.isEmpty()) {
             browser = "chrome";  // Ensure default to Chrome if not set
         }
         WebDriver driver = BrowserManager.initializeBrowser(browser);
         driverThreadLocal.set(driver);
-        System.out.println("Before Method Thread-->"+ Thread.currentThread().getId());
-        getDriver().manage().window().maximize();
-        WaitManager.implicitWait(getDriver());
-        getDriver().manage().deleteAllCookies();
-        getDriver().get(ConfigReader.getBaseUrl());
+    }
+
+    /**
+     * Set up the WebDriver before each test method.
+     */
+    @BeforeMethod
+    public static void setDriver() {
+        initializeDriver(); // Call the new method
+        System.out.println("Before Method Thread--> " + Thread.currentThread().getId());
+
+        WebDriver driver = getDriver();
+        driver.manage().window().maximize();
+        WaitManager.implicitWait(driver);
+        driver.manage().deleteAllCookies();
+        driver.get(ConfigReader.getBaseUrl());
     }
 
     /**
