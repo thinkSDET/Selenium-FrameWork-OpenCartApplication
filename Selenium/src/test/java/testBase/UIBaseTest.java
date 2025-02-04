@@ -7,7 +7,14 @@ import org.testng.annotations.BeforeMethod;
 
 public class UIBaseTest {
 
+    /**
+     * A driverThreadLocal variable ensures that each thread (which corresponds to each test in parallel test execution) gets its own separate WebDriver instance.
+     * This prevents conflicts when running tests in parallel.
+     */
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
+    /**
+     * If the browser property is not passed at runtime, it defaults to chrome.
+     */
     private  static String browser = System.getProperty("browser", "chrome"); // Default to Chrome if not set
 
     /**
