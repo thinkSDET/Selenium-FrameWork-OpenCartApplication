@@ -1,4 +1,4 @@
-name: Custom Test Workflow  # The name of the workflow that will appear on GitHub UI
+name: Smoke Test to Validate Application  # The name of the workflow that will appear on GitHub UI
 
 on:  
   workflow_dispatch:  # Allows you to trigger this workflow manually from the GitHub UI
@@ -9,7 +9,7 @@ jobs:  # A job is a set of steps that are executed on a VM
 
     env:  # Environment variables that will be used in this job
       JAVA_VERSION: 17  # Specifies the Java version (you can adjust this as needed)
-      MAVEN_COMMAND: "mvn test"  # The Maven command that will run tests
+      MAVEN_COMMAND: "mvn test -P qa -P smoke -P firefox"  # The Maven command that will run tests
 
     steps:  # List of steps that will be run as part of this job
       - name: Checkout code  # This step uses GitHub's built-in action to checkout the code
