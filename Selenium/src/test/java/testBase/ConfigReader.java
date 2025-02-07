@@ -44,31 +44,35 @@ public class ConfigReader {
     }
 
     public static String getBaseUrl() {
-        String baseUrl = System.getProperty("baseUrl");
-        String env="";
-
-        if (baseUrl == null || baseUrl.isEmpty()) {
-             env = getProperty("ENV");// Fall back to the config.properties if baseUrl is not set
-            if (env == null || env.isEmpty()) {
-                // LOGGER.error("Missing 'ENV' property in config file.");
-                throw new RuntimeException("'ENV' property is required in config.properties");
-            }
-            switch (env) {
-                case "qa":
-                    baseUrl = getProperty("QA_URL");
-                    break;
-                case "preprod":
-                    baseUrl = getProperty("PREPROD_URL");
-                    break;
-                case "prod":
-                    baseUrl = getProperty("PROD_URL");
-                    break;
-                default:
-                    //  LOGGER.error("Invalid ENV value: {}", env);
-                    throw new RuntimeException("Invalid ENV value in config.properties");
-            }
+        String env = System.getProperty("ENV"); // Read from System Properties first
+        if (env == null || env.isEmpty()) {
+            env = getProperty("ENV"); // Fallback to config.properties if not set
         }
-        //LOGGER.info("Launching tests on environment: " + env.toUpperCase() + " | URL: " + baseUrl);
+
+        if (env == null || env.isEmpty()) {
+            throw new RuntimeException("'ENV' property is required");
+        }
+
+        String baseUrl;
+        switch (env.toLowerCase()) {
+            case "qa":
+                baseUrl = getProperty("QA_URL");
+                System.out.println("Launched the QA URL");
+                break;
+            case "preprod":
+                baseUrl = getProperty("PREPROD_URL");
+                System.out.println("Launched the PREPROD URL");
+                break;
+            case "prod":
+                baseUrl = getProperty("PROD_URL");
+                System.out.println("Launched the PROD URL");
+                break;
+            default:
+                throw new RuntimeException("Invalid ENV value: " + env);
+        }
+
+        System.out.println(baseUrl);
         return baseUrl;
     }
+
 }

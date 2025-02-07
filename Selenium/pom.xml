@@ -15,16 +15,18 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-       <!-- &lt;!&ndash; Default value for TestNG XML file, can be overridden by profiles &ndash;&gt;
+        <!-- Default value for TestNG XML file, can be overridden by profiles -->
         <testng.xml.file>src/test/resources/SmokeTest.xml</testng.xml.file>
-        &lt;!&ndash; Default base URL for the application (can be overridden by profile) &ndash;&gt;
-        <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL>
-        <browser>ff</browser>-->
+        <!-- Default base URL for the application (can be overridden by profile) -->
+        <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/logins</envURL>
+        <!-- Default browser value-->
+        <browser>ff</browser>
+        <!-- Default Env value-->
+        <envName>qa</envName>
     </properties>
 
     <!-- Profiles for different environments or configurations -->
     <profiles>
-
         <!-- Profile for running tests on Chrome browser -->
         <profile>
             <id>chrome</id>
@@ -32,7 +34,6 @@
                 <browser>chrome</browser> <!-- Defines the browser to be used for tests -->
             </properties>
         </profile>
-
         <!-- Profile for running tests on Firefox browser -->
         <profile>
             <id>firefox</id>
@@ -40,7 +41,6 @@
                 <browser>firefox</browser> <!-- Defines the browser to be used for tests -->
             </properties>
         </profile>
-
         <!-- Profile for running smoke tests (uses the SmokeTest.xml file) -->
         <profile>
             <id>smoke</id>
@@ -49,7 +49,6 @@
                 <testng.xml.file>src/test/resources/SmokeTest.xml</testng.xml.file>
             </properties>
         </profile>
-
         <!-- Profile for running regression tests (uses the RegressionTest.xml file) -->
         <profile>
             <id>regression</id>
@@ -58,25 +57,25 @@
                 <testng.xml.file>src/test/resources/RegressionTest.xml</testng.xml.file>
             </properties>
         </profile>
-
         <!-- Profile for handling different environments dynamically -->
         <profile>
             <id>qa</id>
             <properties>
+                <envName>qa</envName>
                 <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> <!-- Overridden URL for QA -->
             </properties>
         </profile>
-
         <profile>
             <id>preprod</id>
             <properties>
+                <envName>preprod</envName>
                 <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> <!-- Overridden URL for Preprod -->
             </properties>
         </profile>
-
         <profile>
             <id>prod</id>
             <properties>
+                <envName>prod</envName>
                 <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> <!-- Overridden URL for Prod -->
             </properties>
         </profile>
@@ -145,6 +144,7 @@
                     <systemPropertyVariables>
                         <browser>${browser}</browser>  <!-- Passes the selected browser to TestNG -->
                         <baseUrl>${envURL}</baseUrl> <!-- Passes the base URL (QA/Preprod/Prod) dynamically -->
+                        <ENV>${envName}</ENV>  <!-- Passes the profile environment variable -->
                     </systemPropertyVariables>
                     <!-- Specifies the TestNG XML file to run tests from -->
                     <suiteXmlFiles>
