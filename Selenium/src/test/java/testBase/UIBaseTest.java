@@ -33,9 +33,11 @@ public class UIBaseTest {
 
     /**
      * Set up the WebDriver before each test method.
+     *
+     * Note : @BeforeMethod should not be static because they operate on instance methods.
      */
     @BeforeMethod
-    public static void setDriver() {
+    public void setDriver() {
         initializeDriver(); // Call the new method
         logger.info("Before Method Thread--> " + Thread.currentThread().getId());
         WebDriver driver = getDriver();
