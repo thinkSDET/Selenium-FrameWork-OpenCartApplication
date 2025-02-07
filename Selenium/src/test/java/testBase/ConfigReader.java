@@ -21,7 +21,6 @@ import testBase.baseUtils.LoggerUtil;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 public class ConfigReader {
 
@@ -53,6 +52,7 @@ public class ConfigReader {
 
         if (env == null || env.isEmpty()) {
             logger.error("ENV property is missing. Please provide a valid environment.");
+            // For learning purposes, demonstrating how we can use a custom exception in our framework.
             throw new FrameworkException("'ENV' property is required");
         }
 
@@ -71,12 +71,14 @@ public class ConfigReader {
                 logger.info("Launched the PROD URL: " + baseUrl);
                 break;
             default:
-               // LoggerUtil.error("Invalid ENV value provided: [" + env + "]");
                 logger.error("Invalid ENV value provided: [" + env + "]");
+                /**
+                 *  If the ENV value is missing or incorrect, the test setup cannot proceed correctly.
+                 * Since the environment determines the execution context,
+                 * throwing an exception ensures that tests do not run with an undefined or incorrect configuration.
+                 */
                 throw new FrameworkException("Invalid ENV value: " + env);
         }
-
-        System.out.println(baseUrl);
         return baseUrl;
     }
 
