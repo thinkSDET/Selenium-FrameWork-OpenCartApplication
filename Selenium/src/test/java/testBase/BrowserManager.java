@@ -1,16 +1,18 @@
 package testBase;
 
+import customExcpetion.FrameworkException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import testBase.baseUtils.LoggerUtil;
 
 import java.util.logging.Logger;
 
 public class BrowserManager {
 
-    private static final Logger LOGGER = Logger.getLogger(BrowserManager.class.getName());
+    private static final LoggerUtil logger = LoggerUtil.getLogger(BrowserManager.class);
 
     public static WebDriver initializeBrowser(String browserName) {
         WebDriver driver;
@@ -26,9 +28,10 @@ public class BrowserManager {
                 driver = new EdgeDriver();
                 break;
             default:
-                throw new IllegalArgumentException("Invalid browser name: " + browserName + ". Supported browsers: Chrome, Firefox.");
+                // CustomException
+                throw new FrameworkException("Invalid browser name: " + browserName + ". Supported browsers: Chrome, Firefox.");
         }
-        LOGGER.info("Browser initialized: " + browserName);
+        logger.info("Browser initialized: " + browserName);
         return driver;
     }
 

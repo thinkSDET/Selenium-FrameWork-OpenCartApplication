@@ -4,6 +4,7 @@ import commonMethods.WaitManager;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import testBase.baseUtils.LoggerUtil;
 
 public class UIBaseTest {
 
@@ -16,6 +17,7 @@ public class UIBaseTest {
      * If the browser property is not passed at runtime, it defaults to chrome.
      */
     private  static String browser = System.getProperty("browser", "chrome"); // Default to Chrome if not set
+    private static final LoggerUtil logger = LoggerUtil.getLogger(UIBaseTest.class);
 
     /**
      * Initialize the WebDriver instance and store it in ThreadLocal.
@@ -25,6 +27,7 @@ public class UIBaseTest {
             browser = "chrome";  // Ensure default to Chrome if not set
         }
         WebDriver driver = BrowserManager.initializeBrowser(browser);
+        logger.info("WedDriver is successfully initialized");
         driverThreadLocal.set(driver);
     }
 
@@ -34,8 +37,7 @@ public class UIBaseTest {
     @BeforeMethod
     public static void setDriver() {
         initializeDriver(); // Call the new method
-        System.out.println("Before Method Thread--> " + Thread.currentThread().getId());
-
+        logger.info("Before Method Thread--> " + Thread.currentThread().getId());
         WebDriver driver = getDriver();
         driver.manage().window().maximize();
         WaitManager.implicitWait(driver);
@@ -56,7 +58,7 @@ public class UIBaseTest {
         WebDriver driver = getDriver();
         if (driver != null) {
             driver.quit(); // Quit the driver after the test is finished
-            System.out.println("After Test Thread ID-->"+Thread.currentThread().getId());
+            logger.info("After Test Thread ID-->"+Thread.currentThread().getId());
             driverThreadLocal.remove(); // Clean up the ThreadLocal reference
         }
     }
