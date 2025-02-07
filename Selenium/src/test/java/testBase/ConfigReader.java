@@ -15,7 +15,8 @@
  * Uses Try-With-Resources (try (...)) → Ensures the file stream closes properly
  */
 package testBase;
-import org.apache.logging.log4j.LogManager;
+import customExcpetion.FrameworkException;
+import testBase.baseUtils.LoggerUtil;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,12 +26,13 @@ import java.util.logging.Logger;
 public class ConfigReader {
 
     private static final Properties properties = new Properties();
-    private static final Logger LOGGER = Logger.getLogger(ConfigReader.class.getName());
+    private static final LoggerUtil logger = LoggerUtil.getLogger(ConfigReader.class); // For static block
+
 
     static {
         synchronized (ConfigReader.class) {  // Ensures only one thread loads the properties
             try (FileInputStream file = new FileInputStream("src/test/resources/config.properties")) {
-                LOGGER.info("Configuration file loaded successfully.");
+                logger.info("Configuration file loaded successfully.");
                 properties.load(file);
             } catch (IOException e) {
                 // LOGGER.error("Failed to load configuration file: {}", e.getMessage());
@@ -50,25 +52,28 @@ public class ConfigReader {
         }
 
         if (env == null || env.isEmpty()) {
-            throw new RuntimeException("'ENV' property is required");
+            logger.error("ENV property is missing. Please provide a valid environment.");
+            throw new FrameworkException("'ENV' property is required");
         }
 
         String baseUrl;
         switch (env.toLowerCase()) {
             case "qa":
                 baseUrl = getProperty("QA_URL");
-                System.out.println("Launched the QA URL");
+                logger.info("Launched the QA URL: " + baseUrl);
                 break;
             case "preprod":
                 baseUrl = getProperty("PREPROD_URL");
-                System.out.println("Launched the PREPROD URL");
+                logger.info("Launched the PREPROD URL: " + baseUrl);
                 break;
             case "prod":
                 baseUrl = getProperty("PROD_URL");
-                System.out.println("Launched the PROD URL");
+                logger.info("Launched the PROD URL: " + baseUrl);
                 break;
             default:
-                throw new RuntimeException("Invalid ENV value: " + env);
+               // LoggerUtil.error("Invalid ENV value provided: [" + env + "]");
+                logger.error("Invalid ENV value provided: [" + env + "]");
+                throw new FrameworkException("Invalid ENV value: " + env);
         }
 
         System.out.println(baseUrl);

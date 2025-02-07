@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!-- Improved Log Format: Includes Timestamp, Level, Class Name, and Message -->
+            <!--%logger{1} prints the actual class name where logging is called-->
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] [%logger{1}] - %msg%n" />
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <!-- Configure Log Levels for Specific Packages -->
+        <Logger name="your.package.name" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- Root Logger: Captures all logs from the framework -->
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
