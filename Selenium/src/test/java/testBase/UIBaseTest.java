@@ -13,19 +13,13 @@ public class UIBaseTest {
      * This prevents conflicts when running tests in parallel.
      */
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
-    /**
-     * If the browser property is not passed at runtime, it defaults to chrome.
-     */
-    private  static String browser = System.getProperty("browser", "chrome"); // Default to Chrome if not set
     private static final LoggerUtil logger = LoggerUtil.getLogger(UIBaseTest.class);
 
     /**
      * Initialize the WebDriver instance and store it in ThreadLocal.
      */
     private static void initializeDriver() {
-        if (browser == null || browser.isEmpty()) {
-            browser = "chrome";  // Ensure default to Chrome if not set
-        }
+        String browser = ConfigManager.getBrowser(); // Use ConfigManager for browser
         WebDriver driver = BrowserManager.initializeBrowser(browser);
         logger.info("WedDriver is successfully initialized");
         driverThreadLocal.set(driver);

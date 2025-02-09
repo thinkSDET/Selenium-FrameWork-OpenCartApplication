@@ -10,12 +10,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import testBase.baseUtils.LoggerUtil;
 
-import java.util.logging.Logger;
 
 public class BrowserManager {
 
     private static final LoggerUtil logger = LoggerUtil.getLogger(BrowserManager.class);
-    private static final boolean HEADLESS_MODE = Boolean.parseBoolean(System.getProperty("HEADLESS", "false")); // Default is false (headed mode)
+    private static final boolean isHeadless = ConfigManager.isHeadlessMode();
 
     public static WebDriver initializeBrowser(String browserName) {
         WebDriver driver;
@@ -34,13 +33,13 @@ public class BrowserManager {
                 // CustomException
                 throw new FrameworkException("Invalid browser name: " + browserName + ". Supported browsers: Chrome, Firefox.");
         }
-        logger.info("Browser initialized: " + browserName);
+        logger.info("Browser initialized: " + browserName + " (Headless: " + isHeadless + ")");
         return driver;
     }
 
     private static WebDriver setupChromeDriver() {
         ChromeOptions options = new ChromeOptions();
-        if (HEADLESS_MODE) {
+        if (isHeadless) {
             options.addArguments("--headless=new");  // Run in headless mode
         }
         options.addArguments("--no-sandbox");
@@ -51,7 +50,7 @@ public class BrowserManager {
 
     private static WebDriver setupFirefoxDriver() {
         FirefoxOptions options = new FirefoxOptions();
-        if (HEADLESS_MODE) {
+        if (isHeadless) {
             options.addArguments("--headless"); // Headless mode for Firefox
         }
         return new FirefoxDriver(options);
@@ -59,7 +58,7 @@ public class BrowserManager {
 
     private static WebDriver setupEdgeDriver() {
         EdgeOptions options = new EdgeOptions();
-        if (HEADLESS_MODE) {
+        if (isHeadless) {
             options.addArguments("--headless=new"); // Headless mode for Edge
         }
         return new EdgeDriver(options);
