@@ -24,4 +24,10 @@ public class MyInfoPageNavigation extends UIBaseTest {
         WaitManager.getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='My Info']")));
         clickMyInfo.click();
     }
+
+    public void clickOnClaim(){
+        WaitManager.setWait(30);
+        WaitManager.getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='Claim']")));
+        clickMyInfo.click();
+    }
 }
