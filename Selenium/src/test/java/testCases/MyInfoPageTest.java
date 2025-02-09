@@ -26,7 +26,7 @@ public class MyInfoPageTest extends UIBaseTest {
         Assert.assertTrue(pageFactory.myInfoPage().jobDetailsVisibility(),"Please have a look for the title");
         System.out.println("test01_verifyPersonalDetailsOnMyInfoPage");
     }
-    @Test(enabled = false)
+    @Test
     void test_02_verifyUserIsAbleToFillPersonalDetails(){
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();

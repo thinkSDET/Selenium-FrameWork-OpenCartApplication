@@ -133,6 +133,7 @@
                         <browser>${browser}</browser>  <!-- Passes the selected browser to TestNG -->
                         <baseUrl>${envURL}</baseUrl> <!-- Passes the base URL (QA/Preprod/Prod) dynamically -->
                         <ENV>${envName}</ENV>  <!-- Passes the profile environment variable -->
+                        <HEADLESS>${HEADLESS}</HEADLESS>  <!-- Passes HEADLESS flag -->
                     </systemPropertyVariables>
                     <!-- Specifies the TestNG XML file to run tests from -->
                     <suiteXmlFiles>
