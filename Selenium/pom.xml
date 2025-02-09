@@ -15,6 +15,11 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--
+        This property specifies the location of the Log4j2 configuration file.
+        It ensures that Log4j2 uses the custom logging settings defined in log4j2.xml
+        when running tests. Without this, Log4j2 might fall back to default configurations.
+    -->
         <log4j.configurationFile>src/test/resources/log4j2.xml</log4j.configurationFile>
     </properties>
 
