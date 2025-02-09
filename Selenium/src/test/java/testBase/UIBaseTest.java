@@ -1,6 +1,7 @@
 package testBase;
 
 import commonMethods.WaitManager;
+import customExcpetion.FrameworkException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -19,10 +20,15 @@ public class UIBaseTest {
      * Initialize the WebDriver instance and store it in ThreadLocal.
      */
     private static void initializeDriver() {
-        String browser = ConfigManager.getBrowser(); // Use ConfigManager for browser
-        WebDriver driver = BrowserManager.initializeBrowser(browser);
-        logger.info("WedDriver is successfully initialized");
-        driverThreadLocal.set(driver);
+        try {
+            String browser = ConfigManager.getBrowser(); // Use ConfigManager for browser
+            WebDriver driver = BrowserManager.initializeBrowser(browser);
+            logger.info("WedDriver is successfully initialized");
+            driverThreadLocal.set(driver);
+        } catch (Exception e){
+            logger.error("Error initializing WebDriver: " + e.getMessage(), e);
+            throw new FrameworkException("WebDriver initialization failed.", e);
+        }
     }
 
     /**
@@ -35,10 +41,12 @@ public class UIBaseTest {
         initializeDriver(); // Call the new method
         logger.info("Before Method Thread--> " + Thread.currentThread().getId());
         WebDriver driver = getDriver();
-        driver.manage().window().maximize();
-        WaitManager.implicitWait(driver);
-        driver.manage().deleteAllCookies();
-        driver.get(ConfigReader.getBaseUrl());
+        if (driver != null) {
+            driver.manage().window().maximize();
+            WaitManager.implicitWait(driver);
+            driver.manage().deleteAllCookies();
+            driver.get(ConfigReader.getBaseUrl());
+        }
     }
 
     /**
