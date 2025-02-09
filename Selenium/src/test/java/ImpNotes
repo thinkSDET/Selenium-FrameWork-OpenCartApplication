@@ -43,3 +43,13 @@ If you run two test cases, the execution will be:
 ✅ WebDriver is initialized and closed for each test execution, ensuring clean browser sessions.
 
 Let me know if you need any modifications! 🚀
+
+
+ <!--  &lt;!&ndash; Default value for TestNG XML file, can be overridden by profiles &ndash;&gt;
+        <testng.xml.file>src/test/resources/SmokeTest.xml</testng.xml.file>
+        &lt;!&ndash; Default base URL for the application (can be overridden by profile) &ndash;&gt;
+        <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/logins</envURL>
+        &lt;!&ndash; Default browser value&ndash;&gt;
+        <browser>ff</browser>
+        &lt;!&ndash; Default Env value&ndash;&gt;
+        <envName>qa</envName>-->

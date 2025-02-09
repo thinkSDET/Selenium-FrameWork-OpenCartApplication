@@ -5,7 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import testBase.baseUtils.LoggerUtil;
 
 import java.util.logging.Logger;
@@ -23,10 +25,10 @@ public class BrowserManager {
                 break;
             case "firefox":
             case "ff":  // Both "firefox" and "ff" will result in the same action
-                driver = new FirefoxDriver();
+                driver = setupFirefoxDriver();
                 break;
             case "edge":
-                driver = new EdgeDriver();
+                driver = setupEdgeDriver();
                 break;
             default:
                 // CustomException
@@ -47,7 +49,19 @@ public class BrowserManager {
         return new ChromeDriver(options);
     }
 
- /*   private static WebDriver setupFirefoxDriver() {
+    private static WebDriver setupFirefoxDriver() {
+        FirefoxOptions options = new FirefoxOptions();
+        if (HEADLESS_MODE) {
+            options.addArguments("--headless"); // Headless mode for Firefox
+        }
+        return new FirefoxDriver(options);
+    }
 
-    }*/
+    private static WebDriver setupEdgeDriver() {
+        EdgeOptions options = new EdgeOptions();
+        if (HEADLESS_MODE) {
+            options.addArguments("--headless=new"); // Headless mode for Edge
+        }
+        return new EdgeDriver(options);
+    }
 }

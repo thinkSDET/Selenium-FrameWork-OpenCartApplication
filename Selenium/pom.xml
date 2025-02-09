@@ -16,14 +16,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j.configurationFile>src/test/resources/log4j2.xml</log4j.configurationFile>
-      <!--  &lt;!&ndash; Default value for TestNG XML file, can be overridden by profiles &ndash;&gt;
-        <testng.xml.file>src/test/resources/SmokeTest.xml</testng.xml.file>
-        &lt;!&ndash; Default base URL for the application (can be overridden by profile) &ndash;&gt;
-        <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/logins</envURL>
-        &lt;!&ndash; Default browser value&ndash;&gt;
-        <browser>ff</browser>
-        &lt;!&ndash; Default Env value&ndash;&gt;
-        <envName>qa</envName>-->
     </properties>
 
     <!-- Profiles for different environments or configurations -->
@@ -133,7 +125,7 @@
                         <browser>${browser}</browser>  <!-- Passes the selected browser to TestNG -->
                         <baseUrl>${envURL}</baseUrl> <!-- Passes the base URL (QA/Preprod/Prod) dynamically -->
                         <ENV>${envName}</ENV>  <!-- Passes the profile environment variable -->
-                        <HEADLESS>${HEADLESS}</HEADLESS>  <!-- Passes HEADLESS flag -->
+                        <HEADLESS>${HEADLESS}</HEADLESS>  <!-- Passes HEADLESS flag --> <!--Used as -DHEADLESS=true or false-->
                     </systemPropertyVariables>
                     <!-- Specifies the TestNG XML file to run tests from -->
                     <suiteXmlFiles>
