@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ /**
+  ~  * Copyright (c) 2025 [Vivek Srivastava]
+  ~  * Unauthorized copying, distribution, modification, or use of this file, via any medium, is strictly prohibited.
+  ~  * Proprietary and confidential.
+  ~  */
+  ~
+  -->
+
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Smoke Test Suite" parallel="methods" thread-count="2">
     <listeners>

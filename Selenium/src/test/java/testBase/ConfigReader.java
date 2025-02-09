@@ -1,3 +1,12 @@
+/*
+ * *
+ *  * Copyright (c) 2025 [Vivek Srivastava]
+ *  * Unauthorized copying, distribution, modification, or use of this file, via any medium, is strictly prohibited.
+ *  * Proprietary and confidential.
+ *
+ *
+ */
+
 /**
  * Yes, it should be thread-safe, but currently, it is not fully thread-safe because of how Properties is used.
  * Let’s analyze why and how to improve it.
