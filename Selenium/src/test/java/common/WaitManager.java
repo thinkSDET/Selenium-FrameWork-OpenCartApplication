@@ -84,4 +84,18 @@ public class WaitManager {
     public static void forceWait() throws InterruptedException {
         Thread.sleep(500);
     }
+
+    /**
+     *
+     * @param timeOut
+     * @param windows
+     */
+    public static void numberOfWindowsToBe(long timeOut, int windows){
+        setWait(timeOut);
+        WebDriverWait wait = getWait();
+        if (wait == null) {
+            throw new IllegalStateException("WebDriverWait is not initialized. Call setWait() first.");
+        }
+        getWait().until(ExpectedConditions.numberOfWindowsToBe(windows));
+    }
 }

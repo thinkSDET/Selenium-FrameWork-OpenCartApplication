@@ -9,6 +9,7 @@
 
 package testBase;
 
+import pages.AdminPage;
 import pages.navigationPages.MyInfoPageNavigation;
 import org.openqa.selenium.WebDriver;
 import pages.DashBoardPage;
@@ -47,5 +48,9 @@ public class PageFactory {
 
     public PersonalDetailsPage personalDetailsPage() {
         return new PersonalDetailsPage(getDriver());
+    }
+
+    public AdminPage adminPage() {
+        return new AdminPage(getDriver());
     }
 }
