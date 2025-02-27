@@ -9,7 +9,7 @@
 
 package testBase;
 
-import commonMethods.WaitManager;
+import common.WaitManager;
 import customExcpetion.FrameworkException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;

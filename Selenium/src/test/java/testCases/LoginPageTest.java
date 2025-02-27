@@ -9,7 +9,7 @@
 
 package testCases;
 
-import commonMethods.ReusableMethods;
+import common.CommonMethods;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -30,6 +30,6 @@ public class LoginPageTest extends UIBaseTest {
     void test_01_verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
         pageFactory.loginPage().login(userName,password);
         Assert.assertTrue( pageFactory.dashBoardPage().dashBoardDisplay());
-        Assert.assertEquals(ReusableMethods.getTitleOfPage(getDriver()),"OrangeHRM","Please check for the title");
+        Assert.assertEquals(CommonMethods.getTitleOfPage(getDriver()),"OrangeHRM","Please check for the title");
     }
 }

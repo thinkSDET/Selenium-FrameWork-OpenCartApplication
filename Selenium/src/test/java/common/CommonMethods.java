@@ -7,14 +7,14 @@
  *
  */
 
-package commonMethods;
+package common;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 
-public class ReusableMethods {
+public class CommonMethods {
     public static Actions actions;
 
 

@@ -9,7 +9,7 @@
 
 package pages.myInfo;
 
-import commonMethods.ReusableMethods;
+import common.CommonMethods;
 import dataClasses.PersonalDetails;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -63,13 +63,13 @@ public class PersonalDetailsPage extends UIBaseTest {
      * @param personalDetails
      */
     public void fillPersonalDetails(PersonalDetails personalDetails){
-        ReusableMethods.clearInputField(firstName,driver);
-        ReusableMethods.clearInputField(middleName,driver);
-        ReusableMethods.clearInputField(lastname,driver);
-        ReusableMethods.clearInputField(employeeId,driver);
-        ReusableMethods.clearInputField(otherId,driver);
-        ReusableMethods.clearInputField(driverLicenseNumber,driver);
-        ReusableMethods.clearInputField(driverLicenseExpDate,driver);
+        CommonMethods.clearInputField(firstName,driver);
+        CommonMethods.clearInputField(middleName,driver);
+        CommonMethods.clearInputField(lastname,driver);
+        CommonMethods.clearInputField(employeeId,driver);
+        CommonMethods.clearInputField(otherId,driver);
+        CommonMethods.clearInputField(driverLicenseNumber,driver);
+        CommonMethods.clearInputField(driverLicenseExpDate,driver);
         firstName.sendKeys(personalDetails.firstName);
         middleName.sendKeys(personalDetails.middleName);
         lastname.sendKeys(personalDetails.lastName);
@@ -77,8 +77,8 @@ public class PersonalDetailsPage extends UIBaseTest {
         otherId.sendKeys(personalDetails.otherId);
         driverLicenseNumber.sendKeys(personalDetails.drivingLicId);
         driverLicenseExpDate.sendKeys(personalDetails.licenseExpDate);
-        ReusableMethods.selectValueFromDropDown(this.nationality,personalDetails.nationality,driver);
-        ReusableMethods.selectValueFromDropDown(this.maritalStatus,personalDetails.maritalStatus,driver);
+        CommonMethods.selectValueFromDropDown(this.nationality,personalDetails.nationality,driver);
+        CommonMethods.selectValueFromDropDown(this.maritalStatus,personalDetails.maritalStatus,driver);
         saveButton.click();
     }
 }
