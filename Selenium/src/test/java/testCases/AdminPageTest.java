@@ -33,7 +33,7 @@ public class AdminPageTest extends UIBaseTest {
     }
 
     @Test(groups = {"smoke"})
-    public void verify_AddUserAccountPage(){
+    public void test_02_verify_AddUserAccountPage(){
        Assert.assertEquals(pageFactory.adminPage().verifyUserAccountPageOpen(),"OrangeHRM","Please check the app title on User Account page");
     }
 }

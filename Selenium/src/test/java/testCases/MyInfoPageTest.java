@@ -36,11 +36,10 @@ public class MyInfoPageTest extends UIBaseTest {
         System.out.println("test01_verifyPersonalDetailsOnMyInfoPage");
     }
     @Test(groups = {"smoke"})
-    void verifyUserIsAbleToFillPersonalDetails(){
+    void test_02_verifyUserIsAbleToFillPersonalDetails(){
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();
         pageFactory.personalDetailsPage().fillPersonalDetails(personalDetailsData);
-        Assert.assertFalse(false);
-        System.out.println("test02_verifyUserIsAbleToFillPersonalDetails");
+        Assert.assertFalse(true);
     }
 }

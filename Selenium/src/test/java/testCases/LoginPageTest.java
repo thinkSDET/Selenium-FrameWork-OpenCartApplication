@@ -34,7 +34,7 @@ public class LoginPageTest extends UIBaseTest {
     }
 
     @Test(groups = {"smoke"})
-    void verifyUserCanNotLoginAsInvalidUserNameAndPassword(){
+    void test_02_verifyUserCanNotLoginAsInvalidUserNameAndPassword(){
         pageFactory.loginPage().login("inValidUN","inValidPwd");
         Assert.assertEquals(pageFactory.loginPage().getInvalidCredentialValidationMessage(),"Invalid credentials");
     }
