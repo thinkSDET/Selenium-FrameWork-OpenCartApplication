@@ -9,12 +9,10 @@
 
 package common;
 
-import customExcpetion.FrameworkException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class CommonMethods {
     public static Actions actions;

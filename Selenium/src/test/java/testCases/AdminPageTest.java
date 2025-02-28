@@ -26,7 +26,7 @@ public class AdminPageTest extends UIBaseTest {
         pageFactory.loginPage().login("Admin","admin123");
     }
 
-    @Test()
+    @Test
     public void verify_helpIconVisibleOnAdminPage(){
        boolean helpIconDisplayed  = pageFactory.adminPage().helpIconBtn.isDisplayed();
         Assert.assertTrue(helpIconDisplayed,"Please check help icon does not displayed");

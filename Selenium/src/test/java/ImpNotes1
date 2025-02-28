@@ -1,0 +1,43 @@
+**Why `static` in `ThreadLocal<WebDriver>`?**
+- When running **parallel tests**, each test thread should have its own **separate WebDriver instance**.
+- `ThreadLocal<WebDriver>` helps by **assigning a unique WebDriver to each thread**.
+- **Making it `static` ensures that all test methods across different classes share the same `ThreadLocal` instance**, avoiding conflicts.
+
+---
+
+**What if We Remove `static`?**
+If we **remove `static`**, each test class will have its own separate `ThreadLocal<WebDriver>`.
+
+🚫 **This is a problem because:**
+1. **Each test class instance will create a new `ThreadLocal`** instead of sharing one across threads.
+2. **WebDriver instances may not be managed properly** in parallel execution, leading to errors.
+
+---
+
+**Correct Approach: Keep `ThreadLocal<WebDriver>` Static**
+```java
+public class DriverManager {
+    private static ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+
+    public static void setDriver(WebDriver driver) {
+        driverThreadLocal.set(driver);
+    }
+
+    public static WebDriver getDriver() {
+        return driverThreadLocal.get();
+    }
+
+    public static void removeDriver() {
+        driverThreadLocal.remove();
+    }
+}
+```
+
+✅ **With `static`:**
+- **Only one `ThreadLocal<WebDriver>` exists for all test threads.**
+- **Each test thread still gets its own WebDriver instance, avoiding conflicts.**
+
+🚀 **Final Answer:**
+✔ **If you want proper parallel execution, keep `ThreadLocal<WebDriver>` `static`.**
+✔ **Removing `static` will break parallel test execution.**
+
