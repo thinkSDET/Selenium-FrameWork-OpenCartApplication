@@ -38,18 +38,21 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        ExtentReportManager.getTest().log(Status.PASS, "Test Passed");
+        ExtentReportManager.getTest().log(Status.PASS, "Test Passed: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         ExtentReportManager.getTest().log(Status.FAIL, "Test Failed: " + result.getThrowable());
 
-        // Capture screenshot and attach it
         WebDriver driver = UIBaseTest.getDriver();
         if (driver != null) {
             String screenshotPath = ScreenshotUtil.captureScreenshot(driver, result.getMethod().getMethodName());
-            ExtentReportManager.getTest().addScreenCaptureFromPath(screenshotPath, "Failure Screenshot");
+            try {
+                ExtentReportManager.getTest().addScreenCaptureFromPath(screenshotPath, "Failure Screenshot");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -60,6 +63,8 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onFinish(ITestContext context) {
-        ExtentReportManager.flushReport();
+        synchronized (ExtentReportManager.class) { // Ensures flush is only called once
+            ExtentReportManager.flushReport();
+        }
     }
 }

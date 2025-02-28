@@ -30,7 +30,14 @@ public class ScreenshotUtil {
     public static String captureScreenshot(WebDriver driver, String testName) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String timestamp = dateFormat.format(new Date());
-        String screenshotPath = System.getProperty("user.dir") + "/reports/screenshots/" + testName + "_" + timestamp + ".png";
+
+        String screenshotDir = System.getProperty("user.dir") + "/reports/screenshots/";
+        File directory = new File(screenshotDir);
+        if (!directory.exists()) {
+            directory.mkdirs();  // Ensure directory exists
+        }
+
+        String screenshotPath = screenshotDir + testName + "_" + timestamp + ".png";
 
         File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         File destFile = new File(screenshotPath);
