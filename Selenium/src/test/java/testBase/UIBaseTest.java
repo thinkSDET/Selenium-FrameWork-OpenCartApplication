@@ -45,7 +45,7 @@ public class UIBaseTest {
      *
      * Note : @BeforeMethod should not be static because they operate on instance methods.
      */
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setDriver() {
         initializeDriver(); // Call the new method
         logger.info("Before Method Thread--> " + Thread.currentThread().getId());
@@ -66,7 +66,7 @@ public class UIBaseTest {
        return driverThreadLocal.get();
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown(){
         WebDriver driver = getDriver();
         if (driver != null) {

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ /**
+  ~  * Copyright (c) 2025 [Vivek Srivastava]
+  ~  * Unauthorized copying, distribution, modification, or use of this file, via any medium, is strictly prohibited.
+  ~  * Proprietary and confidential.
+  ~  */
+  ~
+  -->
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Smoke Test Suite to check grouping functionality" parallel="methods" thread-count="2">
+    <groups>
+        <run>
+            <include name="smoke"/>
+        </run>
+    </groups>
+    <listeners>
+        <listener class-name="testBase.baseUtils.RetryListener"/>
+        <listener class-name="testBase.baseUtils.TestListener"/>
+    </listeners>
+    <test name="MyInfo Page -- Test Cases">
+        <classes>
+            <class name="testCases.MyInfoPageTest"/>
+        </classes>
+    </test>
+    <test name="Admin Page -- Test Cases">
+        <classes>
+            <class name="testCases.AdminPageTest"/>
+        </classes>
+    </test>
+    <test name="Login Page -- Test Cases">
+        <classes>
+            <class name="testCases.LoginPageTest"/>
+        </classes>
+    </test>
+</suite>

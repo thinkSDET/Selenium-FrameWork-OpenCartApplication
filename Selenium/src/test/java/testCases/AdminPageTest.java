@@ -19,7 +19,7 @@ import testBase.UIBaseTest;
 public class AdminPageTest extends UIBaseTest {
 
     PageFactory pageFactory;
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     void setup(){
         PageFactory.setDriver(getDriver());
         pageFactory = new PageFactory();
@@ -32,7 +32,7 @@ public class AdminPageTest extends UIBaseTest {
         Assert.assertTrue(helpIconDisplayed,"Please check help icon does not displayed");
     }
 
-    @Test
+    @Test(groups = {"smoke"})
     public void verify_AddUserAccountPage(){
        Assert.assertEquals(pageFactory.adminPage().verifyUserAccountPageOpen(),"OrangeHRM","Please check the app title on User Account page");
     }

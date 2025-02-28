@@ -20,16 +20,22 @@ import testData.LoginTestData;
 public class LoginPageTest extends UIBaseTest {
     PageFactory pageFactory;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     void setup(){
         PageFactory.setDriver(getDriver());
         pageFactory = new PageFactory();
     }
 
     @Test(dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)
-    void test_01_verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
+    void verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
         pageFactory.loginPage().login(userName,password);
         Assert.assertTrue( pageFactory.dashBoardPage().dashBoardDisplay());
         Assert.assertEquals(CommonMethods.getTitleOfPage(getDriver()),"OrangeHRM","Please check for the title");
+    }
+
+    @Test(groups = {"smoke"})
+    void verifyUserCanNotLoginAsInvalidUserNameAndPassword(){
+        pageFactory.loginPage().login("inValidUN","inValidPwd");
+        Assert.assertEquals(pageFactory.loginPage().getInvalidCredentialValidationMessage(),"Invalid credentials");
     }
 }

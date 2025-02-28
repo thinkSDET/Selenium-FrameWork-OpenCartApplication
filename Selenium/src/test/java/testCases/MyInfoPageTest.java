@@ -21,7 +21,7 @@ public class MyInfoPageTest extends UIBaseTest {
     PageFactory pageFactory;
     PersonalDetails personalDetailsData;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     void setup(){
         PageFactory.setDriver(getDriver());
         pageFactory =  new PageFactory();
@@ -29,14 +29,14 @@ public class MyInfoPageTest extends UIBaseTest {
         personalDetailsData =  PersonalDetailsTestData.getPersonalDetailsData();
     }
     @Test
-    void test_01_verifyPersonalDetailsOnMyInfoPage() throws InterruptedException {
+    void verifyPersonalDetailsOnMyInfoPage() throws InterruptedException {
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickJobOption();
         Assert.assertTrue(pageFactory.myInfoPage().jobDetailsVisibility(),"Please have a look for the title");
         System.out.println("test01_verifyPersonalDetailsOnMyInfoPage");
     }
-    @Test
-    void test_02_verifyUserIsAbleToFillPersonalDetails(){
+    @Test(groups = {"smoke"})
+    void verifyUserIsAbleToFillPersonalDetails(){
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();
         pageFactory.personalDetailsPage().fillPersonalDetails(personalDetailsData);
