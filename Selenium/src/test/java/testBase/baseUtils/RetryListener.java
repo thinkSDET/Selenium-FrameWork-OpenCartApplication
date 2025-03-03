@@ -30,5 +30,6 @@ public class RetryListener implements IAnnotationTransformer {
  */
 
 /**
- * RetryListener automatically applies the RetryAnalyzer to all test methods, allowing failed tests to be retried based on the logic defined in RetryAnalyzer.
+ * RetryListener automatically applies the RetryAnalyzer to all test methods,
+ * allowing failed tests to be retried based on the logic defined in RetryAnalyzer.
  */
