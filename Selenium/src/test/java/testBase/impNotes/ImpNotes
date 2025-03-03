@@ -1,0 +1,81 @@
+I want to understand that why here I am not able to use BeforeSuite to initialize the driver, but using @BeforeMethod in UIBaseTest class.
+
+The reason you are using @BeforeMethod instead of @BeforeSuite to initialize the WebDriver in your UIBaseTest class is primarily due to
+the way TestNG handles parallel execution and the lifecycle of test methods.
+
+Key Points:
+Parallel Execution:
+
+In your testng.xml, you have specified parallel="methods" with a thread-count="2". This means that TestNG will run test methods in parallel across multiple threads.
+
+Each thread will execute its own instance of the test method, and therefore, each thread needs its own WebDriver instance to avoid conflicts.
+
+ThreadLocal for WebDriver:
+
+You are using ThreadLocal<WebDriver> to ensure that each thread (i.e., each test method) gets its own WebDriver instance. This is a good practice for parallel test execution.
+
+If you were to use @BeforeSuite, the WebDriver would be initialized once for the entire suite, and all test methods would share the same WebDriver instance. This would lead to conflicts when running tests in parallel, as multiple threads would try to use the same WebDriver instance simultaneously.
+
+Lifecycle of Annotations:
+
+@BeforeSuite: This annotation runs once before any test method in the suite is executed. It is not suitable for initializing resources that need to be thread-specific, such as WebDriver instances in parallel execution.
+
+@BeforeMethod: This annotation runs before each test method. It ensures that each test method gets a fresh WebDriver instance, which is crucial for parallel execution.
+
+Why @BeforeMethod is Appropriate:
+Isolation: Each test method runs in isolation with its own WebDriver instance, preventing interference between tests.
+
+Parallel Execution: Since each thread has its own WebDriver instance, tests can run in parallel without causing conflicts.
+
+Clean State: Each test method starts with a fresh browser session, ensuring that the state of the browser does not affect the outcome of the test.
+
+Example Scenario:
+Imagine you have two test methods, testA and testB, running in parallel:
+
+If you use @BeforeSuite, both testA and testB would share the same WebDriver instance. If testA navigates to a different page or modifies the browser state, it could affect testB, leading to unpredictable results.
+
+With @BeforeMethod, testA and testB each get their own WebDriver instance. They can run independently without affecting each other.
+
+Conclusion:
+Using @BeforeMethod to initialize the WebDriver is the correct approach for your setup because it aligns with the parallel execution strategy and ensures that each test method has its own isolated WebDriver instance. This prevents conflicts and ensures reliable test execution.
+
+If you were to use @BeforeSuite, you would lose the benefits of parallel execution and risk test failures due to shared state between test methods. Therefore, @BeforeMethod is the appropriate choice in this context.
+
+=================================
+
+
+🔹 Why Are You Using @BeforeMethod Instead of @BeforeSuite in UIBaseTest?
+In TestNG, the choice between @BeforeSuite and @BeforeMethod depends on how you want to manage WebDriver instances, especially in parallel execution.
+
+🚀 Key Reason: Parallel Execution with ThreadLocal<WebDriver>
+You are running tests in parallel (parallel="methods" in testng.xml), meaning each test method runs in its own thread.
+ThreadLocal<WebDriver> ensures that each thread gets its own WebDriver instance, preventing conflicts.
+If you initialize WebDriver in @BeforeSuite, all tests will share a single WebDriver instance, which causes:
+Session issues in parallel execution.
+Tests interfering with each other (since all tests use the same browser instance).
+
+✅ Solution: Use @BeforeMethod to initialize a separate WebDriver for each test method (test method means Test cases).
+
+🔹 What Happens If You Use @BeforeSuite?
+If you initialize WebDriver in @BeforeSuite:
+
+Only one WebDriver instance is created for the entire suite.
+Multiple parallel tests will try to use the same driver instance, causing StaleElementReferenceException or SessionNotFoundException.
+Tests may fail intermittently due to conflicting browser actions.
+
+🔹 Why @BeforeMethod Works Best Here
+Each test method gets a fresh WebDriver instance → No interference between parallel tests.
+Ensures isolation → Each thread gets its own browser.
+Works perfectly with ThreadLocal<WebDriver>, which allows thread-safe execution.
+✅ Correct Approach (What You Already Have)
+
+@BeforeMethod(alwaysRun = true)
+public void setDriver() {
+    initializeDriver(); // ✅ Creates a new driver instance for each test method
+}
+
+🚀 Conclusion
+You are using @BeforeMethod because of parallel execution (ThreadLocal<WebDriver> ensures isolation).
+@BeforeSuite or @BeforeTest would create issues since all tests would share the same WebDriver instance.
+Best practice for parallel execution: Use @BeforeMethod with ThreadLocal<WebDriver>, as in your implementation.
+✅ Your current implementation is correct!
