@@ -40,3 +40,4 @@ public class DriverManager {
 🚀 **Final Answer:**
 ✔ **If you want proper parallel execution, keep `ThreadLocal<WebDriver>` `static`.**
 ✔ **Removing `static` will break parallel test execution.**
+
