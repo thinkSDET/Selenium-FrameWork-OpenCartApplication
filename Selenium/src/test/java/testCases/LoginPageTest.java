@@ -30,7 +30,7 @@ public class LoginPageTest extends UIBaseTest {
     void verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
         pageFactory.loginPage().login(userName,password);
         Assert.assertTrue( pageFactory.dashBoardPage().dashBoardDisplay());
-        Assert.assertEquals(CommonMethods.getTitleOfPage(getDriver()),"OrangeHRM","Please check for the title");
+        Assert.assertEquals(CommonMethods.getTitleOfPage(),"OrangeHRM","Please check for the title");
     }
 
     @Test(groups = {"smoke"})

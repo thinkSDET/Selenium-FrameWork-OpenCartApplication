@@ -1,0 +1,11 @@
+here I have one doubt why using pageFactor ? and why cant we use directly By class?  -->
+
+Why Use PageFactory?
+PageFactory is a class in Selenium that initializes WebElements inside a Page Object Model (POM) class. It helps reduce boilerplate code and improves readability.
+
+PageFactory initializes WebElements only when needed (lazy loading), reducing unnecessary findElement() calls and making code cleaner in Page Object Model (POM).
+
+Using By directly requires calling findElement() every time, making the code less efficient and harder to maintain.
+
+✅ Use PageFactory in POM for better readability and performance.
+✅ Use By when elements are dynamic and cannot be pre-initialized.

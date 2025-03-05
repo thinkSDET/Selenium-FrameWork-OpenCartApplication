@@ -52,7 +52,7 @@ public class UIBaseTest {
         WebDriver driver = getDriver();
         if (driver != null) {
             driver.manage().window().maximize();
-            WaitManager.implicitWait(driver);
+            WaitManager.implicitWait();
             driver.manage().deleteAllCookies();
             driver.get(ConfigReader.getBaseUrl());
         }

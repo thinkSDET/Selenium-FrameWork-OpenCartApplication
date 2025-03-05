@@ -18,7 +18,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import testBase.UIBaseTest;
 
-import java.util.Iterator;
 import java.util.Set;
 
 public class AdminPage extends UIBaseTest {
@@ -51,17 +50,15 @@ public class AdminPage extends UIBaseTest {
            String parentWindow =driver.getWindowHandle();
            System.out.println(parentWindow);
            Set<String> windows = driver.getWindowHandles();
-           Iterator<String> it  =  windows.iterator();
-           while (it.hasNext()){
-               String childWindow = it.next();
-               if(!parentWindow.equals(childWindow)){
+           for (String childWindow : windows) {
+               if (!parentWindow.equals(childWindow)) {
                    driver.switchTo().window(childWindow);
                }
            }
        }catch (Exception e){
            throw new FrameworkException("There is no another window open");
        }
-       System.out.println(CommonMethods.getTitleOfPage(driver));
-        return CommonMethods.getTitleOfPage(driver);
+       System.out.println(CommonMethods.getTitleOfPage());
+        return CommonMethods.getTitleOfPage();
     }
 }

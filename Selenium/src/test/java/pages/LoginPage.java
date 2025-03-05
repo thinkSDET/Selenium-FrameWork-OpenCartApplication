@@ -10,14 +10,18 @@
 package pages;
 
 import common.WaitManager;
+import customExcpetion.FrameworkException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import testBase.BrowserManager;
 import testBase.UIBaseTest;
+import testBase.baseUtils.LoggerUtil;
 
 public class LoginPage extends UIBaseTest {
     WebDriver driver;
+    private static final LoggerUtil logger = LoggerUtil.getLogger(LoginPage.class);
     public LoginPage(WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver=driver;
@@ -44,16 +48,23 @@ public class LoginPage extends UIBaseTest {
      * @param password
      */
     public void login(String userName, String password){
-        clearUserNameAndPassword();
-        this.userName.sendKeys(userName);
-        this.password.sendKeys(password);
-        this.submitBtn.click();
+        try {
+            clearUserNameAndPassword();
+            this.userName.sendKeys(userName);
+            this.password.sendKeys(password);
+            logger.info("userName and Password Entered successfully");
+            this.submitBtn.click();
+        }catch (Exception exception){
+            logger.error("Login failed due to an issue with the WebElement: " + exception.getMessage());
+            throw new FrameworkException("Login failed. Please check the WebElement or locator.", exception);
+        }
     }
 
     /**
      *  clear the fields of userName and Password
      */
     public void clearUserNameAndPassword(){
+        WaitManager.waitForElementToBeVisible(userName,10);
         userName.clear();
         password.clear();
     }

@@ -63,13 +63,14 @@ public class PersonalDetailsPage extends UIBaseTest {
      * @param personalDetails
      */
     public void fillPersonalDetails(PersonalDetails personalDetails){
-        CommonMethods.clearInputField(firstName,driver);
-        CommonMethods.clearInputField(middleName,driver);
-        CommonMethods.clearInputField(lastname,driver);
-        CommonMethods.clearInputField(employeeId,driver);
-        CommonMethods.clearInputField(otherId,driver);
-        CommonMethods.clearInputField(driverLicenseNumber,driver);
-        CommonMethods.clearInputField(driverLicenseExpDate,driver);
+        CommonMethods.isElementFullyVisible(firstName);
+        CommonMethods.clearInputField(firstName);
+        CommonMethods.clearInputField(middleName);
+        CommonMethods.clearInputField(lastname);
+        CommonMethods.clearInputField(employeeId);
+        CommonMethods.clearInputField(otherId);
+        CommonMethods.clearInputField(driverLicenseNumber);
+        CommonMethods.clearInputField(driverLicenseExpDate);
         firstName.sendKeys(personalDetails.firstName);
         middleName.sendKeys(personalDetails.middleName);
         lastname.sendKeys(personalDetails.lastName);
@@ -77,8 +78,8 @@ public class PersonalDetailsPage extends UIBaseTest {
         otherId.sendKeys(personalDetails.otherId);
         driverLicenseNumber.sendKeys(personalDetails.drivingLicId);
         driverLicenseExpDate.sendKeys(personalDetails.licenseExpDate);
-        CommonMethods.selectValueFromDropDown(this.nationality,personalDetails.nationality,driver);
-        CommonMethods.selectValueFromDropDown(this.maritalStatus,personalDetails.maritalStatus,driver);
+        CommonMethods.selectValueFromDropDown(this.nationality,personalDetails.nationality);
+        CommonMethods.selectValueFromDropDown(this.maritalStatus,personalDetails.maritalStatus);
         saveButton.click();
     }
 }

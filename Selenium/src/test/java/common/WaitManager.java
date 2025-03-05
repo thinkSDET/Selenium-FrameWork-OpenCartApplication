@@ -15,19 +15,45 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import testBase.UIBaseTest;
+import testBase.baseUtils.LoggerUtil;
 
 import java.time.Duration;
 
 public class WaitManager {
+    private static final LoggerUtil logger = LoggerUtil.getLogger(WaitManager.class);
+    private static WebDriver getDriver() {
+        return UIBaseTest.getDriver(); // Fetch driver automatically
+    }
     // ThreadLocal to store WebDriverWait instances for parallel execution
     public static ThreadLocal<WebDriverWait> waitThreadLocal = new ThreadLocal<WebDriverWait>();
+
+    /**
+     * Sets up an explicit wait (WebDriverWait) using ThreadLocal for thread safety.
+     */
+    public static void setWait(long timeoutInSeconds){
+        waitThreadLocal.set(new WebDriverWait(getDriver(), Duration.ofSeconds(timeoutInSeconds)));
+    }
+
+    /**
+     * Retrieves the WebDriverWait instance for the current thread.
+     */
+    public static WebDriverWait getWait() {
+        return waitThreadLocal.get();
+    }
+    /**
+     * Removes the WebDriverWait instance from ThreadLocal to prevent memory leaks.
+     * Call this method in @AfterMethod in TestNG.
+     */
+    public static void removeWait() {
+        waitThreadLocal.remove();
+    }
 
     /**
      * Sets an implicit wait for the driver.
      * This applies to all findElement() calls and waits for elements to be available.
      */
-    public static void implicitWait(WebDriver driver){
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+    public static void implicitWait(){
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
     }
     /**
      * Waits until the given element is visible.
@@ -60,26 +86,6 @@ public class WaitManager {
                 ExpectedConditions.elementToBeClickable(element)
         );
     }
-    /**
-     * Sets up an explicit wait (WebDriverWait) using ThreadLocal for thread safety.
-     */
-    public static void setWait(long timeoutInSeconds){
-        waitThreadLocal.set(new WebDriverWait(UIBaseTest.getDriver(), Duration.ofSeconds(timeoutInSeconds)));
-    }
-
-    /**
-     * Retrieves the WebDriverWait instance for the current thread.
-     */
-    public static WebDriverWait getWait() {
-        return waitThreadLocal.get();
-    }
-    /**
-     * Removes the WebDriverWait instance from ThreadLocal to prevent memory leaks.
-     * Call this method in @AfterMethod in TestNG.
-     */
-    public static void removeWait() {
-        waitThreadLocal.remove();
-    }
 
     public static void forceWait() throws InterruptedException {
         Thread.sleep(500);
@@ -97,5 +103,22 @@ public class WaitManager {
             throw new IllegalStateException("WebDriverWait is not initialized. Call setWait() first.");
         }
         getWait().until(ExpectedConditions.numberOfWindowsToBe(windows));
+    }
+
+    /**
+     * This method is used to wait until a web element becomes visible and enabled before performing actions on it.
+     * Both conditions are checked one after another (not in parallel).
+     * If the first condition fails, the second is never checked.
+     * If both pass within the timeout, the method proceeds normally.
+     * @param element
+     * @param timeOut
+     *
+     * This is imp method
+     */
+    public static void waitForElementToBeVisible(WebElement element,Integer timeOut){
+        setWait(timeOut);
+        WebDriverWait wait = getWait();
+        wait.until(displayed->element.isDisplayed());
+        wait.until(displayed->element.isEnabled());
     }
 }
