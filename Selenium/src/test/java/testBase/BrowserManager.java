@@ -17,12 +17,12 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import utils.LoggerUtil;
+import utils.Logger;
 
 
 public class BrowserManager {
 
-    private static final LoggerUtil logger = LoggerUtil.getLogger(BrowserManager.class);
+    private static final Logger logger = Logger.getLogger(BrowserManager.class);
     private static final boolean isHeadless = ConfigManager.isHeadlessMode();
 
     public static WebDriver initializeBrowser(String browserName) {

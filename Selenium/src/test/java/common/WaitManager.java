@@ -15,12 +15,12 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import testBase.UIBaseTest;
-import utils.LoggerUtil;
+import utils.Logger;
 
 import java.time.Duration;
 
 public class WaitManager {
-    private static final LoggerUtil logger = LoggerUtil.getLogger(WaitManager.class);
+    private static final Logger logger = Logger.getLogger(WaitManager.class);
     private static WebDriver getDriver() {
         return UIBaseTest.getDriver(); // Fetch driver automatically
     }

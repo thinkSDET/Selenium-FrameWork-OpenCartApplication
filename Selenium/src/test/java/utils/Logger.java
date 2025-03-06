@@ -10,19 +10,18 @@
 package utils;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class LoggerUtil {
+public class Logger {
 
-    private final Logger logger;
+    private final org.apache.logging.log4j.Logger logger;
 
     // Private constructor
-    private LoggerUtil(Logger logger) {
+    private Logger(org.apache.logging.log4j.Logger logger) {
         this.logger = logger;
     }
 
-    public static LoggerUtil getLogger(Class<?> clazz) { // Take class as parameter
-        return new LoggerUtil(LogManager.getLogger(clazz));
+    public static Logger getLogger(Class<?> clazz) { // Take class as parameter
+        return new Logger(LogManager.getLogger(clazz));
     }
 
     public void info(String message) {

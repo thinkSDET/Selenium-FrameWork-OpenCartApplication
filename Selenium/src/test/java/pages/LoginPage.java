@@ -16,11 +16,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import testBase.UIBaseTest;
-import utils.LoggerUtil;
+import utils.Logger;
 
 public class LoginPage extends UIBaseTest {
     WebDriver driver;
-    private static final LoggerUtil logger = LoggerUtil.getLogger(LoginPage.class);
+    private static final Logger logger = Logger.getLogger(LoginPage.class);
     public LoginPage(WebDriver driver){
         PageFactory.initElements(driver,this);
         this.driver=driver;

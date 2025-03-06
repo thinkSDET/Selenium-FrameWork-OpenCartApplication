@@ -47,7 +47,7 @@ public class TestListener implements ITestListener {
 
         WebDriver driver = UIBaseTest.getDriver();
         if (driver != null) {
-            String screenshotPath = ScreenshotUtil.captureScreenshot(driver, result.getMethod().getMethodName());
+            String screenshotPath = Screenshot.captureScreenshot(driver, result.getMethod().getMethodName());
             try {
                 ExtentReportManager.getTest().addScreenCaptureFromPath(screenshotPath, "Failure Screenshot");
             } catch (Exception e) {

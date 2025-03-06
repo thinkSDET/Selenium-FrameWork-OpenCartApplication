@@ -25,7 +25,7 @@
  */
 package testBase;
 import customExcpetion.FrameworkException;
-import utils.LoggerUtil;
+import utils.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.util.Properties;
 public class ConfigReader {
 
     private static final Properties properties = new Properties();
-    private static final LoggerUtil logger = LoggerUtil.getLogger(ConfigReader.class); // For static block
+    private static final Logger logger = Logger.getLogger(ConfigReader.class); // For static block
 
 
     static {

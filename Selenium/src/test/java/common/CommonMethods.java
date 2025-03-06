@@ -14,12 +14,12 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import testBase.UIBaseTest;
-import utils.LoggerUtil;
+import utils.Logger;
 
 import java.util.List;
 
 public class CommonMethods {
-    private static final LoggerUtil logger = LoggerUtil.getLogger(CommonMethods.class);
+    private static final Logger logger = Logger.getLogger(CommonMethods.class);
     public static Actions actions;
 
     private static WebDriver getDriver() {

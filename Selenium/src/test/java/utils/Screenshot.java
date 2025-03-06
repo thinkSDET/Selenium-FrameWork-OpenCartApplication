@@ -25,7 +25,7 @@ import java.util.Date;
  * Captures a screenshot and saves it in /reports/screenshots/.
  * Generates a unique filename using a timestamp.
  */
-public class ScreenshotUtil {
+public class Screenshot {
 
     public static String captureScreenshot(WebDriver driver, String testName) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");

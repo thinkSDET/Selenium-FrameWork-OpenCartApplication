@@ -14,7 +14,7 @@ import customExcpetion.FrameworkException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import utils.LoggerUtil;
+import utils.Logger;
 
 public class UIBaseTest {
 
@@ -23,7 +23,7 @@ public class UIBaseTest {
      * This prevents conflicts when running tests in parallel.
      */
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
-    private static final LoggerUtil logger = LoggerUtil.getLogger(UIBaseTest.class);
+    private static final Logger logger = Logger.getLogger(UIBaseTest.class);
 
     /**
      * Initialize the WebDriver instance and store it in ThreadLocal.
