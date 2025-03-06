@@ -46,7 +46,7 @@ public class ExtentReportManager {
 
             // Generate a timestamp for the report directory
             String timestamp = new SimpleDateFormat("yyyy-MM-dd  HH-mm-ss").format(new Date());
-            String reportDir = extentReportDir + File.separator + "Report_" + timestamp;
+            String reportDir = extentReportDir + File.separator + "Test_Report_" + timestamp;
 
             // Create the timestamped report directory
             createDirectory(reportDir);
