@@ -28,10 +28,10 @@ import java.util.Date;
 public class Screenshot {
 
     public static String captureScreenshot(WebDriver driver, String testName) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH-mm-ss");
         String timestamp = dateFormat.format(new Date());
 
-        String screenshotDir = System.getProperty("user.dir") + "/reports/screenshots/";
+        String screenshotDir = System.getProperty("user.dir") + "/screenshots/";
         File directory = new File(screenshotDir);
         if (!directory.exists()) {
             directory.mkdirs();  // Ensure directory exists
