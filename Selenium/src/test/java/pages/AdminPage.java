@@ -48,7 +48,7 @@ public class AdminPage extends UIBaseTest {
         WaitManager.numberOfWindowsToBe(2,2);
        try {
            String parentWindow =driver.getWindowHandle();
-           System.out.println(parentWindow);
+           System.out.println("parent window id -->"+ parentWindow);
            Set<String> windows = driver.getWindowHandles();
            for (String childWindow : windows) {
                if (!parentWindow.equals(childWindow)) {
@@ -59,6 +59,6 @@ public class AdminPage extends UIBaseTest {
            throw new FrameworkException("There is no another window open");
        }
        System.out.println(CommonMethods.getTitleOfPage());
-        return CommonMethods.getTitleOfPage();
+       return CommonMethods.getTitleOfPage();
     }
 }

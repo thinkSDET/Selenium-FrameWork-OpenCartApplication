@@ -13,6 +13,10 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * What This Does:
  *
@@ -28,7 +32,30 @@ public class ExtentReportManager {
     public static synchronized void setupReport() {
         if (extent == null) {
             extent = new ExtentReports();
-            ExtentSparkReporter spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/reports/ExtentReport.html");
+
+            // Define the base directory (current working directory)
+            String baseDir = System.getProperty("user.dir");
+
+            // Define the target and extent-report directories
+            String targetDir = baseDir + File.separator + "target";
+            String extentReportDir = targetDir + File.separator + "extent-report";
+
+            // Create the target and extent-report directories if they don't exist
+            createDirectory(targetDir);
+            createDirectory(extentReportDir);
+
+            // Generate a timestamp for the report directory
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String reportDir = extentReportDir + File.separator + "Report_" + timestamp;
+
+            // Create the timestamped report directory
+            createDirectory(reportDir);
+
+            // Define the report file path
+            String reportFilePath = reportDir + File.separator + "ExtentReport.html";
+
+            // Initialize the ExtentSparkReporter with the report file path
+            ExtentSparkReporter spark = new ExtentSparkReporter(reportFilePath);
             extent.attachReporter(spark);
         }
     }
@@ -45,6 +72,14 @@ public class ExtentReportManager {
     public static synchronized void flushReport() {
         if (extent != null) {
             extent.flush();
+        }
+    }
+
+    // Utility method to create directories
+    private static void createDirectory(String path) {
+        File dir = new File(path);
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
     }
 }

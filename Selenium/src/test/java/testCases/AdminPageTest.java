@@ -27,13 +27,13 @@ public class AdminPageTest extends UIBaseTest {
     }
 
     @Test
-    public void verify_helpIconVisibleOnAdminPage(){
+    public void test_01_verify_helpIconVisibleOn_AdminPage(){
        boolean helpIconDisplayed  = pageFactory.adminPage().helpIconBtn.isDisplayed();
         Assert.assertTrue(helpIconDisplayed,"Please check help icon does not displayed");
     }
 
     @Test(groups = {"smoke"})
-    public void test_02_verify_AddUserAccountPage(){
+    public void test_02_verify_AddUser_AccountPage(){
        Assert.assertEquals(pageFactory.adminPage().verifyUserAccountPageOpen(),"OrangeHRM","Please check the app title on User Account page");
     }
 }
