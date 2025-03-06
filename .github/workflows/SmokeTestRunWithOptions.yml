@@ -69,3 +69,10 @@ jobs:
           export DISPLAY=:99  # Sets the display variable to use the Xvfb display
           mvn test -P ${{ github.event.inputs.environment }} -P ${{ github.event.inputs.test_type }} -P ${{ github.event.inputs.browser }}
         working-directory: Selenium  # Specifies the working directory for Maven to run the command
+
+      - name: publish the extent report as an HTML format
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ExtentReport
+          path: Selenium/reports/test-output
