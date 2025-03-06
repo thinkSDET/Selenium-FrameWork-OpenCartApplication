@@ -1,4 +1,4 @@
-name: Run Tests Manually to select the options
+name: Run Tests Manually with Sequential Jobs
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
       browser:
         description: 'Select Browser (chrome/firefox/edge)'
         required: true
-        default: 'firefox'
+        default: 'chrome'
         type: choice
         options:
           - chrome
@@ -31,33 +31,54 @@ on:
           - regression
 
 jobs:
-  test:
+  setup-environment:
+    name: Setup Environment
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
-      - name: Install Chrome  # Installs Google Chrome on the VM
-        run: |
-          sudo apt-get update  # Updates the package list
-          sudo apt-get install -y google-chrome-stable  # Installs the stable version of Google Chrome
 
-      - name: Install Xvfb (Virtual Display)  # Install Xvfb to simulate a display (needed for non-headless mode)
-        run: |
-          sudo apt-get install -y xvfb  # Install Xvfb package
-          Xvfb :99 -screen 0 1920x1080x24 &  # Starts Xvfb on display 99 (sets up a virtual display)
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Verify Chrome Installation  # Verifies that Chrome is installed correctly
-        run: google-chrome --version  # Runs the command to display the Chrome version
-
-      - name: Verify ChromeDriver Installation  # Verifies that ChromeDriver is installed correctly
-        run: chromedriver --version  # Runs the command to display the ChromeDriver version
-        
-      - name: Install Xvfb (Virtual Display)  # Install Xvfb to simulate a display (needed for non-headless mode)
+      - name: Install Chrome
         run: |
-          sudo apt-get install -y xvfb  # Install Xvfb package
-          Xvfb :99 -screen 0 1920x1080x24 &  # Starts Xvfb on display 99 (sets up a virtual display)
-          
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          google-chrome --version
+
+      - name: Install ChromeDriver
+        run: |
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d'.' -f1)
+          CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
+          wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+          chromedriver --version
+
+      - name: Install Xvfb (Virtual Display)
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb :99 -screen 0 1920x1080x24 &
+          export DISPLAY=:99
+
+      - name: Verify Chrome and ChromeDriver
+        run: |
+          google-chrome --version
+          chromedriver --version
+
+  run-tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: setup-environment
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
@@ -66,13 +87,20 @@ jobs:
 
       - name: Run Maven tests
         run: |
-          export DISPLAY=:99  # Sets the display variable to use the Xvfb display
+          export DISPLAY=:99
           mvn test -P ${{ github.event.inputs.environment }} -P ${{ github.event.inputs.test_type }} -P ${{ github.event.inputs.browser }}
-        working-directory: Selenium  # Specifies the working directory for Maven to run the command
+        working-directory: Selenium
 
-      - name: publish the extent report as an HTML format
-        if: always()
+  publish-report:
+    name: Publish Extent Report
+    runs-on: ubuntu-latest
+    needs: run-tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Publish Extent Report
         uses: actions/upload-artifact@v4
         with:
           name: ExtentReport
-          path: Selenium/target/extent-report/Report*/
+          path: Selenium/target/extent-reports/**/*.html
