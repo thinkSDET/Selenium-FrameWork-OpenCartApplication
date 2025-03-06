@@ -138,7 +138,7 @@
                     <!-- Defining system property for passing browser choice to TestNG/Selenium -->
                     <systemPropertyVariables>
                         <browser>${browser}</browser>  <!-- Passes the selected browser to TestNG -->
-                        <baseUrl>${envURL}</baseUrl> <!-- Passes the base URL (QA/Preprod/Prod) dynamically -->
+                       <!-- <baseUrl>${envURL}</baseUrl>--> <!-- Passes the base URL (QA/Preprod/Prod) dynamically -->
                         <ENV>${envName}</ENV>  <!-- Passes the profile environment variable -->
                         <HEADLESS>${HEADLESS}</HEADLESS>  <!-- Passes HEADLESS flag --> <!--Used as -DHEADLESS=true or false-->
                     </systemPropertyVariables>
