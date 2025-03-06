@@ -75,4 +75,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ExtentReport
-          path: ${{github.workspace}}//Selenium/reports/test-output
+          path: Selenium/reports/test-output
