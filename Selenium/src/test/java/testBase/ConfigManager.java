@@ -17,12 +17,15 @@ public class ConfigManager {
 
     //Default Values: Ensures the framework has sensible defaults (chrome for the browser and false for headless mode).
 
-    // Browser configuration
-    //System Properties: Reads values using System.getProperty(), making it easy to override at runtime.
+    /**
+     * Browser configuration
+     * System Properties: Reads values using System.getProperty(), making it easy to override at runtime.
+     */
     private static final String BROWSER = System.getProperty("browser", "chrome"); // Default to Chrome
-
-    // Headless mode configuration
-    //System Properties: Reads values using System.getProperty(), making it easy to override at runtime.
+    /**
+     Headless mode configuration
+    System Properties: Reads values using System.getProperty(), making it easy to override at runtime.
+    */
     private static final boolean HEADLESS_MODE = Boolean.parseBoolean(System.getProperty("headless", "false")); // Default to headed mode
 
     // Getters for configuration properties

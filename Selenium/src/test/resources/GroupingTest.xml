@@ -15,8 +15,8 @@
         </run>
     </groups>
     <listeners>
-        <listener class-name="testBase.baseUtils.RetryListener"/>
-        <listener class-name="testBase.baseUtils.TestListener"/>
+        <listener class-name="utils.RetryListener"/>
+        <listener class-name="utils.TestListener"/>
     </listeners>
     <test name="MyInfo Page -- Test Cases">
         <classes>

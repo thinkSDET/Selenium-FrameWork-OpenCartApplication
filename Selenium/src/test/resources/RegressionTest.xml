@@ -11,8 +11,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Regression Test" parallel="tests" thread-count="2">
     <listeners>
-        <listener class-name="testBase.baseUtils.RetryListener"/>
-        <listener class-name="testBase.baseUtils.TestListener"/>
+        <listener class-name="utils.RetryListener"/>
+        <listener class-name="utils.TestListener"/>
     </listeners>
     <test name="Executing the test cases for login test">
         <classes>

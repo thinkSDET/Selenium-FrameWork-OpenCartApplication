@@ -7,7 +7,7 @@
  *
  */
 
-package testBase.baseUtils;
+package utils;
 
 
 import org.testng.IAnnotationTransformer;

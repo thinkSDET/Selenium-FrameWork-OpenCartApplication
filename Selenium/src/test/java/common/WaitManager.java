@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import testBase.UIBaseTest;
-import testBase.baseUtils.LoggerUtil;
+import utils.LoggerUtil;
 
 import java.time.Duration;
 

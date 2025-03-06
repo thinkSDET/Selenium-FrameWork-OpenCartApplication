@@ -7,7 +7,7 @@
  *
  */
 
-package testBase.baseUtils;
+package utils;
 
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.WebDriver;

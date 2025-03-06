@@ -9,15 +9,12 @@
 
 package common;
 
-import customExcpetion.FrameworkException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import testBase.BrowserManager;
 import testBase.UIBaseTest;
-import testBase.baseUtils.LoggerUtil;
+import utils.LoggerUtil;
 
 import java.util.List;
 

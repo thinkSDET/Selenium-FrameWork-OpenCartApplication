@@ -25,7 +25,7 @@
  */
 package testBase;
 import customExcpetion.FrameworkException;
-import testBase.baseUtils.LoggerUtil;
+import utils.LoggerUtil;
 
 import java.io.FileInputStream;
 import java.io.IOException;

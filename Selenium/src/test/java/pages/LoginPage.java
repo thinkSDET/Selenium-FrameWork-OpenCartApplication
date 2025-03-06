@@ -15,9 +15,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import testBase.BrowserManager;
 import testBase.UIBaseTest;
-import testBase.baseUtils.LoggerUtil;
+import utils.LoggerUtil;
 
 public class LoginPage extends UIBaseTest {
     WebDriver driver;
