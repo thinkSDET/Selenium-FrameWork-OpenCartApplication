@@ -109,21 +109,21 @@
             <id>qa</id>
             <properties>
                 <envName>qa</envName>
-                <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> <!-- Overridden URL for QA -->
+                <!--<envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL>--> <!-- Overridden URL for QA -->
             </properties>
         </profile>
         <profile>
             <id>preprod</id>
             <properties>
                 <envName>preprod</envName>
-                <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> <!-- Overridden URL for Preprod -->
+                <!--<envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL>--> <!-- Overridden URL for Preprod -->
             </properties>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
                 <envName>prod</envName>
-                <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> <!-- Overridden URL for Prod -->
+               <!-- <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> --><!-- Overridden URL for Prod -->
             </properties>
         </profile>
     </profiles>
@@ -153,3 +153,6 @@
     </build>
 
 </project>
+
+        <!-- mvn clean test -P chrome -P qa -DHEADLESS=true -P smoke -->
+        <!-- mvn clean test -P chrome -P prod -P smoke -->

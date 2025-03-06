@@ -36,6 +36,10 @@ public class ConfigReader {
     private static final Properties properties = new Properties();
     private static final Logger logger = Logger.getLogger(ConfigReader.class); // For static block
 
+    /**
+     * The use of a static block in the ConfigReader class is a deliberate design choice to ensure that the
+     * configuration properties are loaded only once when the class is first loaded into memory.
+     */
 
     static {
         synchronized (ConfigReader.class) {  // Ensures only one thread loads the properties

@@ -26,7 +26,7 @@ public class ConfigManager {
      Headless mode configuration
     System Properties: Reads values using System.getProperty(), making it easy to override at runtime.
     */
-    private static final boolean HEADLESS_MODE = Boolean.parseBoolean(System.getProperty("headless", "false")); // Default to headed mode
+    private static final boolean HEADLESS_MODE = Boolean.parseBoolean(System.getProperty("HEADLESS", "false")); // Default to headed mode
 
     // Getters for configuration properties
     public static String getBrowser() {
