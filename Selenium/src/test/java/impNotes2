@@ -9,3 +9,39 @@ Using By directly requires calling findElement() every time, making the code les
 
 ✅ Use PageFactory in POM for better readability and performance.
 ✅ Use By when elements are dynamic and cannot be pre-initialized.
+
+=========================================================================
+
+// Comparison: Selenium click() vs JavaScript setAttribute('visibility', 'visible')
+//
+// Selenium click() works for visible elements but fails for hidden ones.
+// JavaScript setAttribute('visibility', 'visible') can force hidden elements to become visible before clicking.
+//
+// When to Use JavaScript visibility Fix?
+// 1. When Selenium's click() fails due to ElementNotInteractableException.
+// 2. When the element is hidden by default (visibility: hidden) and needs to be made visible.
+// 3. When Selenium cannot scroll to the element properly.
+// 4. When an element is blocked by another element and needs forced visibility.
+//
+// Best Practice: Hybrid Approach
+// - Try Selenium's click() first.
+// - If it fails, make the element visible using JavaScript.
+// - Scroll the element into view for additional reliability.
+// - Retry clicking the element after ensuring visibility.
+
+public static void safeClick(WebElement element) {
+    try {
+        // Try normal Selenium click first
+        element.click();
+    } catch (ElementNotInteractableException | ElementClickInterceptedException e) {
+        // If element is hidden or blocked, force it to be visible
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].setAttribute('style', 'visibility: visible;')", element);
+
+        // Scroll into view for safety
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+
+        // Try clicking again
+        element.click();
+    }
+}

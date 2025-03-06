@@ -79,7 +79,16 @@ public class WaitManager {
         }
         getWait().until(ExpectedConditions.elementToBeClickable(element));
     }
-    // Return the composite condition
+
+    /**
+     * Returns an {@code ExpectedCondition} that checks if the given element is visible and clickable.
+     * This method combines {@code ExpectedConditions.visibilityOf(element)} and
+     * {@code ExpectedConditions.elementToBeClickable(element)} to ensure the element is fully interactable.
+     *
+     * @param element The {@code WebElement} to be checked.
+     * @return An {@code ExpectedCondition<Boolean>} that evaluates to {@code true} when the element is visible and clickable.
+     */
+
     public static ExpectedCondition<Boolean> elementToBeReady(WebElement element){
         return ExpectedConditions.and(
                 ExpectedConditions.visibilityOf(element),
@@ -87,14 +96,26 @@ public class WaitManager {
         );
     }
 
+    /**
+     * Forces the execution to pause for a fixed duration.
+     * This method introduces a hard-coded wait using {@code Thread.sleep(500)}.
+
+     * Using Thread.sleep() is not recommended in test automation
+     * as it can slow down execution. Prefer explicit waits like {@code WebDriverWait} instead.</p>
+     *
+     */
     public static void forceWait() throws InterruptedException {
         Thread.sleep(500);
     }
 
     /**
+     * Waits until the number of browser windows matches the expected count.
+     * This method initializes a {@code WebDriverWait} with the specified timeout
+     * and waits until the number of open windows equals the given value.
      *
-     * @param timeOut
-     * @param windows
+     * @param timeOut The maximum time (in seconds) to wait for the windows to reach the expected count.
+     * @param windows The expected number of browser windows.
+     * @throws IllegalStateException if {@code WebDriverWait} is not initialized before calling this method.
      */
     public static void numberOfWindowsToBe(long timeOut, int windows){
         setWait(timeOut);

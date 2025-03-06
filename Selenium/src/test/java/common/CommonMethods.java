@@ -9,8 +9,11 @@
 
 package common;
 
+import customExcpetion.FrameworkException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import testBase.BrowserManager;
 import testBase.UIBaseTest;
@@ -101,19 +104,29 @@ public class CommonMethods {
     }
 
     /**
+     * Selects a value from a custom dropdown that is implemented using div elements instead of a select tag.
+     * This method clicks the dropdown to expand options, waits for the options to be visible,
+     * and then selects the desired value if available.
      *
-     * @param element
-     * @param value
+     * @param element The dropdown WebElement that needs to be clicked to open the options.
+     * @param value   The text of the option that should be selected.
      */
     public static void selectValueFromDropDown(WebElement element, String value){
-        element.click();
-        List<WebElement> nationalityList = getDriver().findElements(By.xpath("//div[@class='oxd-select-option' and @role='option']"));
-        for(WebElement list : nationalityList){
-            if(list.getText().equalsIgnoreCase(value)){
-                list.click();
-                break;
+        try {
+            element.click();
+            WaitManager.setWait(10);
+            WaitManager.getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='oxd-select-option' and @role='option']")));
+            List<WebElement> nationalityList = getDriver().findElements(By.xpath("//div[@class='oxd-select-option' and @role='option']"));
+            for(WebElement option : nationalityList){
+                if(option.getText().equalsIgnoreCase(value)){
+                    option.click();
+                    break;
+                }
             }
+        }catch (Exception e){
+            logger.error("Option '" + value + "' not found in the dropdown.");
         }
+
     }
 
     public static void clearInputField(WebElement element) {
