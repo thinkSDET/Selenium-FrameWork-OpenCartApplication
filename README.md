@@ -1,7 +1,7 @@
 # Selenium-Framework-Creation 🚀
 
 ## Overview
-A robust **Selenium-based framework** for automating web UI testing efficiently using **Java, TestNG, and Maven**. Designed to be scalable, maintainable, and easy to integrate into CI/CD pipelines.
+This framework is designed for automated testing of web applications using Selenium WebDriver, TestNG, and Maven. It supports parallel execution, robust error handling, and dynamic configuration management. The framework is modular, scalable, and incorporates best practices for test automation.
 
 ## 🎯 Key Features
 
