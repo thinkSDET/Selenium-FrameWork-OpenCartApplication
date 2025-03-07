@@ -1,4 +1,4 @@
-name: Run Tests Manually to select the options-2
+name: Run Tests Manually to select the options
 
 on:
   workflow_dispatch:
@@ -37,7 +37,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Chrome  # Installs Google Chrome on the VM
+      - name: Install Chrome  
         run: |
           sudo apt-get update  
           sudo apt-get install -y google-chrome-stable  
@@ -59,10 +59,22 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Upload Repository for Later Jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo
+          path: ./
+
   set-credentials:
     runs-on: ubuntu-latest
     needs: setup-environment
     steps:
+      - name: Download Repository
+        uses: actions/download-artifact@v4
+        with:
+          name: repo
+          path: ./
+
       - name: Set Environment-Specific Credentials
         run: |
           if [[ "${{ github.event.inputs.environment }}" == "qa" ]]; then
@@ -76,10 +88,28 @@ jobs:
             echo "USER_PASSWORD=${{ secrets.PROD_USER_PASSWORD }}" >> $GITHUB_ENV
           fi
 
+      - name: Upload Credentials
+        uses: actions/upload-artifact@v4
+        with:
+          name: credentials
+          path: $GITHUB_ENV
+
   run-tests:
     runs-on: ubuntu-latest
     needs: set-credentials
     steps:
+      - name: Download Repository
+        uses: actions/download-artifact@v4
+        with:
+          name: repo
+          path: ./
+
+      - name: Download Credentials
+        uses: actions/download-artifact@v4
+        with:
+          name: credentials
+          path: $GITHUB_ENV
+
       - name: Run Maven tests
         env:
           USER_NAME: ${{ env.USER_NAME }}
@@ -89,11 +119,23 @@ jobs:
           mvn test -P ${{ github.event.inputs.environment }} -P ${{ github.event.inputs.test_type }} -P ${{ github.event.inputs.browser }}
         working-directory: Selenium  
 
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: Selenium/target/extent-report/
+
   publish-report:
     runs-on: ubuntu-latest
     needs: run-tests
     if: always()
     steps:
+      - name: Download Test Report
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results
+          path: Selenium/target/extent-report/
+
       - name: Publish the Extent Report as an HTML format
         uses: actions/upload-artifact@v4
         with:
