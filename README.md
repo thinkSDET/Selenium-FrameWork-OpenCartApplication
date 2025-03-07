@@ -151,7 +151,6 @@ To configure GitHub Secrets for the framework:
 ### Using Secrets in GitHub Actions Workflow
 Modify your GitHub Actions workflow (`.github/workflows/run-tests.yml`) to use these secrets:
 
-```yaml
 env:
   USER_NAME: ${{ secrets.USER_NAME }}
   USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
