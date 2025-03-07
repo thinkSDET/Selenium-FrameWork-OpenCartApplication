@@ -78,4 +78,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ExtentReport
-          path: Selenium/target/extent-report/Report*/
+          path: Selenium/target/extent-report/Test_Report_*/
