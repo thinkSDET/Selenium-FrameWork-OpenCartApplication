@@ -14,38 +14,6 @@ This framework is designed for automated testing of web applications using **Sel
 - **Headless Mode**: Configurable headless mode for browsers using `ConfigManager`.
 - **Retry Mechanism**: Implements a retry mechanism for failed tests using `RetryAnalyzer` and `RetryListener`.
 
-## 🔐 GitHub Actions & Secret Management
-
-### Why Use GitHub Secrets?
-To ensure sensitive data such as **user credentials** are **not hardcoded**, we store them securely using **GitHub Secrets**. This prevents credentials from being exposed in logs or source code.
-
-### Setting Up GitHub Secrets
-Follow these steps to add secrets to your GitHub repository:
-
-1. Go to your **GitHub repository**.
-2. Navigate to **Settings → Secrets and variables → Actions**.
-3. Click **"New repository secret"** and add the following secrets:
-
-   - **Name:** `USER_NAME`
-     - **Value:** `<your-username>`
-   - **Name:** `USER_PASSWORD`
-     - **Value:** `<your-password>`
-
-4. Click **"Save"** to store each secret.
-
-💡 **Note:**  
-- These secrets will be accessible only within GitHub Actions.  
-- They will not be visible in logs, maintaining security.  
-
-### Using Secrets in GitHub Actions Workflow
-Modify your GitHub Actions workflow (`.github/workflows/run-tests.yml`) to use these secrets:
-
-```yaml
-env:
-  USER_NAME: ${{ secrets.USER_NAME }}
-  USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
-
-
 ## 🗂️ Framework Structure
 
 ### 1. Packages
