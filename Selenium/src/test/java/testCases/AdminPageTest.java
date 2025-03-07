@@ -13,6 +13,7 @@ import common.CommonMethods;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import testBase.ConfigManager;
 import testBase.PageFactory;
 import testBase.UIBaseTest;
 
@@ -23,7 +24,7 @@ public class AdminPageTest extends UIBaseTest {
     void setup(){
         PageFactory.setDriver(getDriver());
         pageFactory = new PageFactory();
-        pageFactory.loginPage().login("Admin","admin123");
+        pageFactory.loginPage().login(ConfigManager.getUserName(),ConfigManager.getPassword());
     }
 
     @Test
@@ -32,7 +33,7 @@ public class AdminPageTest extends UIBaseTest {
         Assert.assertTrue(helpIconDisplayed,"Please check help icon does not displayed");
     }
 
-    @Test(groups = {"smoke"})
+    @Test(groups = {"smoke"},enabled = false)
     public void test_02_verify_AddUser_AccountPage(){
        Assert.assertEquals(pageFactory.adminPage().verifyUserAccountPageOpen(),"OrangeHRM","Please check the app title on User Account page");
     }

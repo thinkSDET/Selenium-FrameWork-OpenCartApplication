@@ -13,6 +13,7 @@ import dataClasses.PersonalDetails;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import testBase.ConfigManager;
 import testBase.UIBaseTest;
 import testBase.PageFactory;
 import testData.PersonalDetailsTestData;
@@ -25,7 +26,7 @@ public class MyInfoPageTest extends UIBaseTest {
     void setup(){
         PageFactory.setDriver(getDriver());
         pageFactory =  new PageFactory();
-        pageFactory.loginPage().login("Admin","admin123");
+        pageFactory.loginPage().login(ConfigManager.getUserName(),ConfigManager.getPassword());
         personalDetailsData =  PersonalDetailsTestData.getPersonalDetailsData();
     }
     @Test
