@@ -78,21 +78,21 @@ jobs:
       - name: Set Environment-Specific Credentials
         run: |
           if [[ "${{ github.event.inputs.environment }}" == "qa" ]]; then
-            echo "USER_NAME=${{ secrets.QA_USER_NAME }}" >> $GITHUB_ENV
-            echo "USER_PASSWORD=${{ secrets.QA_USER_PASSWORD }}" >> $GITHUB_ENV
+            echo "USER_NAME=${{ secrets.QA_USER_NAME }}" > credentials.env
+            echo "USER_PASSWORD=${{ secrets.QA_USER_PASSWORD }}" >> credentials.env
           elif [[ "${{ github.event.inputs.environment }}" == "preprod" ]]; then
-            echo "USER_NAME=${{ secrets.PREPROD_USER_NAME }}" >> $GITHUB_ENV
-            echo "USER_PASSWORD=${{ secrets.PREPROD_USER_PASSWORD }}" >> $GITHUB_ENV
+            echo "USER_NAME=${{ secrets.PREPROD_USER_NAME }}" > credentials.env
+            echo "USER_PASSWORD=${{ secrets.PREPROD_USER_PASSWORD }}" >> credentials.env
           elif [[ "${{ github.event.inputs.environment }}" == "prod" ]]; then
-            echo "USER_NAME=${{ secrets.PROD_USER_NAME }}" >> $GITHUB_ENV
-            echo "USER_PASSWORD=${{ secrets.PROD_USER_PASSWORD }}" >> $GITHUB_ENV
+            echo "USER_NAME=${{ secrets.PROD_USER_NAME }}" > credentials.env
+            echo "USER_PASSWORD=${{ secrets.PROD_USER_PASSWORD }}" >> credentials.env
           fi
 
-      - name: Upload Credentials
+      - name: Upload Credentials File
         uses: actions/upload-artifact@v4
         with:
           name: credentials
-          path: $GITHUB_ENV
+          path: credentials.env
 
   run-tests:
     runs-on: ubuntu-latest
@@ -108,7 +108,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: credentials
-          path: $GITHUB_ENV
+          path: ./
+
+      - name: Load Credentials into Environment Variables
+        run: cat credentials.env >> $GITHUB_ENV
 
       - name: Run Maven tests
         env:
