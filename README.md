@@ -125,21 +125,34 @@ This framework is designed for automated testing of web applications using **Sel
 - **Custom Exceptions**: Improves error handling and debugging with `FrameworkException`.
 - **Retry Mechanism**: Automatically retries failed tests, improving test stability.
 
-## 🚀 How to Use the Framework
+## 🔐 GitHub Secrets Management
 
-### Setup
+### Why Use GitHub Secrets?
+To keep sensitive information **secure and hidden** from logs, credentials such as usernames and passwords are stored in **GitHub Secrets** instead of being hardcoded in the source code.
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/Selenium-Framework-Creation.git
+### Setting Up GitHub Secrets
+To configure GitHub Secrets for the framework:
 
-## 🔧 Setup & Installation
+1. **Go to your GitHub repository**.
+2. Navigate to **Settings → Secrets and variables → Actions**.
+3. Click **"New repository secret"** and add the following secrets:
 
-### Prerequisites
-Ensure you have the following installed:
+   - **Name:** `USER_NAME`
+     - **Value:** `<your-username>`
+   - **Name:** `USER_PASSWORD`
+     - **Value:** `<your-password>`
 
-- **Java 11+**
-- **Maven**
-- **IntelliJ IDEA / Eclipse**
-- **Git**
+4. Click **"Save"** to store each secret.
+
+💡 **Note:**  
+- These secrets are only accessible within GitHub Actions.
+- They will **not** be visible in logs for security reasons.
+
+### Using Secrets in GitHub Actions Workflow
+Modify your GitHub Actions workflow (`.github/workflows/run-tests.yml`) to use these secrets:
+
+```yaml
+env:
+  USER_NAME: ${{ secrets.USER_NAME }}
+  USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
 
