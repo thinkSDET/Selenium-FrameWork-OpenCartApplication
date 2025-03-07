@@ -151,25 +151,8 @@ To configure GitHub Secrets for the framework:
 ### Using Secrets in GitHub Actions Workflow
 Modify your GitHub Actions workflow (`.github/workflows/run-tests.yml`) to use these secrets:
 
+```yaml
 env:
   USER_NAME: ${{ secrets.USER_NAME }}
   USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
-
-## 🚀 How to Use the Framework
-
-### Setup
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/Selenium-Framework-Creation.git
-
-## 🔧 Setup & Installation
-
-### Prerequisites
-Ensure you have the following installed:
-
-- **Java 11+**
-- **Maven**
-- **IntelliJ IDEA / Eclipse**
-- **Git**
 
