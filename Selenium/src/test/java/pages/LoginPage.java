@@ -54,8 +54,8 @@ public class LoginPage extends UIBaseTest {
             logger.info("userName and Password Entered successfully");
             this.submitBtn.click();
         }catch (Exception exception){
-            logger.error("Login failed due to an issue with the WebElement: " + exception.getMessage());
-            throw new FrameworkException("Login failed. Please check the WebElement or locator.", exception);
+            logger.error("Login failed due to an issue with : " + exception.getMessage());
+            throw new FrameworkException("Login failed. Please check :", exception);
         }
     }
 

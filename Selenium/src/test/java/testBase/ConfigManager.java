@@ -28,6 +28,21 @@ public class ConfigManager {
     */
     private static final boolean HEADLESS_MODE = Boolean.parseBoolean(System.getProperty("HEADLESS", "false")); // Default to headed mode
 
+    /**
+     * Fetches credentials from environment variables to enhance security and avoid hardcoding sensitive data.
+
+     * Environment Variables:
+     *  USER_NAME: Username for authentication.
+     *  USER_PASSWORD: Corresponding password.
+     *
+     *  Note: If running locally, ensure these variables are set on your machine,otherwise, both values will be null.
+     *
+     * Set variables before running:
+     * Windows: set USER_NAME=myUser & set USER_PASSWORD=myPass
+     */
+    private static final String userName = System.getenv("USER_NAME");
+    private static final String password = System.getenv("USER_PASSWORD");
+
     // Getters for configuration properties
     public static String getBrowser() {
         return BROWSER;
@@ -35,5 +50,13 @@ public class ConfigManager {
 
     public static boolean isHeadlessMode() {
         return HEADLESS_MODE;
+    }
+
+    public static String getUserName(){
+        return userName;
+    }
+
+    public static String getPassword(){
+        return password;
     }
 }

@@ -59,6 +59,11 @@ public class AdminPage extends UIBaseTest {
            throw new FrameworkException("There is no another window open");
        }
        System.out.println(CommonMethods.getTitleOfPage());
-       return CommonMethods.getTitleOfPage();
+        try {
+            WaitManager.forceWait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return CommonMethods.getTitleOfPage();
     }
 }

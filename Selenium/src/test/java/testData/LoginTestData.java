@@ -9,15 +9,17 @@
 
 package testData;
 
+import common.CommonMethods;
 import org.testng.annotations.DataProvider;
+import testBase.ConfigManager;
 
 public class LoginTestData {
 
     @DataProvider(name = "loginWithAdmin")
     public static Object[][] loginWithAdmin(){
         Object [][] testData = new Object[1][2];
-        testData[0][0] = "Admin";
-        testData[0][1] = "admin123";
+        testData[0][0] = ConfigManager.getUserName();
+        testData[0][1] = ConfigManager.getPassword();
         return testData;
     }
 
