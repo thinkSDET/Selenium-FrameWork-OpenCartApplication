@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Install Chrome  # Installs Google Chrome on the VM
         run: |
           sudo apt-get update  # Updates the package list
@@ -52,7 +52,7 @@ jobs:
 
       - name: Verify ChromeDriver Installation  # Verifies that ChromeDriver is installed correctly
         run: chromedriver --version  # Runs the command to display the ChromeDriver version
-        
+
       - name: Install Xvfb (Virtual Display)  # Install Xvfb to simulate a display (needed for non-headless mode)
         run: |
           sudo apt-get install -y xvfb  # Install Xvfb package
