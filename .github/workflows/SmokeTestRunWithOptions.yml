@@ -65,6 +65,9 @@ jobs:
           java-version: '17'
 
       - name: Run Maven tests
+        env:
+          USER_NAME: ${{ secrets.USER_NAME }}  # Set USER_NAME from GitHub Secrets
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}  # Set USER_PASSWORD from GitHub Secrets
         run: |
           export DISPLAY=:99  # Sets the display variable to use the Xvfb display
           mvn test -P ${{ github.event.inputs.environment }} -P ${{ github.event.inputs.test_type }} -P ${{ github.event.inputs.browser }}
