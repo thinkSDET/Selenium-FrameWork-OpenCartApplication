@@ -15,12 +15,12 @@ import org.openqa.selenium.support.PageFactory;
 import testBase.UIBaseTest;
 import utils.Logger;
 
-public class LoginPage extends UIBaseTest {
+public class LoginPage {
     WebDriver driver;
     private static final Logger logger = Logger.getLogger(LoginPage.class);
     public LoginPage(WebDriver driver){
-        PageFactory.initElements(driver,this);
         this.driver=driver;
+        PageFactory.initElements(driver,this); // Initialize PageFactory
     }
 
     @FindBy(xpath = "//input[@name='username']")
@@ -45,13 +45,14 @@ public class LoginPage extends UIBaseTest {
      */
     public void login(String userName, String password){
         try {
+            logger.info("Logging in with username: " + userName);
             clearUserNameAndPassword();
             this.userName.sendKeys(userName);
             this.password.sendKeys(password);
-            logger.info("userName and Password Entered successfully");
             this.submitBtn.click();
+            logger.info("Clicked on the submit button");
         }catch (Exception exception){
-            logger.error("Login failed due to an issue with : " + exception.getMessage());
+            logger.error("Login failed due to an issue: " + exception.getMessage());
             throw new FrameworkException("Login failed. Please check :", exception);
         }
     }

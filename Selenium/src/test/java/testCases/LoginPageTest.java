@@ -24,7 +24,7 @@ public class LoginPageTest extends UIBaseTest {
     }
 
     @Test(dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)
-    void verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
+    void test_01_verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
         pageFactory.loginPage().login(userName,password);
         Assert.assertTrue( pageFactory.dashBoardPage().dashBoardDisplay());
         Assert.assertEquals(CommonMethods.getTitleOfPage(),"OrangeHRM","Please check for the title");

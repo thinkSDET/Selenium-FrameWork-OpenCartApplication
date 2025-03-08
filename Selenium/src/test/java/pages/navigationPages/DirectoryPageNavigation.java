@@ -12,12 +12,13 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import testBase.UIBaseTest;
 
-public class DirectoryPageNavigation extends UIBaseTest {
+public class DirectoryPageNavigation {
 
     WebDriver driver;
     public DirectoryPageNavigation(WebDriver driver){
-        PageFactory.initElements(driver,this);
         this.driver=driver;
+        PageFactory.initElements(driver,this); // Initialize PageFactory
+
     }
     @FindBy(xpath = "//span[text()='Directory']")
     private WebElement clickDirectory;

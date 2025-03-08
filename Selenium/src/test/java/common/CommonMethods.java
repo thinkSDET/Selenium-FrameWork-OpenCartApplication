@@ -19,11 +19,11 @@ public class CommonMethods {
     private static final Logger logger = Logger.getLogger(CommonMethods.class);
 
     private static WebDriver getDriver() {
-        return UIBaseTest.getDriver(); // Fetch driver automatically
+        return UIBaseTest.getDriver(); // Fetch driver for the current thread
     }
 
     private static Actions getActions() {
-        return new Actions(getDriver()); // Create Actions instance dynamically
+        return new Actions(getDriver()); // Create Actions instance for the current thread
     }
     /**
      * get the title of DashBoardPage
