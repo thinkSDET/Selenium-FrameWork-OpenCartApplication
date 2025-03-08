@@ -24,4 +24,9 @@
             <class name="testCases.MyInfoPageTest"/>
         </classes>
     </test>
+    <test name="Executing the test cases for Admin Page Test">
+        <classes>
+            <class name="testCases.AdminPageTest"/>
+        </classes>
+    </test>
 </suite>
