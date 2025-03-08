@@ -1,0 +1,146 @@
+name: 2-Run Tests Manually to select the options
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select Environment (qa/preprod/prod)'
+        required: true
+        default: 'qa'
+        type: choice
+        options:
+          - qa
+          - preprod
+          - prod
+      browser:
+        description: 'Select Browser (chrome/firefox/edge)'
+        required: true
+        default: 'firefox'
+        type: choice
+        options:
+          - chrome
+          - firefox
+          - edge
+      test_type:
+        description: 'Type of Testing (smoke/regression)'
+        required: true
+        default: 'smoke'
+        type: choice
+        options:
+          - smoke
+          - regression
+
+jobs:
+  setup-environment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Chrome  
+        run: |
+          sudo apt-get update  
+          sudo apt-get install -y google-chrome-stable  
+
+      - name: Install Xvfb (Virtual Display)
+        run: |
+          sudo apt-get install -y xvfb  
+          Xvfb :99 -screen 0 1920x1080x24 &  
+
+      - name: Verify Chrome Installation
+        run: google-chrome --version  
+
+      - name: Verify ChromeDriver Installation
+        run: chromedriver --version  
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Upload Repository for Later Jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo
+          path: ./
+
+  set-credentials:
+    runs-on: ubuntu-latest
+    needs: setup-environment
+    steps:
+      - name: Download Repository
+        uses: actions/download-artifact@v4
+        with:
+          name: repo
+          path: ./
+
+      - name: Set Environment-Specific Credentials
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" == "qa" ]]; then
+            echo "USER_NAME=${{ secrets.QA_USER_NAME }}" > credentials.env
+            echo "USER_PASSWORD=${{ secrets.QA_USER_PASSWORD }}" >> credentials.env
+          elif [[ "${{ github.event.inputs.environment }}" == "preprod" ]]; then
+            echo "USER_NAME=${{ secrets.PREPROD_USER_NAME }}" > credentials.env
+            echo "USER_PASSWORD=${{ secrets.PREPROD_USER_PASSWORD }}" >> credentials.env
+          elif [[ "${{ github.event.inputs.environment }}" == "prod" ]]; then
+            echo "USER_NAME=${{ secrets.PROD_USER_NAME }}" > credentials.env
+            echo "USER_PASSWORD=${{ secrets.PROD_USER_PASSWORD }}" >> credentials.env
+          fi
+
+      - name: Upload Credentials File
+        uses: actions/upload-artifact@v4
+        with:
+          name: credentials
+          path: credentials.env
+
+  run-tests:
+    runs-on: ubuntu-latest
+    needs: set-credentials
+    steps:
+      - name: Download Repository
+        uses: actions/download-artifact@v4
+        with:
+          name: repo
+          path: ./
+
+      - name: Download Credentials
+        uses: actions/download-artifact@v4
+        with:
+          name: credentials
+          path: ./
+
+      - name: Load Credentials into Environment Variables
+        run: cat credentials.env >> $GITHUB_ENV
+
+      - name: Run Maven tests
+        env:
+          USER_NAME: ${{ env.USER_NAME }}
+          USER_PASSWORD: ${{ env.USER_PASSWORD }}
+        run: |
+          export DISPLAY=:99  
+          mvn test -P ${{ github.event.inputs.environment }} -P ${{ github.event.inputs.test_type }} -P ${{ github.event.inputs.browser }}
+        working-directory: Selenium  
+
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: Selenium/target/extent-report/
+
+  publish-report:
+    runs-on: ubuntu-latest
+    needs: run-tests
+    if: always()
+    steps:
+      - name: Download Test Report
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results
+          path: Selenium/target/extent-report/
+
+      - name: Publish the Extent Report as an HTML format
+        uses: actions/upload-artifact@v4
+        with:
+          name: ExtentReport
+          path: Selenium/target/extent-report/Test_Report_*/
