@@ -14,7 +14,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import testBase.UIBaseTest;
 
-public class PersonalDetailsPage extends UIBaseTest {
+public class PersonalDetailsPage{
 
     WebDriver driver;
     public PersonalDetailsPage(WebDriver driver){

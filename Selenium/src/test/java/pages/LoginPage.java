@@ -15,7 +15,7 @@ import org.openqa.selenium.support.PageFactory;
 import testBase.UIBaseTest;
 import utils.Logger;
 
-public class LoginPage extends UIBaseTest {
+public class LoginPage {
     WebDriver driver;
     private static final Logger logger = Logger.getLogger(LoginPage.class);
     public LoginPage(WebDriver driver){

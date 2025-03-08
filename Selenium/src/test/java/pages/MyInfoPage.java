@@ -13,12 +13,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import testBase.UIBaseTest;
 
-public class MyInfoPage extends UIBaseTest {
+public class MyInfoPage {
 
     WebDriver driver;
     public MyInfoPage(WebDriver driver){
-        PageFactory.initElements(driver,this);
         this.driver= driver;
+        PageFactory.initElements(driver,this);
     }
 
     @FindBy(xpath = "//a[text()='Personal Details']")

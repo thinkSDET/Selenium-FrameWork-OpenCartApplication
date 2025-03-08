@@ -13,7 +13,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import testBase.UIBaseTest;
 
-public class DashBoardPage extends UIBaseTest {
+public class DashBoardPage {
     WebDriver driver;
     public DashBoardPage(WebDriver driver){
         PageFactory.initElements(driver,this);

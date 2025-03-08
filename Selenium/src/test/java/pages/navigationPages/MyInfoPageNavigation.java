@@ -15,7 +15,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import testBase.UIBaseTest;
 
-public class MyInfoPageNavigation extends UIBaseTest {
+public class MyInfoPageNavigation {
 
     WebDriver driver;
     public MyInfoPageNavigation(WebDriver driver){
