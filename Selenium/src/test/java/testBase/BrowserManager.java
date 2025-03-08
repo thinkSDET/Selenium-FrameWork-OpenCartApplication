@@ -22,8 +22,9 @@ public class BrowserManager {
     private static final Logger logger = Logger.getLogger(BrowserManager.class);
     private static final boolean isHeadless = ConfigManager.isHeadlessMode();
 
-    public static WebDriver initializeBrowser(String browserName) {
-        WebDriver driver;
+    //Protected members are accessible within the same package and to subclasses outside the package.
+    protected static WebDriver initializeBrowser(String browserName) {
+         WebDriver driver;
         switch (browserName.toLowerCase().trim()) {
             case "chrome":
                 driver = setupChromeDriver();
