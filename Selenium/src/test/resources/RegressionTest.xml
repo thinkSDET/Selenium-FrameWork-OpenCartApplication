@@ -9,7 +9,7 @@
   -->
 
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Regression Test" parallel="tests" thread-count="2">
+<suite name="Regression Test" parallel="methods" thread-count="4">
     <listeners>
         <listener class-name="utils.RetryListener"/>
         <listener class-name="utils.TestListener"/>

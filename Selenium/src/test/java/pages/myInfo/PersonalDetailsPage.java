@@ -18,8 +18,8 @@ public class PersonalDetailsPage{
 
     WebDriver driver;
     public PersonalDetailsPage(WebDriver driver){
-        PageFactory.initElements(driver,this);
         this.driver=driver;
+        PageFactory.initElements(driver,this); // Initialize PageFactory
     }
 
     @FindBy(xpath = "//label[text()='Employee Full Name']/parent::div/following-sibling::div//input[@name='firstName']")

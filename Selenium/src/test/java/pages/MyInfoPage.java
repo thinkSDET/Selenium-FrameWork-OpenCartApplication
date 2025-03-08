@@ -18,7 +18,7 @@ public class MyInfoPage {
     WebDriver driver;
     public MyInfoPage(WebDriver driver){
         this.driver= driver;
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver,this); // Initialize PageFactory
     }
 
     @FindBy(xpath = "//a[text()='Personal Details']")

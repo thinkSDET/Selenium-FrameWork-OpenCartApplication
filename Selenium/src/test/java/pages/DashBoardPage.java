@@ -16,8 +16,8 @@ import testBase.UIBaseTest;
 public class DashBoardPage {
     WebDriver driver;
     public DashBoardPage(WebDriver driver){
-        PageFactory.initElements(driver,this);
         this.driver = driver;
+        PageFactory.initElements(driver,this); // Initialize PageFactory
     }
 
     @FindBy(xpath = "//h6[text()='Dashboard']")

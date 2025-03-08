@@ -19,8 +19,9 @@ public class MyInfoPageNavigation {
 
     WebDriver driver;
     public MyInfoPageNavigation(WebDriver driver){
-        PageFactory.initElements(driver,this);
         this.driver=driver;
+        PageFactory.initElements(driver,this); // Initialize PageFactory
+
     }
     @FindBy(xpath = "//span[text()='My Info']")
     private WebElement clickMyInfo;

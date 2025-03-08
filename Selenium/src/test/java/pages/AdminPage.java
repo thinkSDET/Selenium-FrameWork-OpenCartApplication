@@ -21,8 +21,8 @@ public class AdminPage {
 
     WebDriver driver;
     public AdminPage(WebDriver driver){
-        PageFactory.initElements(driver,this);
         this.driver= driver;
+        PageFactory.initElements(driver,this); // Initialize PageFactory
     }
     @FindBy(xpath = "//button[@title='Help']")
     public WebElement helpIconBtn;
