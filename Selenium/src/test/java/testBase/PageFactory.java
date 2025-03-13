@@ -15,8 +15,15 @@ import pages.MyInfoPage;
 import pages.myInfo.PersonalDetailsPage;
 
 public class PageFactory {
-  private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
+    // Thread-safe WebDriver instance
+  private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    // PageFactory should be thread-safe too
+    private static ThreadLocal<PageFactory> pageFactoryThreadLocal = new ThreadLocal<>();
+
+    private PageFactory() {
+// Constructor should be private to enforce singleton per thread
+    }
     // Set the WebDriver for the current thread
     public static void setDriver(WebDriver driverInstance) {
         driver.set(driverInstance);
@@ -27,6 +34,16 @@ public class PageFactory {
         return driver.get();
     }
 
+    public static void setInstance() {
+        pageFactoryThreadLocal.set(new PageFactory()); //  Set instance before calling getInstance()
+    }
+
+    public static PageFactory getInstance() {
+        if (pageFactoryThreadLocal.get() == null) {
+            throw new IllegalStateException("PageFactory instance is not set. Call setInstance() first!");
+        }
+        return pageFactoryThreadLocal.get(); // Now it will always return a valid instance
+    }
     public LoginPage loginPage() {
         return new LoginPage(getDriver());
     }

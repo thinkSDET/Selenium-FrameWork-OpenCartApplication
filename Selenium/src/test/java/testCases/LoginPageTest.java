@@ -20,7 +20,8 @@ public class LoginPageTest extends UIBaseTest {
     @BeforeMethod(alwaysRun = true)
     void setup(){
         PageFactory.setDriver(getDriver());
-        pageFactory = new PageFactory();
+        PageFactory.setInstance();            //PageFactory instance initialize karo
+        pageFactory = PageFactory.getInstance(); //Ab safely instance mil jayega
     }
 
     @Test(dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)
