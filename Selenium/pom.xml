@@ -116,6 +116,6 @@
 
 </project>
 
-        <!-- mvn clean test -P chrome -P qa -DHEADLESS=true -P smoke -->
-        <!-- mvn clean test -P chrome -P prod -P smoke -->
-<!-- mvn clean test -P smoke -Dbrowser=firefox -DENV=preprod -DHEADLESS=false -->
+        <!-- mvn clean test -P chrome -P qa -DHEADLESS=true -P smoke      ye use nai karna ab-->
+        <!-- mvn clean test -P chrome -P prod -P smoke        ye use nai karna ab-->
+<!-- mvn clean test -P smoke -Dbrowser=firefox -DENV=preprod -DHEADLESS=false     ye use hoga-->
