@@ -102,6 +102,7 @@ public class ConfigReader {
 
     private static void loadProperties() {
         String env = System.getProperty("ENV", "qa"); // Default to "qa" if ENV is not set
+        System.out.println(env);
         String filePath = "src/test/resources/config-" + env + ".properties";
 
         try (FileInputStream file = new FileInputStream(filePath)) {
