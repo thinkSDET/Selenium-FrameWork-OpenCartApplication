@@ -30,13 +30,13 @@ import java.util.Properties;
 
 public class ConfigReader {
 
-    private static final Properties properties = new Properties();
+/*    private static final Properties properties = new Properties();
     private static final Logger logger = Logger.getLogger(ConfigReader.class); // For static block
 
-    /**
+    *//**
      * The use of a static block in the ConfigReader class is a deliberate design choice to ensure that the
      * configuration properties are loaded only once when the class is first loaded into memory.
-     */
+     *//*
 
     static {
         synchronized (ConfigReader.class) {  // Ensures only one thread loads the properties
@@ -82,13 +82,46 @@ public class ConfigReader {
                 break;
             default:
                 logger.error("Invalid ENV value provided: [" + env + "]");
-                /**
+                *//**
                  *  If the ENV value is missing or incorrect, the test setup cannot proceed correctly.
                  * Since the environment determines the execution context,
                  * throwing an exception ensures that tests do not run with an undefined or incorrect configuration.
-                 */
+                 *//*
                 throw new FrameworkException("Invalid ENV value: " + env);
         }
+        return baseUrl;
+    }*/
+    private static final Properties properties = new Properties();
+    private static final Logger logger = Logger.getLogger(ConfigReader.class);
+
+    static {
+        synchronized (ConfigReader.class) {
+            loadProperties();
+        }
+    }
+
+    private static void loadProperties() {
+        String env = System.getProperty("ENV", "qa"); // Default to "qa" if ENV is not set
+        String filePath = "src/test/resources/config-" + env + ".properties";
+
+        try (FileInputStream file = new FileInputStream(filePath)) {
+            properties.load(file);
+            logger.info("Loaded config file: " + filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load config file: " + filePath + ". Error: " + e.getMessage());
+        }
+    }
+
+    public static String getProperty(String key) {
+        return properties.getProperty(key);
+    }
+
+    public static String getBaseUrl() {
+        String baseUrl = getProperty("BASE_URL");
+        if (baseUrl == null || baseUrl.isEmpty()) {
+            throw new FrameworkException("Base URL is missing in the config file!");
+        }
+        logger.info("Using Base URL: " + baseUrl);
         return baseUrl;
     }
 

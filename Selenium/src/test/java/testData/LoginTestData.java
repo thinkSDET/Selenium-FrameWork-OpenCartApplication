@@ -23,8 +23,8 @@ public class LoginTestData {
     @DataProvider(name = "WrongUserNameAndPassword")
     public static Object[][] WrongUserNameAndPassword(){
         Object[][] testData = new Object[1][2];
-        testData[0][0] ="test";
-        testData[0][1] = "test";
+        testData[0][0] = TestDataGenerator.generateRandomUsername();
+        testData[0][1] = TestDataGenerator.generateRandomPassword(10);   // it should be password
         return testData;
     }
 }
