@@ -43,7 +43,7 @@ public class MyInfoPageTest extends UIBaseTest {
     }
 
     @AfterMethod(alwaysRun = true)
-    void tearDown() {
+    void logOutApplication() {
         pageFactory.loginPage().logout(); // Ensures no session is carried forward
     }
 }
