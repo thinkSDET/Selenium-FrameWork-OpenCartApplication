@@ -14,7 +14,6 @@ import org.testng.annotations.BeforeMethod;
 import utils.Logger;
 
 public class UIBaseTest {
-
     /**
      * A driverThreadLocal variable ensures that each thread (which corresponds to each test in parallel test execution) gets its own separate WebDriver instance.
      * This prevents conflicts when running tests in parallel.

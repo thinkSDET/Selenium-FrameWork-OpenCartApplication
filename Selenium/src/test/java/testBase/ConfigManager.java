@@ -33,7 +33,7 @@ public class ConfigManager {
     private static final Properties properties = new Properties();
     private static final Logger logger = Logger.getLogger(ConfigManager.class);
     private ConfigManager(){
-// Prevent instantiation
+   // Prevent instantiation
     }
      /**
              * The use of a static block in the ConfigReader class is a deliberate design choice to ensure that the
@@ -99,11 +99,17 @@ public class ConfigManager {
     public static boolean isHeadlessMode() {
         return Boolean.parseBoolean(System.getProperty("HEADLESS", ConfigManager.getProperty("HEADLESS")));
     }
-
+    /**
+     * Fetches username from environment variables for security reasons.
+     * @return Username
+     */
     public static String getUserName(){
         return userName;
     }
-
+    /**
+     * Fetches password from environment variables for security reasons.
+     * @return Password
+     */
     public static String getPassword(){
         return password;
     }
