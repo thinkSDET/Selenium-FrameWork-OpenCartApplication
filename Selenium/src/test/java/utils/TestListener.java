@@ -6,12 +6,17 @@
 
 package utils;
 
-import com.aventstack.extentreports.Status;
-import org.openqa.selenium.WebDriver;
+import io.qameta.allure.Allure;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import testBase.UIBaseTest;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static utils.Screenshot.addEnvironmentInfo;
+import static utils.Screenshot.attachScreenshot;
 
 /**
  * What This Does:
@@ -23,45 +28,66 @@ import testBase.UIBaseTest;
  */
 public class TestListener implements ITestListener {
 
+    private static final LoggerDecorator logger = new AllureLoggerDecorator(new BaseLogger());
+    private static final String allureResultsPath;
+    static {
+        // Store directly in "target/allure-results/"
+        allureResultsPath = System.getProperty("user.dir") + "/target/allure-results/";
+        File resultsDir = new File(allureResultsPath);
+        // Purani files delete karne ka logic
+        if (resultsDir.exists()) {
+            for (File file : resultsDir.listFiles()) {
+                file.delete();
+            }
+        }
+        // Ensure directory exists
+        resultsDir.mkdirs();
+
+        // Set system property for Allure
+        System.setProperty("allure.results.directory", allureResultsPath);
+    }
+
+
+
     @Override
     public void onStart(ITestContext context) {
-        ExtentReportManager.setupReport();
+        System.out.println("DEBUG: onStart() method called");
+        logger.info("\n===== TEST EXECUTION STARTED =====");
+        addEnvironmentInfo();
     }
 
     @Override
     public void onTestStart(ITestResult result) {
-        ExtentReportManager.startTest(result.getMethod().getMethodName());
+        logger.info("\n===== STARTING TEST: " + result.getMethod().getMethodName() + " =====");
+        Allure.step("Test started: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        ExtentReportManager.getTest().log(Status.PASS, "Test Passed: " + result.getMethod().getMethodName());
+        logger.info("Test PASSED: " + result.getMethod().getMethodName());
+        logger.info("===== END OF TEST: " + result.getMethod().getMethodName() + " =====\n");
+        Allure.step("Test Passed: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        ExtentReportManager.getTest().log(Status.FAIL, "Test Failed: " + result.getThrowable());
-
-        WebDriver driver = UIBaseTest.getDriver();
-        if (driver != null) {
-            String screenshotPath = Screenshot.captureScreenshot(driver, result.getMethod().getMethodName());
-            try {
-                ExtentReportManager.getTest().addScreenCaptureFromPath(screenshotPath, "Failure Screenshot");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        logger.error("Test FAILED: " + result.getMethod().getMethodName());
+        logger.error("Reason: " + result.getThrowable());
+        logger.info("===== END OF TEST: " + result.getMethod().getMethodName() + " =====\n");
+        Allure.step("Test Failed: " + result.getMethod().getMethodName());
+        // Ensure screenshot is being captured
+         attachScreenshot(result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        ExtentReportManager.getTest().log(Status.SKIP, "Test Skipped: " + result.getThrowable());
+        logger.warn("Test SKIPPED: " + result.getMethod().getMethodName());
+        logger.info("===== END OF TEST: " + result.getMethod().getMethodName() + " =====\n");
+        Allure.step("Test Skipped: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        synchronized (ExtentReportManager.class) { // Ensures flush is only called once
-            ExtentReportManager.flushReport();
-        }
+            logger.info("\n===== ALL TESTS EXECUTION COMPLETED =====\n");   // Ensures flush is only called once
     }
 }
