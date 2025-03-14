@@ -20,7 +20,7 @@ import java.util.Date;
 /**
  * BaseLogger: Logs messages to console and writes thread-safe logs to a single file.
  */
-public class BaseLogger implements LoggerDecorator {
+public class BaseLogger {
 
     private static final Logger logger = LogManager.getLogger(BaseLogger.class);
     private static final String logFilePath;
@@ -30,36 +30,35 @@ public class BaseLogger implements LoggerDecorator {
         // Define log directory inside "target/logs/"
         String logDir = System.getProperty("user.dir") + "/target/logs/";
         new File(logDir).mkdirs();  // Create directory if not exists
-
         // Define log file inside "logs/log.txt"
         logFilePath = logDir + "log.txt";
     }
 
-    @Override
-    public void info(String message) {
+
+    public static void info(String message) {
         logger.info(message);
         writeToFile("[INFO] " + message);
     }
 
-    @Override
-    public void error(String message) {
+
+    public static void error(String message) {
         logger.error(message);
         writeToFile("[ERROR] " + message);
     }
 
-    @Override
-    public void warn(String message) {
+
+    public static void warn(String message) {
         logger.warn(message);
         writeToFile("[WARN] " + message);
     }
 
-    @Override
-    public void debug(String message) {
+
+    public static void debug(String message) {
         logger.debug(message);
         writeToFile("[DEBUG] " + message);
     }
 
-    private void writeToFile(String message) {
+    private static void writeToFile(String message) {
         synchronized (lock) { // Ensure only one thread writes at a time
             try (FileWriter writer = new FileWriter(logFilePath, true)) {
                 String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());

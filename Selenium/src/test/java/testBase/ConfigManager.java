@@ -22,7 +22,7 @@
  */
 package testBase;
 import customExcpetion.FrameworkException;
-import utils.Logger;
+import utils.BaseLogger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,7 +31,6 @@ import java.util.Properties;
 public class ConfigManager {
 
     private static final Properties properties = new Properties();
-    private static final Logger logger = Logger.getLogger(ConfigManager.class);
     private ConfigManager(){
    // Prevent instantiation
     }
@@ -52,7 +51,7 @@ public class ConfigManager {
 
         try (FileInputStream file = new FileInputStream(filePath)) {
             properties.load(file);
-            logger.info("Loaded config file: " + filePath);
+            BaseLogger.info("Loaded config file: " + filePath);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load config file: " + filePath + ". Error: " + e.getMessage());
         }
@@ -67,7 +66,7 @@ public class ConfigManager {
         if (baseUrl == null || baseUrl.isEmpty()) {
             throw new FrameworkException("Base URL is missing in the config file!");
         }
-        logger.info("Using Base URL: " + baseUrl);
+        BaseLogger.info("Using Base URL: " + baseUrl);
         return baseUrl;
     }
     /**

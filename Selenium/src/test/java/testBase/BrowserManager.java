@@ -14,12 +14,11 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import utils.Logger;
+import utils.BaseLogger;
 
 
 public class BrowserManager {
 
-    private static final Logger logger = Logger.getLogger(BrowserManager.class);
     private static final boolean isHeadless = ConfigManager.isHeadlessMode();
 
     // Private constructor to prevent instantiation
@@ -31,7 +30,7 @@ public class BrowserManager {
      * Factory method to create a WebDriver instance based on the given browser.
      */
     protected static WebDriver initializeBrowser(String browserName) {
-        logger.info("Launching browser: " + browserName + " | Headless: " + isHeadless);
+        BaseLogger.info("Launching browser: " + browserName + " | Headless: " + isHeadless);
         switch (browserName.toLowerCase().trim()) {
             case "chrome":
                 return setupChromeDriver();

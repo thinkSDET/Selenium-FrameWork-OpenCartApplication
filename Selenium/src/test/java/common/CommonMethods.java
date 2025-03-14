@@ -11,13 +11,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import testBase.UIBaseTest;
-
-import utils.Logger;
+import utils.BaseLogger;
 
 import java.util.List;
 
 public class CommonMethods {
-    private static final Logger logger = Logger.getLogger(CommonMethods.class);
 
     private static WebDriver getDriver() {
         return UIBaseTest.getDriver(); // Fetch driver for the current thread
@@ -118,7 +116,7 @@ public class CommonMethods {
                 }
             }
         }catch (Exception e){
-            logger.error("Option '" + value + "' not found in the dropdown.");
+            BaseLogger.error("Option '" + value + "' not found in the dropdown.");
         }
 
     }
@@ -168,17 +166,17 @@ public class CommonMethods {
             }
             setTheFocusToElement(element); // Bring element into focus
             element.click(); // Try normal Selenium click
-            logger.info("Clicked on element successfully using Selenium.");
+            BaseLogger.info("Clicked on element successfully using Selenium.");
         } catch (Exception e) {
-            logger.warn("Selenium click failed, attempting JavaScript click. Reason: " + e.getMessage());
+            BaseLogger.warn("Selenium click failed, attempting JavaScript click. Reason: " + e.getMessage());
             try {
                 JavascriptExecutor js = (JavascriptExecutor) getDriver();
                 js.executeScript("arguments[0].setAttribute('style', 'visibility: visible');", element);
                 // above two lines : ensures the element is visible before interacting with it.
                 js.executeScript("arguments[0].click();", element);
-                logger.info("Clicked on element successfully using JavaScript.");
+                BaseLogger.info("Clicked on element successfully using JavaScript.");
             } catch (Exception jsException) {
-                logger.error("JavaScript click also failed: " + jsException.getMessage());
+                BaseLogger.error("JavaScript click also failed: " + jsException.getMessage());
                 Assert.fail("Element could not be clicked using both Selenium and JavaScript.");
             }
         }
@@ -194,7 +192,7 @@ public class CommonMethods {
         try {
             getDriver().switchTo().frame(index);
         } catch (Exception e) {
-            logger.error("Failed to switch to frame by index [" + index + "]: " + e.getMessage());
+            BaseLogger.error("Failed to switch to frame by index [" + index + "]: " + e.getMessage());
         }
     }
 
@@ -208,7 +206,7 @@ public class CommonMethods {
         try {
             getDriver().switchTo().frame(nameOrId);
         } catch (Exception e) {
-            logger.error("Failed to switch to frame by name/ID [" + nameOrId + "]: " + e.getMessage());
+            BaseLogger.error("Failed to switch to frame by name/ID [" + nameOrId + "]: " + e.getMessage());
         }
     }
 
@@ -222,7 +220,7 @@ public class CommonMethods {
         try {
             getDriver().switchTo().frame(frameElement);
         } catch (Exception e) {
-            logger.error("Failed to switch to frame using WebElement: " + e.getMessage());
+            BaseLogger.error("Failed to switch to frame using WebElement: " + e.getMessage());
         }
     }
 
@@ -237,7 +235,7 @@ public class CommonMethods {
         try {
             getDriver().switchTo().defaultContent();
         } catch (Exception e) {
-            logger.error("Failed to switch back to default content: " + e.getMessage());
+            BaseLogger.error("Failed to switch back to default content: " + e.getMessage());
         }
     }
 }
