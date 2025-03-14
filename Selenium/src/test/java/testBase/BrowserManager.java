@@ -31,7 +31,7 @@ public class BrowserManager {
      * Factory method to create a WebDriver instance based on the given browser.
      */
     protected static WebDriver initializeBrowser(String browserName) {
-        logger.info("Initializing WebDriver for browser: " + browserName);
+        logger.info("Launching browser: " + browserName + " | Headless: " + isHeadless);
         switch (browserName.toLowerCase().trim()) {
             case "chrome":
                 return setupChromeDriver();
