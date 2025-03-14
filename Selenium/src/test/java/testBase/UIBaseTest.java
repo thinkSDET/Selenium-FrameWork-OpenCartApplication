@@ -14,7 +14,6 @@ import org.testng.annotations.BeforeMethod;
 import utils.Logger;
 
 public class UIBaseTest {
-
     /**
      * A driverThreadLocal variable ensures that each thread (which corresponds to each test in parallel test execution) gets its own separate WebDriver instance.
      * This prevents conflicts when running tests in parallel.
@@ -28,7 +27,7 @@ public class UIBaseTest {
     private static void initializeDriver() {
         try {
             String browser = ConfigManager.getBrowser(); // Use ConfigManager for browser
-            WebDriver driver = BrowserManager.initializeBrowser(browser);
+            WebDriver driver = BrowserManager.initializeBrowser(browser);   // Using Factory Pattern
             logger.info("WedDriver is successfully initialized");
             driverThreadLocal.set(driver);
         } catch (Exception e){
@@ -51,7 +50,7 @@ public class UIBaseTest {
             driver.manage().window().maximize();
             WaitManager.implicitWait();
             driver.manage().deleteAllCookies();
-            driver.get(ConfigReader.getBaseUrl());
+            driver.get(ConfigManager.getBaseUrl());
         }
     }
 

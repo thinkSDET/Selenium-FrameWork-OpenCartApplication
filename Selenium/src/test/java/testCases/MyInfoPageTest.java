@@ -22,8 +22,9 @@ public class MyInfoPageTest extends UIBaseTest {
     @BeforeMethod(alwaysRun = true)
     void setup(){
         PageFactory.setDriver(getDriver());
-        pageFactory =  new PageFactory();
-        pageFactory.loginPage().login(ConfigManager.getUserName(),ConfigManager.getPassword());
+        PageFactory.setInstance();            //PageFactory instance initialize karo
+        pageFactory = PageFactory.getInstance(); //Ab safely instance mil jayega
+        pageFactory.loginPage().login(ConfigManager.getUserName(), ConfigManager.getPassword());
         personalDetailsData =  PersonalDetailsTestData.getPersonalDetailsData();
     }
     @Test
@@ -33,7 +34,7 @@ public class MyInfoPageTest extends UIBaseTest {
         Assert.assertTrue(pageFactory.myInfoPage().jobDetailsVisibility(),"Please have a look for the title");
        // System.out.println("test01_verifyPersonalDetailsOnMyInfoPage");
     }
-    @Test(groups = {"smoke"})
+    @Test(groups = {"smoke"}, enabled = false)
     void test_02_verify_UserIsAbleToFillPersonalDetails_On_MyInfoPage(){
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();

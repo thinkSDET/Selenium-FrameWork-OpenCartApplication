@@ -73,20 +73,6 @@
 
     <!-- Profiles for different environments or configurations -->
     <profiles>
-        <!-- Profile for running tests on Chrome browser -->
-        <profile>
-            <id>chrome</id>
-            <properties>
-                <browser>chrome</browser> <!-- Defines the browser to be used for tests -->
-            </properties>
-        </profile>
-        <!-- Profile for running tests on Firefox browser -->
-        <profile>
-            <id>firefox</id>
-            <properties>
-                <browser>firefox</browser> <!-- Defines the browser to be used for tests -->
-            </properties>
-        </profile>
         <!-- Profile for running smoke tests (uses the SmokeTest.xml file) -->
         <profile>
             <id>smoke</id>
@@ -103,28 +89,6 @@
                 <testng.xml.file>src/test/resources/RegressionTest.xml</testng.xml.file>
             </properties>
         </profile>
-        <!-- Profile for handling different environments dynamically -->
-        <profile>
-            <id>qa</id>
-            <properties>
-                <envName>qa</envName>
-                <!--<envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL>--> <!-- Overridden URL for QA -->
-            </properties>
-        </profile>
-        <profile>
-            <id>preprod</id>
-            <properties>
-                <envName>preprod</envName>
-                <!--<envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL>--> <!-- Overridden URL for Preprod -->
-            </properties>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <envName>prod</envName>
-               <!-- <envURL>https://opensource-demo.orangehrmlive.com/web/index.php/auth/login</envURL> --><!-- Overridden URL for Prod -->
-            </properties>
-        </profile>
     </profiles>
     <!-- Build configuration to set up plugins for the project -->
     <build>
@@ -137,8 +101,7 @@
                     <!-- Defining system property for passing browser choice to TestNG/Selenium -->
                     <systemPropertyVariables>
                         <browser>${browser}</browser>  <!-- Passes the selected browser to TestNG -->
-                       <!-- <baseUrl>${envURL}</baseUrl>--> <!-- Passes the base URL (QA/Preprod/Prod) dynamically -->
-                        <ENV>${envName}</ENV>  <!-- Passes the profile environment variable -->
+                        <ENV>${ENV}</ENV>  <!-- Passes the profile environment variable -->
                         <HEADLESS>${HEADLESS}</HEADLESS>  <!-- Passes HEADLESS flag --> <!--Used as -DHEADLESS=true or false-->
                     </systemPropertyVariables>
                     <!-- Specifies the TestNG XML file to run tests from -->
@@ -153,5 +116,6 @@
 
 </project>
 
-        <!-- mvn clean test -P chrome -P qa -DHEADLESS=true -P smoke -->
-        <!-- mvn clean test -P chrome -P prod -P smoke -->
+        <!-- mvn clean test -P chrome -P qa -DHEADLESS=true -P smoke      ye use nai karna ab-->
+        <!-- mvn clean test -P chrome -P prod -P smoke        ye use nai karna ab-->
+<!-- mvn clean test -P smoke -Dbrowser=firefox -DENV=preprod -DHEADLESS=false     ye use hoga-->

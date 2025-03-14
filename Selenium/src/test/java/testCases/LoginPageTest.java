@@ -20,7 +20,8 @@ public class LoginPageTest extends UIBaseTest {
     @BeforeMethod(alwaysRun = true)
     void setup(){
         PageFactory.setDriver(getDriver());
-        pageFactory = new PageFactory();
+        PageFactory.setInstance();            //PageFactory instance initialize karo
+        pageFactory = PageFactory.getInstance(); //Ab safely instance mil jayega
     }
 
     @Test(dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)
@@ -30,9 +31,9 @@ public class LoginPageTest extends UIBaseTest {
         Assert.assertEquals(CommonMethods.getTitleOfPage(),"OrangeHRM","Please check for the title");
     }
 
-    @Test(groups = {"smoke"})
-    void test_02_verifyUserCanNotLoginAsInvalidUserNameAndPassword(){
-        pageFactory.loginPage().login("inValidUN","inValidPwd");
+    @Test(groups = {"smoke"},dataProvider = "WrongUserNameAndPassword",dataProviderClass = LoginTestData.class)
+    void test_02_verifyUserCanNotLoginAsInvalidUserNameAndPassword(String userName, String password){
+        pageFactory.loginPage().login(userName,password);
         Assert.assertEquals(pageFactory.loginPage().getInvalidCredentialValidationMessage(),"Invalid credentials");
     }
 }
