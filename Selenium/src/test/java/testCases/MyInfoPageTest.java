@@ -8,6 +8,7 @@ package testCases;
 
 import dataClasses.PersonalDetails;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import testBase.ConfigManager;
@@ -39,5 +40,10 @@ public class MyInfoPageTest extends UIBaseTest {
         pageFactory.myInfoPage().clickPersonalDetailsOption();
         pageFactory.personalDetailsPage().fillPersonalDetails(personalDetailsData);
        Assert.assertFalse(true);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    void tearDown() {
+        pageFactory.loginPage().logout(); // Ensures no session is carried forward
     }
 }

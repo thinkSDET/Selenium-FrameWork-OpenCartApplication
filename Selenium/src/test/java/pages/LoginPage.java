@@ -77,4 +77,8 @@ public class LoginPage {
     public String getInvalidCredentialValidationMessage() {
        return getInvalidCredentialMessage.getText();
     }
+
+    public void logout(){
+        // write your code
+    }
 }
