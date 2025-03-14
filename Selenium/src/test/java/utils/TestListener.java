@@ -59,7 +59,6 @@ public class TestListener implements ITestListener {
     @Override
     public void onTestStart(ITestResult result) {
         logger.info("\n===== STARTING TEST: " + result.getMethod().getMethodName() + " =====");
-        Allure.step("Test started: " + result.getMethod().getMethodName());
     }
 
     @Override
@@ -74,7 +73,7 @@ public class TestListener implements ITestListener {
         logger.error("Test FAILED: " + result.getMethod().getMethodName());
         logger.error("Reason: " + result.getThrowable());
         logger.info("===== END OF TEST: " + result.getMethod().getMethodName() + " =====\n");
-        Allure.step("Test Failed: " + result.getMethod().getMethodName());
+        Allure.getLifecycle().updateTestCase(tc -> tc.setStatus(io.qameta.allure.model.Status.FAILED));
         // Ensure screenshot is being captured
          attachScreenshot(result.getMethod().getMethodName());
     }
