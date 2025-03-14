@@ -8,6 +8,7 @@ package testCases;
 
 import dataClasses.PersonalDetails;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import testBase.ConfigManager;
@@ -32,13 +33,17 @@ public class MyInfoPageTest extends UIBaseTest {
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickJobOption();
         Assert.assertTrue(pageFactory.myInfoPage().jobDetailsVisibility(),"Please have a look for the title");
-       // System.out.println("test01_verifyPersonalDetailsOnMyInfoPage");
     }
-    @Test(groups = {"smoke"}, enabled = false)
+    @Test(groups = {"smoke"})
     void test_02_verify_UserIsAbleToFillPersonalDetails_On_MyInfoPage(){
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();
         pageFactory.personalDetailsPage().fillPersonalDetails(personalDetailsData);
-      //  Assert.assertFalse(false);
+       Assert.assertFalse(true);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    void tearDown() {
+        pageFactory.loginPage().logout(); // Ensures no session is carried forward
     }
 }

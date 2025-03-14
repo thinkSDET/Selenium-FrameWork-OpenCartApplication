@@ -2,25 +2,25 @@
  * Copyright (c) 2025 [thinkSDET]
  * Unauthorized copying, distribution, modification, or use of this file, via any medium, is strictly prohibited.
  * Proprietary and confidential.
- */
+ *//*
+
 
 package utils;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+*/
 /**
  * What This Does:
  *
  * Initializes Extent Reports and generates an HTML report in /reports/.
  * Uses ThreadLocal to ensure parallel execution compatibility.
  * Provides methods to start tests, log steps, and flush reports.
- */
+ *//*
+
 public class ExtentReportManager {
     private static ExtentReports extent;
     private static ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
@@ -81,3 +81,4 @@ public class ExtentReportManager {
     }
 }
 
+*/
