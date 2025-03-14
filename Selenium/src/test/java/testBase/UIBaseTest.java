@@ -28,7 +28,7 @@ public class UIBaseTest {
     private static void initializeDriver() {
         try {
             String browser = ConfigManager.getBrowser(); // Use ConfigManager for browser
-            WebDriver driver = BrowserManager.initializeBrowser(browser);
+            WebDriver driver = BrowserManager.initializeBrowser(browser);   // Using Factory Pattern
             logger.info("WedDriver is successfully initialized");
             driverThreadLocal.set(driver);
         } catch (Exception e){

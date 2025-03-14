@@ -22,26 +22,28 @@ public class BrowserManager {
     private static final Logger logger = Logger.getLogger(BrowserManager.class);
     private static final boolean isHeadless = ConfigManager.isHeadlessMode();
 
+    // Private constructor to prevent instantiation
+    private BrowserManager() {
+
+    }
     //Protected members are accessible within the same package and to subclasses outside the package.
+    /**
+     * Factory method to create a WebDriver instance based on the given browser.
+     */
     protected static WebDriver initializeBrowser(String browserName) {
-         WebDriver driver;
+        logger.info("Initializing WebDriver for browser: " + browserName);
         switch (browserName.toLowerCase().trim()) {
             case "chrome":
-                driver = setupChromeDriver();
-                break;
+                return setupChromeDriver();
             case "firefox":
             case "ff":  // Both "firefox" and "ff" will result in the same action
-                driver = setupFirefoxDriver();
-                break;
+                return setupFirefoxDriver();
             case "edge":
-                driver = setupEdgeDriver();
-                break;
+                return  setupEdgeDriver();
             default:
                 // CustomException
                 throw new FrameworkException("Invalid browser name: " + browserName + ". Supported browsers: Chrome, Firefox.");
         }
-        logger.info("Browser initialized: " + browserName + " (Headless: " + isHeadless + ")");
-        return driver;
     }
 
     private static WebDriver setupChromeDriver() {
