@@ -4,27 +4,72 @@
  * Proprietary and confidential.
  */
 
+/**
+ * Yes, it should be thread-safe, but currently, it is not fully thread-safe because of how Properties is used.
+ * Let’s analyze why and how to improve it.
+ */
+/**
+ * Static Initialization Block (static {}) is Thread-Safe
+ * The static block ensures that the properties are loaded only once when the class is loaded.
+ * Java ensures that static initialization is executed by one thread only, so this part is safe.
+ */
+/**
+ * you can just use synchronization while loading properties but not during read operations.
+ *
+ * Ensures Only One Thread Loads Properties → synchronized (ConfigReader.class) {}
+ * Reading Properties is Already Thread-Safe (No extra complexity)
+ * Uses Try-With-Resources (try (...)) → Ensures the file stream closes properly
+ */
 package testBase;
+import customExcpetion.FrameworkException;
+import utils.Logger;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class ConfigManager {
 
-    // Private constructor to prevent instantiation
-    //Private Constructor: Prevents creating an instance of ConfigManager, as it's a utility class.
-    private ConfigManager() {}
+    private static final Properties properties = new Properties();
+    private static final Logger logger = Logger.getLogger(ConfigManager.class);
+    private ConfigManager(){
+// Prevent instantiation
+    }
+     /**
+             * The use of a static block in the ConfigReader class is a deliberate design choice to ensure that the
+     * configuration properties are loaded only once when the class is first loaded into memory.
+            */
+    static {
+        synchronized (ConfigManager.class) {
+            loadProperties();
+        }
+    }
 
-    //Default Values: Ensures the framework has sensible defaults (chrome for the browser and false for headless mode).
+    private static void loadProperties() {
+        String env = System.getProperty("ENV", "qa"); // Default to "qa" if ENV is not set
+        System.out.println("DEBUG: System Property ENV = " + env);
+        String filePath = "src/test/resources/config-" + env + ".properties";
 
-    /**
-     * Browser configuration
-     * System Properties: Reads values using System.getProperty(), making it easy to override at runtime.
-     */
-    private static final String BROWSER = System.getProperty("browser", "chrome"); // Default to Chrome
-    /**
-     Headless mode configuration
-    System Properties: Reads values using System.getProperty(), making it easy to override at runtime.
-    */
-    private static final boolean HEADLESS_MODE = Boolean.parseBoolean(System.getProperty("HEADLESS", "false")); // Default to headed mode
+        try (FileInputStream file = new FileInputStream(filePath)) {
+            properties.load(file);
+            logger.info("Loaded config file: " + filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load config file: " + filePath + ". Error: " + e.getMessage());
+        }
+    }
 
+    public static String getProperty(String key) {
+        return properties.getProperty(key);
+    }
+
+    public static String getBaseUrl() {
+        String baseUrl = getProperty("BASE_URL");
+        if (baseUrl == null || baseUrl.isEmpty()) {
+            throw new FrameworkException("Base URL is missing in the config file!");
+        }
+        logger.info("Using Base URL: " + baseUrl);
+        return baseUrl;
+    }
     /**
      * Fetches credentials from environment variables to enhance security and avoid hardcoding sensitive data.
 
@@ -40,13 +85,19 @@ public class ConfigManager {
     private static final String userName = System.getenv("USER_NAME");
     private static final String password = System.getenv("USER_PASSWORD");
 
-    // Getters for configuration properties
+    /**
+     * Browser configuration
+     * System Properties: Reads values using System.getProperty(), making it easy to override at runtime.
+     */
     public static String getBrowser() {
-        return BROWSER;
+        return System.getProperty("browser", ConfigManager.getProperty("BROWSER"));
     }
-
+    /**
+     Headless mode configuration
+     System Properties: Reads values using System.getProperty(), making it easy to override at runtime.
+     */
     public static boolean isHeadlessMode() {
-        return HEADLESS_MODE;
+        return Boolean.parseBoolean(System.getProperty("HEADLESS", ConfigManager.getProperty("HEADLESS")));
     }
 
     public static String getUserName(){

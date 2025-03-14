@@ -6,7 +6,6 @@
 
 package testCases;
 
-import common.CommonMethods;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,7 +21,7 @@ public class AdminPageTest extends UIBaseTest {
         PageFactory.setDriver(getDriver());
         PageFactory.setInstance();            //PageFactory instance initialize karo
         pageFactory = PageFactory.getInstance(); //Ab safely instance mil jayega
-        pageFactory.loginPage().login(ConfigManager.getUserName(),ConfigManager.getPassword());
+        pageFactory.loginPage().login(ConfigManager.getUserName(), ConfigManager.getPassword());
     }
 
     @Test

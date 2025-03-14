@@ -6,7 +6,6 @@
 
 package testData;
 
-import common.CommonMethods;
 import org.testng.annotations.DataProvider;
 import testBase.ConfigManager;
 

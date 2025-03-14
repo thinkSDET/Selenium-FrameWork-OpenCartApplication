@@ -51,7 +51,7 @@ public class UIBaseTest {
             driver.manage().window().maximize();
             WaitManager.implicitWait();
             driver.manage().deleteAllCookies();
-            driver.get(ConfigReader.getBaseUrl());
+            driver.get(ConfigManager.getBaseUrl());
         }
     }
 

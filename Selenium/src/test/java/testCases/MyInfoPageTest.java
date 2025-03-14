@@ -24,7 +24,7 @@ public class MyInfoPageTest extends UIBaseTest {
         PageFactory.setDriver(getDriver());
         PageFactory.setInstance();            //PageFactory instance initialize karo
         pageFactory = PageFactory.getInstance(); //Ab safely instance mil jayega
-        pageFactory.loginPage().login(ConfigManager.getUserName(),ConfigManager.getPassword());
+        pageFactory.loginPage().login(ConfigManager.getUserName(), ConfigManager.getPassword());
         personalDetailsData =  PersonalDetailsTestData.getPersonalDetailsData();
     }
     @Test
