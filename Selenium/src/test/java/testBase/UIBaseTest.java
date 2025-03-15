@@ -43,7 +43,6 @@ public class UIBaseTest {
     @BeforeMethod(alwaysRun = true)
     public void setDriver() {
         initializeDriver(); // Call the new method
-        BaseLogger.info("Before Method Thread--> " + Thread.currentThread().getId());
         WebDriver driver = getDriver();
         if (driver != null) {
             driver.manage().window().maximize();

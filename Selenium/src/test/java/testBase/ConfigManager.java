@@ -29,14 +29,14 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigManager {
-
+    private static boolean isBaseUrlLogged = false; //Prevent duplicate logging
     private static final Properties properties = new Properties();
     private ConfigManager(){
    // Prevent instantiation
     }
      /**
-             * The use of a static block in the ConfigReader class is a deliberate design choice to ensure that the
-     * configuration properties are loaded only once when the class is first loaded into memory.
+       The use of a static block in the ConfigReader class is a deliberate design choice to ensure that the
+       configuration properties are loaded only once when the class is first loaded into memory.
             */
     static {
         synchronized (ConfigManager.class) {
@@ -46,9 +46,7 @@ public class ConfigManager {
 
     private static void loadProperties() {
         String env = System.getProperty("ENV", "qa"); // Default to "qa" if ENV is not set
-        System.out.println("DEBUG: System Property ENV = " + env);
         String filePath = "src/test/resources/config-" + env + ".properties";
-
         try (FileInputStream file = new FileInputStream(filePath)) {
             properties.load(file);
             BaseLogger.info("Loaded config file: " + filePath);
@@ -66,7 +64,11 @@ public class ConfigManager {
         if (baseUrl == null || baseUrl.isEmpty()) {
             throw new FrameworkException("Base URL is missing in the config file!");
         }
-        BaseLogger.info("Using Base URL: " + baseUrl);
+        // Log Base URL only once
+        if (!isBaseUrlLogged) {
+            BaseLogger.info("Using Base URL: " + baseUrl);
+            isBaseUrlLogged = true;
+        }
         return baseUrl;
     }
     /**
