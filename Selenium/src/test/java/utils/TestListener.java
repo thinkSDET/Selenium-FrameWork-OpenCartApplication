@@ -13,11 +13,9 @@ import org.testng.ITestResult;
 
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import static utils.Screenshot.addEnvironmentInfo;
-import static utils.Screenshot.attachScreenshot;
+import static utils.Common.addEnvironmentInfo;
+import static utils.Common.attachScreenshot;
 
 /**
  * What This Does:
