@@ -130,9 +130,17 @@ public class BasePage {
 
     }
 
+    private void scrollIntoView(WebElement element) {
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
+    }
+
     public  void clearInputField(WebElement element) {
-        // Click on the element to focus it
         try {
+            // Scroll the element into view
+            scrollIntoView(element);
+            // Click on the element to focus it
+            clickElement(element);
+            // Clear the field using JavaScript
             JavascriptExecutor executor = (JavascriptExecutor) getDriver();
             executor.executeScript("arguments[0].click();", element);
             // Wait for the element to be clickable again, just in case
