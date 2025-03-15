@@ -133,7 +133,8 @@ public class BasePage {
     public  void clearInputField(WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", element);
-        try {
+        element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
+  /*      try {
             forceWait();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -143,7 +144,7 @@ public class BasePage {
             forceWait();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }
+        }*/
        /* // Click on the element to focus it
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", element);

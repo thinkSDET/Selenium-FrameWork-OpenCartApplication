@@ -64,7 +64,7 @@ public class PersonalDetailsPage extends BasePage {
         clearInputField(firstName);
         clearInputField(middleName);
         clearInputField(lastname);
-       clearInputField(employeeId);
+        clearInputField(employeeId);
         clearInputField(otherId);
         clearInputField(driverLicenseNumber);
         clearInputField(driverLicenseExpDate);
