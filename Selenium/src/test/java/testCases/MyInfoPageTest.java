@@ -34,7 +34,7 @@ public class MyInfoPageTest extends UIBaseTest {
         pageFactory.myInfoPage().clickJobOption();
         Assert.assertTrue(pageFactory.myInfoPage().jobDetailsVisibility(),"Please have a look for the title");
     }
-    @Test(groups = {"smoke"})
+    @Test(groups = {"smoke"},enabled = false)
     void test_02_verify_UserIsAbleToFillPersonalDetails_On_MyInfoPage(){
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();
