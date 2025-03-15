@@ -13,11 +13,9 @@ import org.testng.ITestResult;
 
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import static utils.Screenshot.addEnvironmentInfo;
-import static utils.Screenshot.attachScreenshot;
+import static utils.Common.addEnvironmentInfo;
+import static utils.Common.attachScreenshot;
 
 /**
  * What This Does:
@@ -29,7 +27,6 @@ import static utils.Screenshot.attachScreenshot;
  */
 public class TestListener implements ITestListener {
 
-    private static final LoggerDecorator logger = new AllureLoggerDecorator(new BaseLogger());
     private static final String allureResultsPath;
     static {
         // Store directly in "target/allure-results/"
@@ -53,27 +50,27 @@ public class TestListener implements ITestListener {
     @Override
     public void onStart(ITestContext context) {
         System.out.println("DEBUG: onStart() method called");
-        logger.info("\n===== TEST EXECUTION STARTED =====");
+        BaseLogger.info("\n===== TEST EXECUTION STARTED =====");
         addEnvironmentInfo();
     }
 
     @Override
     public void onTestStart(ITestResult result) {
-        logger.info("\n===== STARTING TEST: " + result.getMethod().getMethodName() + " =====");
+        BaseLogger.info("\n===== STARTING TEST: " + result.getMethod().getMethodName() + " =====");
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        logger.info("Test PASSED: " + result.getMethod().getMethodName());
-        logger.info("===== END OF TEST: " + result.getMethod().getMethodName() + " =====\n");
+        BaseLogger.info("Test PASSED: " + result.getMethod().getMethodName());
+        BaseLogger.info("===== END OF TEST: " + result.getMethod().getMethodName() + " =====\n");
         Allure.step("Test Passed: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        logger.error("Test FAILED: " + result.getMethod().getMethodName());
-        logger.error("Reason: " + result.getThrowable());
-        logger.info("===== END OF TEST: " + result.getMethod().getMethodName() + " =====\n");
+        BaseLogger.error("Test FAILED: " + result.getMethod().getMethodName());
+        BaseLogger.error("Reason: " + result.getThrowable());
+        BaseLogger.info("===== END OF TEST: " + result.getMethod().getMethodName() + " =====\n");
         Allure.getLifecycle().updateTestCase(tc -> tc.setStatus(io.qameta.allure.model.Status.FAILED));
         // Ensure screenshot is being captured
          attachScreenshot(result.getMethod().getMethodName());
@@ -81,13 +78,13 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        logger.warn("Test SKIPPED: " + result.getMethod().getMethodName());
-        logger.info("===== END OF TEST: " + result.getMethod().getMethodName() + " =====\n");
+        BaseLogger.warn("Test SKIPPED: " + result.getMethod().getMethodName());
+        BaseLogger.info("===== END OF TEST: " + result.getMethod().getMethodName() + " =====\n");
         Allure.step("Test Skipped: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onFinish(ITestContext context) {
-            logger.info("\n===== ALL TESTS EXECUTION COMPLETED =====\n");   // Ensures flush is only called once
+        BaseLogger.info("\n===== ALL TESTS EXECUTION COMPLETED =====\n");   // Ensures flush is only called once
     }
 }

@@ -6,18 +6,17 @@
 
 package pages;
 
-import common.CommonMethods;
-import common.WaitManager;
 import customExcpetion.FrameworkException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import testBase.UIBaseTest;
+import pages.basePage.BasePage;
 
 import java.util.Set;
 
-public class AdminPage {
+
+public class AdminPage extends BasePage {
 
     WebDriver driver;
     public AdminPage(WebDriver driver){
@@ -40,9 +39,9 @@ public class AdminPage {
     }
 
     public String verifyUserAccountPageOpen(){
-        WaitManager.waitForElementToBeClickable(helpIconBtn,10);
+        waitForElementToBeClickable(helpIconBtn,10);
         clickOnHelpIcon();
-        WaitManager.numberOfWindowsToBe(2,2);
+        numberOfWindowsToBe(2,2);
        try {
            String parentWindow =driver.getWindowHandle();
            System.out.println("parent window id -->"+ parentWindow);
@@ -55,12 +54,12 @@ public class AdminPage {
        }catch (Exception e){
            throw new FrameworkException("There is no another window open");
        }
-       System.out.println(CommonMethods.getTitleOfPage());
+       System.out.println(getTitleOfPage());
         try {
-            WaitManager.forceWait();
+            forceWait();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return CommonMethods.getTitleOfPage();
+        return getTitleOfPage();
     }
 }

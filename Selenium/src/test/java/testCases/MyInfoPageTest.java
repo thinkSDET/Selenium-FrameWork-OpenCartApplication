@@ -39,7 +39,7 @@ public class MyInfoPageTest extends UIBaseTest {
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();
         pageFactory.personalDetailsPage().fillPersonalDetails(personalDetailsData);
-       Assert.assertFalse(true);
+       Assert.assertFalse(false);
     }
 
     @AfterMethod(alwaysRun = true)

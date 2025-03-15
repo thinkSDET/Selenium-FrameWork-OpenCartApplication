@@ -8,7 +8,6 @@ package utils;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -21,8 +20,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * What This Does:
@@ -30,7 +27,7 @@ import java.util.Date;
  * Captures a screenshot and saves it in /reports/screenshots/.
  * Generates a unique filename using a timestamp.
  */
-public class Screenshot {
+public class Common {
 
     /**
      * Attaches a screenshot to Allure on test failure.

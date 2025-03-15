@@ -6,18 +6,16 @@
 
 package pages;
 
-import common.WaitManager;
 import customExcpetion.FrameworkException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import testBase.UIBaseTest;
-import utils.Logger;
+import pages.basePage.BasePage;
+import utils.BaseLogger;
 
-public class LoginPage {
+public class LoginPage extends BasePage {
     WebDriver driver;
-    private static final Logger logger = Logger.getLogger(LoginPage.class);
     public LoginPage(WebDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this); // Initialize PageFactory
@@ -45,14 +43,14 @@ public class LoginPage {
      */
     public void login(String userName, String password){
         try {
-            logger.info("Logging in with username: " + userName);
+            BaseLogger.info("Logging in with username: " + userName);
             clearUserNameAndPassword();
             this.userName.sendKeys(userName);
             this.password.sendKeys(password);
             this.submitBtn.click();
-            logger.info("Clicked on the submit button");
+            BaseLogger.info("Clicked on the submit button");
         }catch (Exception exception){
-            logger.error("Login failed due to an issue: " + exception.getMessage());
+            BaseLogger.error("Login failed due to an issue: " + exception.getMessage());
             throw new FrameworkException("Login failed. Please check :", exception);
         }
     }
@@ -61,7 +59,7 @@ public class LoginPage {
      *  clear the fields of userName and Password
      */
     public void clearUserNameAndPassword(){
-        WaitManager.waitForElementToBeVisible(userName,10);
+        waitForElementToBeVisible(userName,10);
         userName.clear();
         password.clear();
     }
@@ -70,7 +68,7 @@ public class LoginPage {
      * get toast message while un-successful login
      */
     public String getToastMessage(){
-        WaitManager.waitForVisibility(toastMessage,30);
+        waitForVisibility(toastMessage,30);
         return toastMessage.getText();
     }
 

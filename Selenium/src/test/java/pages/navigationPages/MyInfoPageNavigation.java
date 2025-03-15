@@ -6,16 +6,16 @@
 
 package pages.navigationPages;
 
-import common.WaitManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pages.basePage.BasePage;
 import testBase.UIBaseTest;
 
-public class MyInfoPageNavigation {
+public class MyInfoPageNavigation extends BasePage {
 
     WebDriver driver;
     public MyInfoPageNavigation(WebDriver driver){
@@ -27,14 +27,14 @@ public class MyInfoPageNavigation {
     private WebElement clickMyInfo;
 
     public void clickOnMyInfoOption(){
-        WaitManager.setWait(30);
-        WaitManager.getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='My Info']")));
+        setWait(30);
+        getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='My Info']")));
         clickMyInfo.click();
     }
 
     public void clickOnClaim(){
-        WaitManager.setWait(30);
-        WaitManager.getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='Claim']")));
+        setWait(30);
+        getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='Claim']")));
         clickMyInfo.click();
     }
 }

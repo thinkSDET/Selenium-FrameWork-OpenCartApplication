@@ -6,7 +6,6 @@
 
 package testCases;
 
-import common.CommonMethods;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -28,7 +27,7 @@ public class LoginPageTest extends UIBaseTest {
     void test_01_verifyUserCanLoginAsAdminAndNavigateToDashBoardPage(String userName, String password){
         pageFactory.loginPage().login(userName,password);
         Assert.assertTrue( pageFactory.dashBoardPage().dashBoardDisplay());
-        Assert.assertEquals(CommonMethods.getTitleOfPage(),"OrangeHRM","Please check for the title");
+        Assert.assertEquals(pageFactory.loginPage().getTitleOfPage(),"OrangeHRM","Please check for the title");
     }
 
     @Test(groups = {"smoke"},dataProvider = "WrongUserNameAndPassword",dataProviderClass = LoginTestData.class)

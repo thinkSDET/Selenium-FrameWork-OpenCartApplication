@@ -6,12 +6,13 @@
 
 package testBase;
 
-import common.WaitManager;
 import customExcpetion.FrameworkException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import utils.Logger;
+import utils.BaseLogger;
+
+import java.time.Duration;
 
 public class UIBaseTest {
     /**
@@ -19,8 +20,6 @@ public class UIBaseTest {
      * This prevents conflicts when running tests in parallel.
      */
     protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
-    private static final Logger logger = Logger.getLogger(UIBaseTest.class);
-
     /**
      * Initialize the WebDriver instance and store it in ThreadLocal.
      */
@@ -28,10 +27,10 @@ public class UIBaseTest {
         try {
             String browser = ConfigManager.getBrowser(); // Use ConfigManager for browser
             WebDriver driver = BrowserManager.initializeBrowser(browser);   // Using Factory Pattern
-            logger.info("WedDriver is successfully initialized");
+            BaseLogger.info("WedDriver is successfully initialized");
             driverThreadLocal.set(driver);
         } catch (Exception e){
-            logger.error("Error initializing WebDriver: " + e.getMessage(), e);
+            BaseLogger.error("Error initializing WebDriver: " + e.getMessage());
             throw new FrameworkException("WebDriver initialization failed.", e);
         }
     }
@@ -44,11 +43,11 @@ public class UIBaseTest {
     @BeforeMethod(alwaysRun = true)
     public void setDriver() {
         initializeDriver(); // Call the new method
-        logger.info("Before Method Thread--> " + Thread.currentThread().getId());
+        BaseLogger.info("Before Method Thread--> " + Thread.currentThread().getId());
         WebDriver driver = getDriver();
         if (driver != null) {
             driver.manage().window().maximize();
-            WaitManager.implicitWait();
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             driver.manage().deleteAllCookies();
             driver.get(ConfigManager.getBaseUrl());
         }
@@ -67,7 +66,7 @@ public class UIBaseTest {
         WebDriver driver = getDriver();
         if (driver != null) {
             driver.quit(); // Quit the driver after the test is finished
-            logger.info("After Test Thread ID-->"+Thread.currentThread().getId());
+            BaseLogger.info("After Test Thread ID-->"+Thread.currentThread().getId());
             driverThreadLocal.remove(); // Clean up the ThreadLocal reference
         }
     }

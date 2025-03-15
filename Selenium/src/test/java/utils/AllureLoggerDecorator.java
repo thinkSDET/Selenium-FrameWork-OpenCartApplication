@@ -12,34 +12,25 @@ package utils;
 import io.qameta.allure.Attachment;
 
 //AllureLoggerDecorator: Adds Allure Reporting
-public class AllureLoggerDecorator implements LoggerDecorator{
+public class AllureLoggerDecorator {
 
-    private final LoggerDecorator wrappedLogger;
-    public AllureLoggerDecorator(LoggerDecorator logger) {
-        this.wrappedLogger = logger;
-    }
-
-    @Override
-    public void info(String message) {
-        wrappedLogger.info(message);
+    public static void info(String message) {
+        BaseLogger.info(message);
         attachLogToAllure("[INFO] " + message);
     }
 
-    @Override
-    public void error(String message) {
-        wrappedLogger.error(message);
+    public static void error(String message) {
+        BaseLogger.error(message);
         attachLogToAllure("[ERROR] " + message);
     }
 
-    @Override
-    public void warn(String message) {
-        wrappedLogger.warn(message);
+    public static void warn(String message) {
+        BaseLogger.warn(message);
         attachLogToAllure("[WARN] " + message);
     }
 
-    @Override
-    public void debug(String message) {
-        wrappedLogger.error(message);
+    public static void debug(String message) {
+        BaseLogger.debug(message);
         attachLogToAllure("[DEBUG] " + message);
     }
 
