@@ -6,15 +6,15 @@
 
 package pages;
 
-import common.WaitManager;
 import customExcpetion.FrameworkException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pages.basePage.BasePage;
 import utils.BaseLogger;
 
-public class LoginPage {
+public class LoginPage extends BasePage {
     WebDriver driver;
     public LoginPage(WebDriver driver){
         this.driver=driver;
@@ -59,7 +59,7 @@ public class LoginPage {
      *  clear the fields of userName and Password
      */
     public void clearUserNameAndPassword(){
-        WaitManager.waitForElementToBeVisible(userName,10);
+        waitForElementToBeVisible(userName,10);
         userName.clear();
         password.clear();
     }
@@ -68,7 +68,7 @@ public class LoginPage {
      * get toast message while un-successful login
      */
     public String getToastMessage(){
-        WaitManager.waitForVisibility(toastMessage,30);
+        waitForVisibility(toastMessage,30);
         return toastMessage.getText();
     }
 

@@ -6,12 +6,13 @@
 
 package testBase;
 
-import common.WaitManager;
 import customExcpetion.FrameworkException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import utils.BaseLogger;
+
+import java.time.Duration;
 
 public class UIBaseTest {
     /**
@@ -46,7 +47,7 @@ public class UIBaseTest {
         WebDriver driver = getDriver();
         if (driver != null) {
             driver.manage().window().maximize();
-            WaitManager.implicitWait();
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             driver.manage().deleteAllCookies();
             driver.get(ConfigManager.getBaseUrl());
         }

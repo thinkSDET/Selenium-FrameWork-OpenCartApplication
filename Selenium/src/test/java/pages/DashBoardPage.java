@@ -6,14 +6,14 @@
 
 package pages;
 
-import common.WaitManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pages.basePage.BasePage;
 import testBase.UIBaseTest;
 
-public class DashBoardPage {
+public class DashBoardPage extends BasePage {
     WebDriver driver;
     public DashBoardPage(WebDriver driver){
         this.driver = driver;
@@ -27,7 +27,7 @@ public class DashBoardPage {
      * @return
      */
     public boolean dashBoardDisplay(){
-        WaitManager.waitForVisibility(dashBoard,20);
+        waitForVisibility(dashBoard,20);
         try {
             dashBoard.isDisplayed();
             return true;
