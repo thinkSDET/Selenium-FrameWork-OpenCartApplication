@@ -26,11 +26,11 @@ public class BasePage {
     public static ThreadLocal<WebDriverWait> waitThreadLocal = new ThreadLocal<WebDriverWait>();
 
     // Fetch driver for the current thread
-    private static WebDriver getDriver() {
+    private WebDriver getDriver() {
         return UIBaseTest.getDriver();
     }
     // Create Actions instance for the current thread
-    private static Actions getActions() {
+    private Actions getActions() {
         return new Actions(getDriver());
     }
     /**
@@ -45,7 +45,7 @@ public class BasePage {
      *  Move to an element and then click on element
      * @param element
      */
-    public static void moveToElementAndClick(WebElement element){
+    public  void moveToElementAndClick(WebElement element){
         getActions().moveToElement(element).click().perform();
     }
 
@@ -53,7 +53,7 @@ public class BasePage {
      *
      * @param element
      */
-    public static void setTheFocusToElement(WebElement element){
+    public  void setTheFocusToElement(WebElement element){
         getActions().moveToElement(element).perform();
     }
 
@@ -66,7 +66,7 @@ public class BasePage {
      * @param element
      * @return
      */
-    public static boolean isElementFullyVisible(WebElement element){
+    public  boolean isElementFullyVisible(WebElement element){
         JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
         // Scroll the element into view
         jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
@@ -80,7 +80,7 @@ public class BasePage {
     /**
      * clear the existing text from the input field
      */
-    public static void clearTextFromField(WebElement element){
+    public  void clearTextFromField(WebElement element){
         element.clear();
     }
 
@@ -88,7 +88,7 @@ public class BasePage {
      * This approach simulates the keyboard shortcut "Ctrl+A" (select all) followed by "Delete" to clear the field entirely.
      * @param element
      */
-    public static void sendKeyWithSelectAllTextAndRemove(WebElement element){
+    public  void sendKeyWithSelectAllTextAndRemove(WebElement element){
         // element.click();
         element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
     }
@@ -112,7 +112,7 @@ public class BasePage {
      * @param element The dropdown WebElement that needs to be clicked to open the options.
      * @param value   The text of the option that should be selected.
      */
-    public static void selectValueFromDropDown(WebElement element, String value){
+    public  void selectValueFromDropDown(WebElement element, String value){
         try {
             element.click();
             setWait(10);
@@ -130,7 +130,7 @@ public class BasePage {
 
     }
 
-    public static void clearInputField(WebElement element) {
+    public  void clearInputField(WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", element);
         try {
@@ -168,7 +168,7 @@ public class BasePage {
      *
      * @param element The WebElement to click.
      */
-    public static void clickElement(WebElement element) {
+    public  void clickElement(WebElement element) {
         try {
             if (element == null) {
                 Assert.fail("Element is null and cannot be clicked.");
@@ -197,7 +197,7 @@ public class BasePage {
      * @param index The zero-based index of the frame.
      * @throws AssertionError if the frame is not found or switching fails.
      */
-    public static void switchToFrame(int index) {
+    public  void switchToFrame(int index) {
         try {
             getDriver().switchTo().frame(index);
         } catch (Exception e) {
@@ -211,7 +211,7 @@ public class BasePage {
      * @param nameOrId The name or ID attribute of the frame.
      * @throws AssertionError if the frame is not found or switching fails.
      */
-    public static void switchToFrame(String nameOrId) {
+    public  void switchToFrame(String nameOrId) {
         try {
             getDriver().switchTo().frame(nameOrId);
         } catch (Exception e) {
@@ -225,7 +225,7 @@ public class BasePage {
      * @param frameElement The WebElement representing the frame.
      * @throws AssertionError if the frame is not found or switching fails.
      */
-    public static void switchToFrame(WebElement frameElement) {
+    public  void switchToFrame(WebElement frameElement) {
         try {
             getDriver().switchTo().frame(frameElement);
         } catch (Exception e) {
@@ -240,7 +240,7 @@ public class BasePage {
      * and return control to the main document.
      *
      */
-    public static void switchBackToDefault() {
+    public  void switchBackToDefault() {
         try {
             getDriver().switchTo().defaultContent();
         } catch (Exception e) {
@@ -251,21 +251,21 @@ public class BasePage {
     /**
      * Sets up an explicit wait (WebDriverWait) using ThreadLocal for thread safety.
      */
-    public static void setWait(long timeoutInSeconds){
+    public  void setWait(long timeoutInSeconds){
         waitThreadLocal.set(new WebDriverWait(getDriver(), Duration.ofSeconds(timeoutInSeconds)));
     }
 
     /**
      * Retrieves the WebDriverWait instance for the current thread.
      */
-    public static WebDriverWait getWait() {
+    public WebDriverWait getWait() {
         return waitThreadLocal.get();
     }
     /**
      * Removes the WebDriverWait instance from ThreadLocal to prevent memory leaks.
      * Call this method in @AfterMethod in TestNG.
      */
-    public static void removeWait() {
+    public  void removeWait() {
         waitThreadLocal.remove();
     }
 
@@ -273,7 +273,7 @@ public class BasePage {
      * Sets an implicit wait for the driver.
      * This applies to all findElement() calls and waits for elements to be available.
      */
-    public static void implicitWait(){
+    public  void implicitWait(){
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
     }
     /**
@@ -310,7 +310,7 @@ public class BasePage {
      * @return An {@code ExpectedCondition<Boolean>} that evaluates to {@code true} when the element is visible and clickable.
      */
 
-    public static ExpectedCondition<Boolean> elementToBeReady(WebElement element){
+    public ExpectedCondition<Boolean> elementToBeReady(WebElement element){
         return ExpectedConditions.and(
                 ExpectedConditions.visibilityOf(element),
                 ExpectedConditions.elementToBeClickable(element)
@@ -325,7 +325,7 @@ public class BasePage {
      * as it can slow down execution. Prefer explicit waits like {@code WebDriverWait} instead.</p>
      *
      */
-    public static void forceWait() throws InterruptedException {
+    public void forceWait() throws InterruptedException {
         Thread.sleep(500);
     }
 
@@ -338,7 +338,7 @@ public class BasePage {
      * @param windows The expected number of browser windows.
      * @throws IllegalStateException if {@code WebDriverWait} is not initialized before calling this method.
      */
-    public static void numberOfWindowsToBe(long timeOut, int windows){
+    public void numberOfWindowsToBe(long timeOut, int windows){
         setWait(timeOut);
         WebDriverWait wait = getWait();
         if (wait == null) {
