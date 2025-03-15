@@ -11,8 +11,8 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-        BaseLogger.flushSetupLogs(); // Flush setup logs after the test starts
         BaseLogger.info("\n===== STARTING TEST: " + result.getMethod().getMethodName() + " =====");
+        BaseLogger.flushSetupLogs(); // Flush setup logs after the test starts
     }
 
     @Override
