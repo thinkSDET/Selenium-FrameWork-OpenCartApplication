@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import pages.basePage.BasePage;
+import utils.BaseLogger;
 
 public class MyInfoPage extends BasePage {
 
@@ -31,10 +32,12 @@ public class MyInfoPage extends BasePage {
 
    public void clickPersonalDetailsOption(){
        personalDetails.click();
+       BaseLogger.info("personal details clicked");
        waitForVisibility(personalDetailsTitle,30);
     }
     public void clickJobOption(){
        job.click();
+        BaseLogger.info("job option clicked");
     }
     public boolean jobDetailsVisibility(){
        return jobDetailsTitle.isDisplayed();

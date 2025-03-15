@@ -28,13 +28,13 @@ public class MyInfoPageTest extends UIBaseTest {
         pageFactory.loginPage().login(ConfigManager.getUserName(), ConfigManager.getPassword());
         personalDetailsData =  PersonalDetailsTestData.getPersonalDetailsData();
     }
-    @Test
+    @Test(enabled = true)
     void test_01_verify_PersonalDetails_On_MyInfoPage() throws InterruptedException {
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickJobOption();
         Assert.assertTrue(pageFactory.myInfoPage().jobDetailsVisibility(),"Please have a look for the title");
     }
-    @Test(groups = {"smoke"},enabled = false)
+    @Test(groups = {"smoke"})
     void test_02_verify_UserIsAbleToFillPersonalDetails_On_MyInfoPage(){
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickPersonalDetailsOption();

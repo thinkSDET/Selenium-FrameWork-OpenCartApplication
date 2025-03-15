@@ -11,30 +11,27 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-        BaseLogger.info("\n===== STARTING TEST: " + result.getMethod().getMethodName() + " =====");
-        BaseLogger.flushSetupLogs(); // Flush setup logs after the test starts
+        BaseLogger.flushSetupLogs(); // Ensure setup logs are flushed inside the test
+        BaseLogger.startTest(result.getMethod().getMethodName()); // Start logging for this test
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        BaseLogger.info("Test PASSED: " + result.getMethod().getMethodName());
-        BaseLogger.flushLogs(result.getMethod().getMethodName());
+        BaseLogger.endTest(result.getMethod().getMethodName(), "PASSED");
         Allure.step("Test Passed: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        BaseLogger.error("Test FAILED: " + result.getMethod().getMethodName());
+        BaseLogger.endTest(result.getMethod().getMethodName(), "FAILED");
         BaseLogger.error("Reason: " + result.getThrowable());
-        BaseLogger.flushLogs(result.getMethod().getMethodName());
         Allure.getLifecycle().updateTestCase(tc -> tc.setStatus(io.qameta.allure.model.Status.FAILED));
         attachScreenshot(result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        BaseLogger.warn("Test SKIPPED: " + result.getMethod().getMethodName());
-        BaseLogger.flushLogs(result.getMethod().getMethodName());
+        BaseLogger.endTest(result.getMethod().getMethodName(), "SKIPPED");
         Allure.step("Test Skipped: " + result.getMethod().getMethodName());
     }
 
