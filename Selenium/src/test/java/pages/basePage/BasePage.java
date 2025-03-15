@@ -9,6 +9,7 @@
 
 package pages.basePage;
 
+import customExcpetion.FrameworkException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -115,7 +116,6 @@ public class BasePage {
     public  void selectValueFromDropDown(WebElement element, String value){
         try {
             element.click();
-            setWait(10);
             getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='oxd-select-option' and @role='option']")));
             List<WebElement> nationalityList = getDriver().findElements(By.xpath("//div[@class='oxd-select-option' and @role='option']"));
             for(WebElement option : nationalityList){
@@ -131,38 +131,26 @@ public class BasePage {
     }
 
     public  void clearInputField(WebElement element) {
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", element);
-        element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
-  /*      try {
-            forceWait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
+        // Click on the element to focus it
         try {
-            forceWait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }*/
-       /* // Click on the element to focus it
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].click();", element);
+            JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+            executor.executeScript("arguments[0].click();", element);
+            // Wait for the element to be clickable again, just in case
+            // Clear the input field using CTRL + A and DELETE
+            element.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+            // Wait for the input field to be cleared using JavaScript
+            getWait().until(d -> {
+                String inputValue = (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;", element);// Get the value of the input field
+                System.out.println(inputValue);
+                return inputValue == null || inputValue.isEmpty(); // Ensure the value is empty
+            });
+        }
+        catch (Exception e){
+            BaseLogger.error("Failed to clear input field: " + e.getMessage());
+            throw new FrameworkException("Failed to clear input field.", e);
+        }
 
-        // Wait for the element to be clickable again, just in case
-        WaitManager.waitForElementToBeClickable(element,20);
-
-        // Clear the input field using CTRL + A and DELETE
-        element.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
-
-        // Wait for the input field to be cleared using JavaScript
-        WaitManager.getWait().until(d -> {
-            String inputValue = (String) ((JavascriptExecutor) driver).executeScript("return arguments[0].value;", element);// Get the value of the input field
-            System.out.println(inputValue);
-            return inputValue == null || inputValue.isEmpty(); // Ensure the value is empty
-        });*/
     }
-
     /**
      * Clicks on a WebElement using standard Selenium click().
      * If the element is not clickable, falls back to JavaScript click.
@@ -252,14 +240,15 @@ public class BasePage {
     /**
      * Sets up an explicit wait (WebDriverWait) using ThreadLocal for thread safety.
      */
-    public  void setWait(long timeoutInSeconds){
+  /*  public  void setWait(long timeoutInSeconds){
         waitThreadLocal.set(new WebDriverWait(getDriver(), Duration.ofSeconds(timeoutInSeconds)));
-    }
+    }*/
 
     /**
      * Retrieves the WebDriverWait instance for the current thread.
      */
     public WebDriverWait getWait() {
+        waitThreadLocal.set(new WebDriverWait(getDriver(), Duration.ofSeconds(15)));
         return waitThreadLocal.get();
     }
     /**
@@ -282,7 +271,6 @@ public class BasePage {
      * Uses the ThreadLocal wait instance to ensure thread safety.
      */
     public void waitForVisibility(WebElement element,long timeOut){
-        setWait(timeOut);
         WebDriverWait wait = getWait();
         if (wait == null) {
             throw new IllegalStateException("WebDriverWait is not initialized. Call setWait() first.");
@@ -294,7 +282,6 @@ public class BasePage {
      * Uses the ThreadLocal wait instance to ensure thread safety.
      */
     public void waitForElementToBeClickable(WebElement element,long timeOut){
-        setWait(timeOut);
         WebDriverWait wait = getWait();
         if (wait == null) {
             throw new IllegalStateException("WebDriverWait is not initialized. Call setWait() first.");
@@ -340,7 +327,6 @@ public class BasePage {
      * @throws IllegalStateException if {@code WebDriverWait} is not initialized before calling this method.
      */
     public void numberOfWindowsToBe(long timeOut, int windows){
-        setWait(timeOut);
         WebDriverWait wait = getWait();
         if (wait == null) {
             throw new IllegalStateException("WebDriverWait is not initialized. Call setWait() first.");
@@ -359,7 +345,6 @@ public class BasePage {
      * This is imp method
      */
     public void waitForElementToBeVisible(WebElement element,Integer timeOut){
-        setWait(timeOut);
         WebDriverWait wait = getWait();
         wait.until(displayed->element.isDisplayed());
         wait.until(displayed->element.isEnabled());

@@ -27,13 +27,11 @@ public class MyInfoPageNavigation extends BasePage {
     private WebElement clickMyInfo;
 
     public void clickOnMyInfoOption(){
-        setWait(30);
         getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='My Info']")));
         clickMyInfo.click();
     }
 
     public void clickOnClaim(){
-        setWait(30);
         getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='Claim']")));
         clickMyInfo.click();
     }
