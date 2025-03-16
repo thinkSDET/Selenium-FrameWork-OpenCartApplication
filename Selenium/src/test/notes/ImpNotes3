@@ -71,7 +71,7 @@ Works perfectly with ThreadLocal<WebDriver>, which allows thread-safe execution.
 
 @BeforeMethod(alwaysRun = true)
 public void setDriver() {
-    initializeDriver(); // ✅ Creates a new driver instance for each test method
+    initializeDriver(); //Creates a new driver instance for each test method
 }
 
 🚀 Conclusion

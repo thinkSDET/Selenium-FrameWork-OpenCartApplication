@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import pages.basePage.BasePage;
+import utils.BaseLogger;
 
 import java.util.Set;
 
@@ -41,20 +42,20 @@ public class AdminPage extends BasePage {
     public String verifyUserAccountPageOpen(){
         waitForElementToBeClickable(helpIconBtn,10);
         clickOnHelpIcon();
+        BaseLogger.info("Help Icon clicked");
         numberOfWindowsToBe(2,2);
        try {
            String parentWindow =driver.getWindowHandle();
-           System.out.println("parent window id -->"+ parentWindow);
            Set<String> windows = driver.getWindowHandles();
            for (String childWindow : windows) {
                if (!parentWindow.equals(childWindow)) {
                    driver.switchTo().window(childWindow);
+                   BaseLogger.info("Switched to child window");
                }
            }
        }catch (Exception e){
            throw new FrameworkException("There is no another window open");
        }
-       System.out.println(getTitleOfPage());
         try {
             forceWait();
         } catch (InterruptedException e) {

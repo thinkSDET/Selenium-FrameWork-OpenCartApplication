@@ -14,6 +14,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.basePage.BasePage;
 import testBase.UIBaseTest;
+import utils.BaseLogger;
 
 public class MyInfoPageNavigation extends BasePage {
 
@@ -29,6 +30,7 @@ public class MyInfoPageNavigation extends BasePage {
     public void clickOnMyInfoOption(){
         getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='My Info']")));
         clickMyInfo.click();
+        BaseLogger.info("My info option is clicked");
     }
 
     public void clickOnClaim(){

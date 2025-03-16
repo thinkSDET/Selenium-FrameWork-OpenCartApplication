@@ -10,18 +10,18 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Smoke Test Suite" parallel="methods" thread-count="2">
     <listeners>
-       <!-- <listener class-name="io.qameta.allure.testng.AllureTestNg"/>-->
-        <!--<listener class-name="utils.RetryListener"/>-->
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="utils.RetryListener"/>
         <listener class-name="utils.TestListener"/>
     </listeners>
-    <test name="MyInfo Page -- Test Cases">
-        <classes>
-            <class name="testCases.MyInfoPageTest"/>
-        </classes>
-    </test>
     <test name="Admin Page -- Test Cases">
         <classes>
             <class name="testCases.AdminPageTest"/>
+        </classes>
+    </test>
+    <test name="MyInfo Page -- Test Cases">
+        <classes>
+            <class name="testCases.MyInfoPageTest"/>
         </classes>
     </test>
 </suite>

@@ -28,7 +28,7 @@ public class MyInfoPageTest extends UIBaseTest {
         pageFactory.loginPage().login(ConfigManager.getUserName(), ConfigManager.getPassword());
         personalDetailsData =  PersonalDetailsTestData.getPersonalDetailsData();
     }
-    @Test
+    @Test(enabled = true)
     void test_01_verify_PersonalDetails_On_MyInfoPage() throws InterruptedException {
         pageFactory.myInfoPageNavigation().clickOnMyInfoOption();
         pageFactory.myInfoPage().clickJobOption();

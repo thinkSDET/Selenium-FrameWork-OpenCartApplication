@@ -1,70 +1,124 @@
-/*
- * *
- *  * Copyright (c) 2025 [thinkSDET]
- *  * Unauthorized copying, distribution, modification, or use of this file, via any medium, is strictly prohibited.
- *  * Proprietary and confidential.
- *
- *
- */
-
 package utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * BaseLogger: Logs messages to console and writes thread-safe logs to a single file.
- */
 public class BaseLogger {
-
     private static final Logger logger = LogManager.getLogger(BaseLogger.class);
-    private static final String logFilePath;
-    private static final Object lock = new Object(); // Lock for thread safety
+    private static final String logFilePath = System.getProperty("user.dir") + "/target/logs/log.txt";
+    private static final Object fileLock = new Object(); // Lock for file operations
+
+    // **Thread-local storage for test-specific logs**
+    private static final ThreadLocal<StringBuilder> logBuffer = ThreadLocal.withInitial(StringBuilder::new);
+    private static final ThreadLocal<String> currentTestThreadId = new ThreadLocal<>();
+    private static final ThreadLocal<String> currentTestName = new ThreadLocal<>();
+    private static final ThreadLocal<Set<String>> processedLogsByTest = ThreadLocal.withInitial(LinkedHashSet::new);
+
+    // **Global suite logs storage**
+    private static final Set<String> staticInitLogs = ConcurrentHashMap.newKeySet();
+    protected static final AtomicBoolean suiteStarted = new AtomicBoolean(false);
 
     static {
-        // Define log directory inside "target/logs/"
-        String logDir = System.getProperty("user.dir") + "/target/logs/";
-        new File(logDir).mkdirs();  // Create directory if not exists
-        // Define log file inside "logs/log.txt"
-        logFilePath = logDir + "log.txt";
+        new File(System.getProperty("user.dir") + "/target/logs/").mkdirs();
     }
 
+    // ✅ **Logging Methods**
+    public static void info(String message) { log("INFO", message); }
+    public static void error(String message) { log("ERROR", message); }
+    public static void warn(String message) { log("WARN", message); }
+    public static void debug(String message) { log("DEBUG", message); }
 
-    public static void info(String message) {
-        logger.info(message);
-        writeToFile("[INFO] " + message);
+    public static void startTest(String testName, String threadId) {
+        currentTestName.set(testName);
+        currentTestThreadId.set(threadId);
+
+        String startMessage = "\n===== STARTING TEST: " + testName + " (Thread-" + threadId + ") =====";
+        clearTestLogs();  // ✅ Clear per-test logs only
+
+        logBuffer.get().append(startMessage).append("\n");
+
+        // **Log static suite initialization messages again**
+        if (suiteStarted.compareAndSet(false, true)) {
+            info("===== TEST SUITE STARTED =====");
+        }
+
+        for (String log : staticInitLogs) {
+            logBuffer.get().append(log).append("\n");
+        }
+
+        logger.info(startMessage);
     }
 
+    public static void endTest(String testName, String status, String threadId) {
+        if (!testName.equals(currentTestName.get())) {
+            warn("Mismatched test ending: Expected " + currentTestName.get() + " but got " + testName);
+        }
 
-    public static void error(String message) {
-        logger.error(message);
-        writeToFile("[ERROR] " + message);
+        String formattedStatus = formatStatus(status);
+        String endMessage = "===== END OF TEST: " + testName + " | STATUS: " + formattedStatus + " (Thread-" + threadId + ") =====\n";
+
+        logBuffer.get().append(endMessage).append("\n");
+        flushLogs(testName, threadId);
+
+        currentTestThreadId.remove();
+        currentTestName.remove();
+        clearTestLogs();  // ✅ Reset only after writing logs
+
+        logger.info(endMessage);
     }
 
-
-    public static void warn(String message) {
-        logger.warn(message);
-        writeToFile("[WARN] " + message);
+    // ✅ **Clear per-test logs while keeping global suite logs intact**
+    protected static void clearTestLogs() {
+        logBuffer.get().setLength(0);
+        processedLogsByTest.get().clear();
     }
 
+    private static void log(String level, String message) {
+        String logMessage = formatLogMessage(level, message);
 
-    public static void debug(String message) {
-        logger.debug(message);
-        writeToFile("[DEBUG] " + message);
+        // **Global log preservation**
+        if (currentTestName.get() == null) {
+            staticInitLogs.add(logMessage);
+            logger.info(logMessage);
+            return;
+        }
+
+        logBuffer.get().append(logMessage).append("\n");
+        logger.info(logMessage);
     }
 
-    private static void writeToFile(String message) {
-        synchronized (lock) { // Ensure only one thread writes at a time
+    private static String formatStatus(String status) {
+        return switch (status) {
+            case "PASSED" -> "**PASSED**";
+            case "FAILED" -> "**FAILED**";
+            case "SKIPPED" -> "**SKIPPED**";
+            default -> status;
+        };
+    }
+
+    private static String formatLogMessage(String level, String message) {
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        return timestamp + " [" + level + "] " + message;
+    }
+
+    public static void flushLogs(String testName, String threadId) {
+        synchronized (fileLock) {
             try (FileWriter writer = new FileWriter(logFilePath, true)) {
-                String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                writer.write(timestamp + " " + message + "\n");
+                writer.write("\n");
+                writer.write(logBuffer.get().toString());
+                writer.write("\n");
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Failed to write logs to file: " + e.getMessage(), e);
+            } finally {
+                clearTestLogs();  // ✅ Final cleanup
             }
         }
     }
