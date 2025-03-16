@@ -39,6 +39,7 @@ public class BaseLogger {
     public static void startTest(String testName, String threadId) {
         currentTestName.set(testName);
         currentTestThreadId.set(threadId);
+        logger.info("DEBUG-START: Test=" + testName + ", Expected Thread=" + threadId + ", Actual Thread=" + Thread.currentThread().getId());
 
         String startMessage = "\n===== STARTING TEST: " + testName + " (Thread-" + threadId + ") =====";
         clearTestLogs();  // ✅ Clear per-test logs only
@@ -70,7 +71,9 @@ public class BaseLogger {
 
         currentTestThreadId.remove();
         currentTestName.remove();
+        processedLogsByTest.remove(); // Explicitly remove ThreadLocal
         clearTestLogs();  // ✅ Reset only after writing logs
+        logger.info("DEBUG-END: Test=" + testName + ", Expected Thread=" + threadId + ", Actual Thread=" + Thread.currentThread().getId());
 
         logger.info(endMessage);
     }
@@ -82,7 +85,9 @@ public class BaseLogger {
     }
 
     private static void log(String level, String message) {
-        String logMessage = formatLogMessage(level, message);
+        String currentThreadId = currentTestThreadId.get();
+        logger.info("DEBUG-LOG: Level=" + level + ", Message=\"" + message + "\", Expected Thread=" + currentThreadId + ", Actual Thread=" + Thread.currentThread().getId());
+        String logMessage = formatLogMessage(level, message, currentThreadId);
 
         // **Global log preservation**
         if (currentTestName.get() == null) {
@@ -104,9 +109,13 @@ public class BaseLogger {
         };
     }
 
-    private static String formatLogMessage(String level, String message) {
+    private static String formatLogMessage(String level, String message, String threadId) {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        return timestamp + " [" + level + "] " + message;
+
+        // Ensure logs are assigned to the correct test thread
+        String actualThreadId = (threadId != null) ? "Thread-" + threadId : "Thread-" + Thread.currentThread().getId();
+
+        return String.format("%s [%s] [%s] %s", timestamp, level, actualThreadId, message);
     }
 
     public static void flushLogs(String testName, String threadId) {
@@ -117,8 +126,6 @@ public class BaseLogger {
                 writer.write("\n");
             } catch (IOException e) {
                 logger.error("Failed to write logs to file: " + e.getMessage(), e);
-            } finally {
-                clearTestLogs();  // ✅ Final cleanup
             }
         }
     }
