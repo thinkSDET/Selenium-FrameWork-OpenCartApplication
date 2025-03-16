@@ -10,9 +10,16 @@ import static utils.Common.attachScreenshot;
 public class TestListener implements ITestListener {
 
     @Override
+    public void onStart(ITestContext context) {
+        if (!BaseLogger.suiteStarted.getAndSet(true)) {
+            BaseLogger.info("===== TEST SUITE STARTED: " + context.getSuite().getName() + " =====");
+        }
+    }
+
+    @Override
     public void onTestStart(ITestResult result) {
-        BaseLogger.flushSetupLogs(); // Ensure setup logs are flushed inside the test
-        BaseLogger.startTest(result.getMethod().getMethodName()); // Start logging for this test
+        BaseLogger.reset();
+        BaseLogger.startTest(result.getMethod().getMethodName());
     }
 
     @Override
@@ -23,8 +30,8 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
+        BaseLogger.error("Test Failed: " + result.getThrowable());
         BaseLogger.endTest(result.getMethod().getMethodName(), "FAILED");
-        BaseLogger.error("Reason: " + result.getThrowable());
         Allure.getLifecycle().updateTestCase(tc -> tc.setStatus(io.qameta.allure.model.Status.FAILED));
         attachScreenshot(result.getMethod().getMethodName());
     }
