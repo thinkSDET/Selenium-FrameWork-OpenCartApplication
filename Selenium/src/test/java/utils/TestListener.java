@@ -1,13 +1,18 @@
 package utils;
 
 import io.qameta.allure.Allure;
+import org.testng.IExecutionListener;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static utils.Common.attachScreenshot;
 
-public class TestListener implements ITestListener {
+public class TestListener implements ITestListener, IExecutionListener {
     private static final ThreadLocal<String> currentTestThreadIds = new ThreadLocal<>();
 
     @Override
@@ -54,5 +59,10 @@ public class TestListener implements ITestListener {
     @Override
     public void onFinish(ITestContext context) {
         BaseLogger.info("===== TEST CONTEXT COMPLETED: " + context.getName() + " =====");
+    }
+
+    @Override
+    public void onExecutionStart() {
+        Common.deleteAllureResults();
     }
 }

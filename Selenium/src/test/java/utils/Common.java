@@ -8,6 +8,7 @@ package utils;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +20,8 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 /**
@@ -70,6 +73,16 @@ public class Common {
             writer.close();
         } catch (IOException e) {
             System.out.println("ERROR: Failed to create environment.properties file - " + e.getMessage());
+        }
+    }
+    protected static void deleteAllureResults() {
+        File allureResults = new File("target/allure-results");
+        try {
+            if (allureResults.exists()) {
+                FileUtils.deleteDirectory(allureResults);  // Deletes entire directory recursively
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to clean allure-results: " + e.getMessage());
         }
     }
 }
