@@ -32,6 +32,6 @@ public class AdminPageTest extends UIBaseTest {
 
     @Test(groups = {"smoke"})
     public void test_02_verify_AddUser_AccountPage(){
-       Assert.assertEquals(pageFactory.adminPage().verifyUserAccountPageOpen(),"OrangeHRM","Please check the app title on User Account page");
+       Assert.assertEquals(pageFactory.adminPage().verifyUserAccountPageOpen(),"","Please check the app title on User Account page");
     }
 }

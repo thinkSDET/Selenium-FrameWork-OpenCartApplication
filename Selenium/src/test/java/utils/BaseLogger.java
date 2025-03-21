@@ -2,131 +2,110 @@ package utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.testng.Reporter;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class BaseLogger {
-    private static final Logger logger = LogManager.getLogger(BaseLogger.class);
-    private static final String logFilePath = System.getProperty("user.dir") + "/target/logs/log.txt";
-    private static final Object fileLock = new Object(); // Lock for file operations
-
-    // **Thread-local storage for test-specific logs**
-    private static final ThreadLocal<StringBuilder> logBuffer = ThreadLocal.withInitial(StringBuilder::new);
-    private static final ThreadLocal<String> currentTestThreadId = new ThreadLocal<>();
-    private static final ThreadLocal<String> currentTestName = new ThreadLocal<>();
-    private static final ThreadLocal<Set<String>> processedLogsByTest = ThreadLocal.withInitial(LinkedHashSet::new);
-
-    // **Global suite logs storage**
-    private static final Set<String> staticInitLogs = ConcurrentHashMap.newKeySet();
-    protected static final AtomicBoolean suiteStarted = new AtomicBoolean(false);
+    private static final Logger logger = LogManager.getLogger();
+    private static final BlockingQueue<LogMessage> messageQueue = new LinkedBlockingQueue<>();
+    private static final LogProcessor processor = new LogProcessor();
 
     static {
-        new File(System.getProperty("user.dir") + "/target/logs/").mkdirs();
+        processor.start();
+    }
+    public static void info(String message) {
+        log(null, message, "INFO");
     }
 
-    // ✅ **Logging Methods**
-    public static void info(String message) { log("INFO", message); }
-    public static void error(String message) { log("ERROR", message); }
-    public static void warn(String message) { log("WARN", message); }
-    public static void debug(String message) { log("DEBUG", message); }
+    public static void error(String message) {
+        log(null, message, "ERROR");
+    }
 
-    public static void startTest(String testName, String threadId) {
-        currentTestName.set(testName);
-        currentTestThreadId.set(threadId);
-        logger.info("DEBUG-START: Test=" + testName + ", Expected Thread=" + threadId + ", Actual Thread=" + Thread.currentThread().getId());
+    public static void warn(String message) {
+        log(null, message, "WARN");
+    }
 
-        String startMessage = "\n===== STARTING TEST: " + testName + " (Thread-" + threadId + ") =====";
-        clearTestLogs();  // ✅ Clear per-test logs only
+    public static void log(String source, String message, String level) {
+        String threadId = String.format("[Thread ID: %d]", Thread.currentThread().getId());
+        String className = (source != null) ? source.substring(source.lastIndexOf('.') + 1) : "";
 
-        logBuffer.get().append(startMessage).append("\n");
+        // Get test name from TestNG context (if available)
+        String testName = Reporter.getCurrentTestResult() != null
+                ? Reporter.getCurrentTestResult().getMethod().getMethodName()
+                : "UNKNOWN";
 
-        // **Log static suite initialization messages again**
-        if (suiteStarted.compareAndSet(false, true)) {
-            info("===== TEST SUITE STARTED =====");
+        String formattedMessage = String.format("%-25s %-20s [Test: %s] - %s",
+                threadId, className, testName, message);
+
+        messageQueue.offer(new LogMessage(formattedMessage, level));
+    }
+
+
+    public static void suiteStart(String suiteName) {
+        log(null, "Suite Started: " + suiteName, "INFO");
+        log(null, "------------------------", "INFO");
+    }
+
+    public static void testStart(String testName) {
+        log(null, "\nTest Started: " + testName, "INFO");
+    }
+
+    public static void testEnd(String testName, String status) {
+        log(null, "Test " + status + ": " + testName, "INFO");
+        log(null, "------------------------", "INFO");
+    }
+
+    private static class LogProcessor extends Thread {
+        private volatile boolean running = true;
+
+        @Override
+        public void run() {
+            while (running) {
+                try {
+                    LogMessage message = messageQueue.take(); // Correctly fetch message from queue
+                    writeLog(message);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    running = false;
+                }
+            }
         }
 
-        for (String log : staticInitLogs) {
-            logBuffer.get().append(log).append("\n");
-        }
-
-        logger.info(startMessage);
-    }
-
-    public static void endTest(String testName, String status, String threadId) {
-        if (!testName.equals(currentTestName.get())) {
-            warn("Mismatched test ending: Expected " + currentTestName.get() + " but got " + testName);
-        }
-
-        String formattedStatus = formatStatus(status);
-        String endMessage = "===== END OF TEST: " + testName + " | STATUS: " + formattedStatus + " (Thread-" + threadId + ") =====\n";
-
-        logBuffer.get().append(endMessage).append("\n");
-        flushLogs(testName, threadId);
-
-        currentTestThreadId.remove();
-        currentTestName.remove();
-        processedLogsByTest.remove(); // Explicitly remove ThreadLocal
-        clearTestLogs();  // ✅ Reset only after writing logs
-        logger.info("DEBUG-END: Test=" + testName + ", Expected Thread=" + threadId + ", Actual Thread=" + Thread.currentThread().getId());
-
-        logger.info(endMessage);
-    }
-
-    // ✅ **Clear per-test logs while keeping global suite logs intact**
-    protected static void clearTestLogs() {
-        logBuffer.get().setLength(0);
-        processedLogsByTest.get().clear();
-    }
-
-    private static void log(String level, String message) {
-        String currentThreadId = currentTestThreadId.get();
-        logger.info("DEBUG-LOG: Level=" + level + ", Message=\"" + message + "\", Expected Thread=" + currentThreadId + ", Actual Thread=" + Thread.currentThread().getId());
-        String logMessage = formatLogMessage(level, message, currentThreadId);
-
-        // **Global log preservation**
-        if (currentTestName.get() == null) {
-            staticInitLogs.add(logMessage);
-            logger.info(logMessage);
-            return;
-        }
-
-        logBuffer.get().append(logMessage).append("\n");
-        logger.info(logMessage);
-    }
-
-    private static String formatStatus(String status) {
-        return switch (status) {
-            case "PASSED" -> "**PASSED**";
-            case "FAILED" -> "**FAILED**";
-            case "SKIPPED" -> "**SKIPPED**";
-            default -> status;
-        };
-    }
-
-    private static String formatLogMessage(String level, String message, String threadId) {
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-
-        // Ensure logs are assigned to the correct test thread
-        String actualThreadId = (threadId != null) ? "Thread-" + threadId : "Thread-" + Thread.currentThread().getId();
-
-        return String.format("%s [%s] [%s] %s", timestamp, level, actualThreadId, message);
-    }
-
-    public static void flushLogs(String testName, String threadId) {
-        synchronized (fileLock) {
-            try (FileWriter writer = new FileWriter(logFilePath, true)) {
-                writer.write("\n");
-                writer.write(logBuffer.get().toString());
-                writer.write("\n");
-            } catch (IOException e) {
-                logger.error("Failed to write logs to file: " + e.getMessage(), e);
+        private void writeLog(LogMessage message) {
+            switch (message.getLevel().toUpperCase()) {
+                case "INFO":
+                    logger.info(message.getMessage());
+                    break;
+                case "ERROR":
+                    logger.error(message.getMessage());
+                    break;
+                case "WARN":
+                    logger.warn(message.getMessage());
+                    break;
+                default:
+                    logger.info(message.getMessage());
             }
         }
     }
+
+    private static class LogMessage {
+        private final String message;
+        private final String level;
+
+        public LogMessage(String message, String level) {
+            this.message = message;
+            this.level = level;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getLevel() {
+            return level;
+        }
+    }
+
 }

@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
+<Configuration status="INFO">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level [%logger] - %msg%n</Property>
+    </Properties>
 
-  /**
- * Copyright (c) 2025 [thinkSDET]
- * Unauthorized copying, distribution, modification, or use of this file, via any medium, is strictly prohibited.
- * Proprietary and confidential.
- */
-  -->
-
-<Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <!-- Improved Log Format: Includes Timestamp, Level, Class Name, and Message -->
-            <!--%logger{1} prints the actual class name where logging is called-->
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] [%logger{1}] - %msg%n" />
+            <PatternLayout pattern="${LOG_PATTERN}" />
         </Console>
+
+        <RollingFile name="FileAppender"
+                     fileName="logs/test-execution.log"
+                     filePattern="logs/test-execution-%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
-        <!-- Configure Log Levels for Specific Packages -->
-        <Logger name="your.package.name" level="debug" additivity="false">
+        <Root level="info">
             <AppenderRef ref="Console"/>
-        </Logger>
-
-        <!-- Root Logger: Captures all logs from the framework -->
-        <Root level="debug">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
         </Root>
     </Loggers>
 </Configuration>

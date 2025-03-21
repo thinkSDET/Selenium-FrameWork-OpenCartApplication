@@ -30,7 +30,7 @@ public class AllureLoggerDecorator {
     }
 
     public static void debug(String message) {
-        BaseLogger.debug(message);
+       // BaseLogger.debug(message);
         attachLogToAllure("[DEBUG] " + message);
     }
 
