@@ -14,12 +14,12 @@
         <listener class-name="utils.RetryListener"/>
         <listener class-name="utils.TestListener"/>
     </listeners>
-    <test name="Admin Page -- Test Cases">
+    <test name="Admin Page">
         <classes>
             <class name="testCases.AdminPageTest"/>
         </classes>
     </test>
-    <test name="MyInfo Page -- Test Cases">
+    <test name="MyInfo Page">
         <classes>
             <class name="testCases.MyInfoPageTest"/>
         </classes>
