@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-
-  /**
- * Copyright (c) 2025 [thinkSDET]
- * Unauthorized copying, distribution, modification, or use of this file, via any medium, is strictly prohibited.
- * Proprietary and confidential.
- */
-  -->
-
-<Configuration status="WARN">
+<Configuration status="INFO">
     <Appenders>
+        <!-- Console Appender for all logs -->
         <Console name="Console" target="SYSTEM_OUT">
-            <!-- Improved Log Format: Includes Timestamp, Level, Class Name, and Message -->
-            <!--%logger{1} prints the actual class name where logging is called-->
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] [%logger{1}] - %msg%n" />
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%X{testName}] %-5level - %msg%n" />
         </Console>
+
+        <!-- Thread-specific log files inside target/logs/ -->
+        <Routing name="ThreadRouter">
+            <Routes pattern="$${ctx:threadName}">
+                <!-- Route based on thread name -->
+                <Route>
+                    <RollingFile name="Thread-${ctx:threadName}"
+                                 fileName="target/logs/${ctx:threadName}.log"
+                                 filePattern="target/logs/${ctx:threadName}-%d{yyyy-MM-dd}.log.gz">
+                        <PatternLayout>
+                            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{testName}] %-5level - %msg%n</Pattern>
+                        </PatternLayout>
+                        <Policies>
+                            <TimeBasedTriggeringPolicy />
+                        </Policies>
+                    </RollingFile>
+                </Route>
+            </Routes>
+        </Routing>
     </Appenders>
 
     <Loggers>
-        <!-- Configure Log Levels for Specific Packages -->
-        <Logger name="your.package.name" level="debug" additivity="false">
+        <Root level="info">
             <AppenderRef ref="Console"/>
-        </Logger>
-
-        <!-- Root Logger: Captures all logs from the framework -->
-        <Root level="debug">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="ThreadRouter"/>
         </Root>
     </Loggers>
 </Configuration>

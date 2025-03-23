@@ -65,7 +65,7 @@ public class UIBaseTest {
         WebDriver driver = getDriver();
         if (driver != null) {
             driver.quit(); // Quit the driver after the test is finished
-            BaseLogger.info("After Test Thread ID-->"+Thread.currentThread().getId());
+            BaseLogger.info("Driver is closed");
             driverThreadLocal.remove(); // Clean up the ThreadLocal reference
         }
     }

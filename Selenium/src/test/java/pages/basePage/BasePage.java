@@ -71,6 +71,7 @@ public class BasePage {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
         // Scroll the element into view
         jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
+        BaseLogger.info(element + "-- is fully visible on the page");
         // Check if the element is fully visible
         return (Boolean) jsExecutor.executeScript(
                 "var dimensions = arguments[0].getBoundingClientRect();" + "return (dimensions.top >= 0 && dimensions.bottom <= window.innerHeight);",
