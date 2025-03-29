@@ -31,7 +31,6 @@ public class AdminPageTest extends UIBaseTest {
 
         Assert.assertTrue(pageFactory.adminPage().isHelpIconVisible(),"Please check help icon does not displayed");
     }
-
     @Test(groups = {"smoke"})
     public void test_02_verify_AddUser_AccountPage(){
        Assert.assertEquals(pageFactory.adminPage().verifyUserAccountPageOpen(),"","Please check the app title on User Account page");
