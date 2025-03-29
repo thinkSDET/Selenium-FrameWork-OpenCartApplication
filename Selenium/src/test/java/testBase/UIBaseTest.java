@@ -19,7 +19,8 @@ public class UIBaseTest {
      * A driverThreadLocal variable ensures that each thread (which corresponds to each test in parallel test execution) gets its own separate WebDriver instance.
      * This prevents conflicts when running tests in parallel.
      */
-    protected static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
+    private static ThreadLocal<WebDriver> driverThreadLocal =  new ThreadLocal<>();
+
     /**
      * Initialize the WebDriver instance and store it in ThreadLocal.
      */
