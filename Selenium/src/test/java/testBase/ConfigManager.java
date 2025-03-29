@@ -22,6 +22,7 @@
  */
 package testBase;
 import customExcpetion.TestAutomationException;
+import org.testng.ITestContext;
 import utils.BaseLogger;
 
 import java.io.FileInputStream;
@@ -45,6 +46,11 @@ public class ConfigManager {
 
     private static void loadProperties() {
         String env = System.getProperty("ENV", "qa"); // Default to "qa" if ENV is not set
+        loadPropertiesFromFile(env);
+    }
+
+    // Common method to load properties from the correct file
+    private static void loadPropertiesFromFile(String env) {
         String filePath = "src/test/resources/config-" + env + ".properties";
         try (FileInputStream file = new FileInputStream(filePath)) {
             properties.load(file);
@@ -53,6 +59,7 @@ public class ConfigManager {
             throw new RuntimeException("Failed to load config file: " + filePath + ". Error: " + e.getMessage());
         }
     }
+
 
     public static String getProperty(String key) {
         return properties.getProperty(key);
