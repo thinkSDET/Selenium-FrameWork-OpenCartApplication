@@ -60,7 +60,18 @@ public class BasePage extends WaitManager {
     public  void focusOnElement(WebElement element){
         getActions().moveToElement(element).perform();
     }
-
+    /**
+     * Generic method to check if an element is displayed.
+     * @param element The WebElement to check visibility.
+     * @return true if displayed, false otherwise.
+     */
+    protected boolean isElementDisplayed(WebElement element) {
+        try {
+            return element.isDisplayed();
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+            return false; // Element not found or stale, return false
+        }
+    }
     /**
      *  Fixes scrolling issues → Ensures the element is in view before checking.
      *  More reliable than isDisplayed() → Works for elements hidden due to scrolling.
