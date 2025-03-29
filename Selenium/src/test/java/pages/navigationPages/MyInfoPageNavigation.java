@@ -10,18 +10,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.basePage.BasePage;
-import testBase.UIBaseTest;
 import utils.BaseLogger;
 
 public class MyInfoPageNavigation extends BasePage {
 
     WebDriver driver;
     public MyInfoPageNavigation(WebDriver driver){
-        this.driver=driver;
-        PageFactory.initElements(driver,this); // Initialize PageFactory
+      super(driver);
 
     }
     @FindBy(xpath = "//span[text()='My Info']")

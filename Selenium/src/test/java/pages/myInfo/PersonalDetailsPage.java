@@ -18,8 +18,7 @@ public class PersonalDetailsPage extends BasePage {
 
     WebDriver driver;
     public PersonalDetailsPage(WebDriver driver){
-        this.driver=driver;
-        PageFactory.initElements(driver,this); // Initialize PageFactory
+      super(driver);
     }
 
     @FindBy(xpath = "//label[text()='Employee Full Name']/parent::div/following-sibling::div//input[@name='firstName']")

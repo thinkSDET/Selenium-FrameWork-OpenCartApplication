@@ -12,6 +12,7 @@ package pages.basePage;
 import customExcpetion.FrameworkException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,6 +24,12 @@ import java.time.Duration;
 import java.util.List;
 
 public class BasePage {
+    protected WebDriver driver; // Protected so subclasses can access it
+
+    public BasePage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this); // Initialize PageFactory once
+    }
     // ThreadLocal to store WebDriverWait instances for parallel execution
     public static ThreadLocal<WebDriverWait> waitThreadLocal = new ThreadLocal<WebDriverWait>();
 
