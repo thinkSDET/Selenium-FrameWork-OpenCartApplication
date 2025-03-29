@@ -15,10 +15,8 @@ import testBase.UIBaseTest;
 
 public class DirectoryPageNavigation extends BasePage {
 
-    WebDriver driver;
     public DirectoryPageNavigation(WebDriver driver){
-        this.driver=driver;
-        PageFactory.initElements(driver,this); // Initialize PageFactory
+       super(driver);
 
     }
     @FindBy(xpath = "//span[text()='Directory']")
