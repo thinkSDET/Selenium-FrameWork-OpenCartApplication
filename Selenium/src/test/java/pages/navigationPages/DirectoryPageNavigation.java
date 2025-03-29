@@ -9,9 +9,7 @@ package pages.navigationPages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import pages.basePage.BasePage;
-import testBase.UIBaseTest;
+import pages.base.BasePage;
 
 public class DirectoryPageNavigation extends BasePage {
 

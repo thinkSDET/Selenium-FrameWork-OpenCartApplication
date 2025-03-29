@@ -10,9 +10,7 @@ import dataClasses.PersonalDetails;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import pages.basePage.BasePage;
-import testBase.UIBaseTest;
+import pages.base.BasePage;
 
 public class PersonalDetailsPage extends BasePage {
 
@@ -74,8 +72,8 @@ public class PersonalDetailsPage extends BasePage {
         otherId.sendKeys(personalDetails.otherId);
         driverLicenseNumber.sendKeys(personalDetails.drivingLicId);
         driverLicenseExpDate.sendKeys(personalDetails.licenseExpDate);
-        selectValueFromDropDown(this.nationality,personalDetails.nationality);
-        selectValueFromDropDown(this.maritalStatus,personalDetails.maritalStatus);
+        selectValueFromDropDown(this.nationality,personalDetails.nationality,10);
+        selectValueFromDropDown(this.maritalStatus,personalDetails.maritalStatus,10);
         saveButton.click();
     }
 }
