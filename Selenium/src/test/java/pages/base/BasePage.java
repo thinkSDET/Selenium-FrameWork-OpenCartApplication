@@ -15,10 +15,13 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import testBase.DriverManager;
 import testBase.UIBaseTest;
 import utils.BaseLogger;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BasePage extends WaitManager {
     protected WebDriver driver; // Protected so subclasses can access it
@@ -31,7 +34,7 @@ public class BasePage extends WaitManager {
 
     // Fetch driver for the current thread
     private WebDriver getDriver() {
-        return UIBaseTest.getDriver();
+        return DriverManager.getDriver();
     }
     // Create Actions instance for the current thread
     private Actions getActions() {
@@ -60,7 +63,18 @@ public class BasePage extends WaitManager {
     public  void focusOnElement(WebElement element){
         getActions().moveToElement(element).perform();
     }
-
+    /**
+     * Generic method to check if an element is displayed.
+     * @param element The WebElement to check visibility.
+     * @return true if displayed, false otherwise.
+     */
+    protected boolean isElementDisplayed(WebElement element) {
+        try {
+            return element.isDisplayed();
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+            return false; // Element not found or stale, return false
+        }
+    }
     /**
      *  Fixes scrolling issues → Ensures the element is in view before checking.
      *  More reliable than isDisplayed() → Works for elements hidden due to scrolling.
@@ -74,7 +88,7 @@ public class BasePage extends WaitManager {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
         // Scroll the element into view
         jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
-        BaseLogger.info(element + "-- is fully visible on the page");
+        BaseLogger.info(getElementLocator(element) + "-- is fully visible on the page");
         // Check if the element is fully visible
         return (Boolean) jsExecutor.executeScript(
                 "var dimensions = arguments[0].getBoundingClientRect();" + "return (dimensions.top >= 0 && dimensions.bottom <= window.innerHeight);",
@@ -121,7 +135,7 @@ public class BasePage extends WaitManager {
             throw new TestAutomationException("Element is null, cannot scroll.");
         }
         try {
-            BaseLogger.info(element + "Scroll to the element");
+            BaseLogger.info(getElementLocator(element) + " - Scroll to the element");
             ((JavascriptExecutor) getDriver()).executeScript(
                     "arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});",
                     element
@@ -182,6 +196,7 @@ public class BasePage extends WaitManager {
                 System.out.println(inputValue);
                 return inputValue == null || inputValue.isEmpty(); // Ensure the value is empty
             });
+            BaseLogger.info("Clear the input field........");
         }
         catch (Exception e){
             BaseLogger.error("Failed to clear input field: " + e.getMessage());
@@ -272,5 +287,11 @@ public class BasePage extends WaitManager {
         } catch (Exception e) {
             BaseLogger.error("Failed to switch back to default content: " + e.getMessage());
         }
+    }
+
+    private String getElementLocator(WebElement element) {
+        Pattern pattern = Pattern.compile("(xpath|css selector|id|name): (.+?)]");
+        Matcher matcher = pattern.matcher(element.toString());
+        return matcher.find() ? matcher.group(2) : "Unknown Locator";
     }
 }

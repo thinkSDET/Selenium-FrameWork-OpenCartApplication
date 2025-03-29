@@ -22,15 +22,18 @@ public class AdminPage extends BasePage {
        super(driver);
     }
     @FindBy(xpath = "//button[@title='Help']")
-    public WebElement helpIconBtn;
+    private WebElement helpIconBtn;
     @FindBy(xpath = "//span[normalize-space(text())='User Management']")
-    public WebElement userManagementOption;
+    private WebElement userManagementOption;
     @FindBy(xpath = "//a[text()='Users']")
-    public WebElement userOption;
+    private WebElement userOption;
     @FindBy(xpath = "//div[@class='orangehrm-header-container']//button[normalize-space(text()='Add')]")
-    public WebElement addUserBtn;
+    private WebElement addUserBtn;
 
 
+    public boolean isHelpIconVisible() {
+        return isElementDisplayed(helpIconBtn);
+    }
 
     public void clickOnHelpIcon(){
         helpIconBtn.click();

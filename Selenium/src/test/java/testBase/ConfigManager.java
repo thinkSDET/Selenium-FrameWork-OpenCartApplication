@@ -65,10 +65,11 @@ public class ConfigManager {
             throw new TestAutomationException("Base URL is missing in the config file!");
         }
         // Log Base URL only once
-        if (!isBaseUrlLogged) {
+      /*  if (!isBaseUrlLogged) {
             BaseLogger.info("Using Base URL: " + baseUrl);
             isBaseUrlLogged = true;
-        }
+        }*/
+        BaseLogger.info("Using Base URL: " + baseUrl);
         return baseUrl;
     }
     /**

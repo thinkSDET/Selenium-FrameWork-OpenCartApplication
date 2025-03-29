@@ -10,24 +10,26 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import testBase.ConfigManager;
-import testBase.PageFactory;
+import testBase.PageFactoryManager;
 import testBase.UIBaseTest;
+
+import static testBase.DriverManager.getDriver;
 
 public class AdminPageTest extends UIBaseTest {
 
-    PageFactory pageFactory;
+    PageFactoryManager pageFactory;
     @BeforeMethod(alwaysRun = true)
     void setup(){
-        PageFactory.setDriver(getDriver());
-        PageFactory.setInstance();            //PageFactory instance initialize karo
-        pageFactory = PageFactory.getInstance(); //Ab safely instance mil jayega
+        PageFactoryManager.setDriver(getDriver());
+        PageFactoryManager.setInstance();            //PageFactory instance initialize karo
+        pageFactory = PageFactoryManager.getInstance(); //Ab safely instance mil jayega
         pageFactory.loginPage().login(ConfigManager.getUserName(), ConfigManager.getPassword());
     }
 
     @Test
     public void test_01_verify_helpIconVisibleOn_AdminPage(){
-        boolean helpIconDisplayed  = pageFactory.adminPage().helpIconBtn.isDisplayed();
-        Assert.assertTrue(helpIconDisplayed,"Please check help icon does not displayed");
+
+        Assert.assertTrue(pageFactory.adminPage().isHelpIconVisible(),"Please check help icon does not displayed");
     }
 
     @Test(groups = {"smoke"})

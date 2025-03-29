@@ -13,18 +13,20 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import testBase.ConfigManager;
 import testBase.UIBaseTest;
-import testBase.PageFactory;
+import testBase.PageFactoryManager;
 import testData.PersonalDetailsTestData;
 
+import static testBase.DriverManager.getDriver;
+
 public class MyInfoPageTest extends UIBaseTest {
-    PageFactory pageFactory;
+    PageFactoryManager pageFactory;
     PersonalDetails personalDetailsData;
 
     @BeforeMethod(alwaysRun = true)
     void setup(){
-        PageFactory.setDriver(getDriver());
-        PageFactory.setInstance();            //PageFactory instance initialize karo
-        pageFactory = PageFactory.getInstance(); //Ab safely instance mil jayega
+        PageFactoryManager.setDriver(getDriver());
+        PageFactoryManager.setInstance();            //PageFactory instance initialize karo
+        pageFactory = PageFactoryManager.getInstance(); //Ab safely instance mil jayega
         pageFactory.loginPage().login(ConfigManager.getUserName(), ConfigManager.getPassword());
         personalDetailsData =  PersonalDetailsTestData.getPersonalDetailsData();
     }
