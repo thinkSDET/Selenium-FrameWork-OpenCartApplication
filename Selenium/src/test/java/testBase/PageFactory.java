@@ -6,24 +6,24 @@
 
 package testBase;
 
-import pages.AdminPage;
-import pages.navigationPages.MyInfoPageNavigation;
 import org.openqa.selenium.WebDriver;
+import pages.AdminPage;
 import pages.DashBoardPage;
 import pages.LoginPage;
 import pages.MyInfoPage;
 import pages.myInfo.PersonalDetailsPage;
+import pages.navigationPages.MyInfoPageNavigation;
 
 public class PageFactory {
-
-    // Thread-safe WebDriver instance
-  private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-    // PageFactory should be thread-safe too
-    private static ThreadLocal<PageFactory> pageFactoryThreadLocal = new ThreadLocal<>();
-
     private PageFactory() {
 // Constructor should be private to enforce singleton per thread
     }
+
+    // Thread-safe WebDriver instance
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    // PageFactory should be thread-safe too
+    private static ThreadLocal<PageFactory> pageFactoryThreadLocal = new ThreadLocal<>();
+
     // Set the WebDriver for the current thread
     public static void setDriver(WebDriver driverInstance) {
         driver.set(driverInstance);
@@ -44,6 +44,7 @@ public class PageFactory {
         }
         return pageFactoryThreadLocal.get(); // Now it will always return a valid instance
     }
+
     public LoginPage loginPage() {
         return new LoginPage(getDriver());
     }
