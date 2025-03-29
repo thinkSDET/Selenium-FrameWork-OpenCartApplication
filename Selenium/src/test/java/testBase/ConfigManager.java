@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigManager {
-    private static boolean isBaseUrlLogged = false; //Prevent duplicate logging
     private static final Properties properties = new Properties();
     private ConfigManager(){
    // Prevent instantiation
@@ -64,11 +63,6 @@ public class ConfigManager {
         if (baseUrl == null || baseUrl.isEmpty()) {
             throw new TestAutomationException("Base URL is missing in the config file!");
         }
-        // Log Base URL only once
-      /*  if (!isBaseUrlLogged) {
-            BaseLogger.info("Using Base URL: " + baseUrl);
-            isBaseUrlLogged = true;
-        }*/
         BaseLogger.info("Using Base URL: " + baseUrl);
         return baseUrl;
     }
