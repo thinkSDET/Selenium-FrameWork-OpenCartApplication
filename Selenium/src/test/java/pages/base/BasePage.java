@@ -15,6 +15,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import testBase.DriverManager;
 import testBase.UIBaseTest;
 import utils.BaseLogger;
 
@@ -31,7 +32,7 @@ public class BasePage extends WaitManager {
 
     // Fetch driver for the current thread
     private WebDriver getDriver() {
-        return UIBaseTest.getDriver();
+        return DriverManager.getDriver();
     }
     // Create Actions instance for the current thread
     private Actions getActions() {

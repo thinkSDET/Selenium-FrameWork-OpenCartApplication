@@ -10,17 +10,19 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import testBase.UIBaseTest;
-import testBase.PageFactory;
+import testBase.PageFactoryManager;
 import testData.LoginTestData;
 
+import static testBase.DriverManager.getDriver;
+
 public class LoginPageTest extends UIBaseTest {
-    PageFactory pageFactory;
+    PageFactoryManager pageFactory;
 
     @BeforeMethod(alwaysRun = true)
     void setup(){
-        PageFactory.setDriver(getDriver());
-        PageFactory.setInstance();            //PageFactory instance initialize karo
-        pageFactory = PageFactory.getInstance(); //Ab safely instance mil jayega
+        PageFactoryManager.setDriver(getDriver());
+        PageFactoryManager.setInstance();            //PageFactory instance initialize karo
+        pageFactory = PageFactoryManager.getInstance(); //Ab safely instance mil jayega
     }
 
     @Test(dataProvider = "loginWithAdmin",dataProviderClass = LoginTestData.class)

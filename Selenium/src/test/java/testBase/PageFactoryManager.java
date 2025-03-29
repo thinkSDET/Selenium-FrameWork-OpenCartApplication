@@ -14,15 +14,15 @@ import pages.MyInfoPage;
 import pages.myInfo.PersonalDetailsPage;
 import pages.navigationPages.MyInfoPageNavigation;
 
-public class PageFactory {
-    private PageFactory() {
+public class PageFactoryManager {
+    private PageFactoryManager() {
 // Constructor should be private to enforce singleton per thread
     }
 
     // Thread-safe WebDriver instance
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     // PageFactory should be thread-safe too
-    private static ThreadLocal<PageFactory> pageFactoryThreadLocal = new ThreadLocal<>();
+    private static ThreadLocal<PageFactoryManager> pageFactoryThreadLocal = new ThreadLocal<>();
 
     // Set the WebDriver for the current thread
     public static void setDriver(WebDriver driverInstance) {
@@ -35,10 +35,10 @@ public class PageFactory {
     }
 
     public static void setInstance() {
-        pageFactoryThreadLocal.set(new PageFactory()); //  Set instance before calling getInstance()
+        pageFactoryThreadLocal.set(new PageFactoryManager()); //  Set instance before calling getInstance()
     }
 
-    public static PageFactory getInstance() {
+    public static PageFactoryManager getInstance() {
         if (pageFactoryThreadLocal.get() == null) {
             throw new IllegalStateException("PageFactory instance is not set. Call setInstance() first!");
         }

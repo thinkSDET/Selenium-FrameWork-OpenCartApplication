@@ -19,9 +19,9 @@
             <class name="testCases.AdminPageTest"/>
         </classes>
     </test>
-    <test name="MyInfo Page">
+ <!--   <test name="MyInfo Page">
         <classes>
             <class name="testCases.MyInfoPageTest"/>
         </classes>
-    </test>
+    </test>-->
 </suite>

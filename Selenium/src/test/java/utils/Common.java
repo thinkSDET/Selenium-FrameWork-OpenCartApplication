@@ -13,6 +13,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import testBase.ConfigManager;
+import testBase.DriverManager;
 import testBase.UIBaseTest;
 
 import java.io.File;
@@ -37,7 +38,7 @@ public class Common {
      */
     @Attachment(value = "Failure Screenshot", type = "image/png")
     protected static void attachScreenshot(String testName) {
-        WebDriver driver = UIBaseTest.getDriver();
+        WebDriver driver = DriverManager.getDriver();
         if (driver != null) {
             File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             String fileName = "screenshot_" + testName + "_" + System.currentTimeMillis() + ".png";
