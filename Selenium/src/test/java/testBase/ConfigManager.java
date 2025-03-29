@@ -22,7 +22,6 @@
  */
 package testBase;
 import customExcpetion.TestAutomationException;
-import org.testng.ITestContext;
 import utils.BaseLogger;
 
 import java.io.FileInputStream;
