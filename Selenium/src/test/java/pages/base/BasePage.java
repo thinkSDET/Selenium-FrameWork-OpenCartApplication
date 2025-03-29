@@ -20,6 +20,8 @@ import testBase.UIBaseTest;
 import utils.BaseLogger;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BasePage extends WaitManager {
     protected WebDriver driver; // Protected so subclasses can access it
@@ -86,7 +88,7 @@ public class BasePage extends WaitManager {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
         // Scroll the element into view
         jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
-        BaseLogger.info(element + "-- is fully visible on the page");
+        BaseLogger.info(getElementLocator(element) + "-- is fully visible on the page");
         // Check if the element is fully visible
         return (Boolean) jsExecutor.executeScript(
                 "var dimensions = arguments[0].getBoundingClientRect();" + "return (dimensions.top >= 0 && dimensions.bottom <= window.innerHeight);",
@@ -133,7 +135,7 @@ public class BasePage extends WaitManager {
             throw new TestAutomationException("Element is null, cannot scroll.");
         }
         try {
-            BaseLogger.info(element + "Scroll to the element");
+            BaseLogger.info(getElementLocator(element) + " - Scroll to the element");
             ((JavascriptExecutor) getDriver()).executeScript(
                     "arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});",
                     element
@@ -194,6 +196,7 @@ public class BasePage extends WaitManager {
                 System.out.println(inputValue);
                 return inputValue == null || inputValue.isEmpty(); // Ensure the value is empty
             });
+            BaseLogger.info("Clear the input field........");
         }
         catch (Exception e){
             BaseLogger.error("Failed to clear input field: " + e.getMessage());
@@ -284,5 +287,11 @@ public class BasePage extends WaitManager {
         } catch (Exception e) {
             BaseLogger.error("Failed to switch back to default content: " + e.getMessage());
         }
+    }
+
+    private String getElementLocator(WebElement element) {
+        Pattern pattern = Pattern.compile("(xpath|css selector|id|name): (.+?)]");
+        Matcher matcher = pattern.matcher(element.toString());
+        return matcher.find() ? matcher.group(2) : "Unknown Locator";
     }
 }
