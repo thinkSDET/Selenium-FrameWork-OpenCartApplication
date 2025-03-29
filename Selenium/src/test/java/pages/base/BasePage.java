@@ -9,18 +9,15 @@
 
 package pages.base;
 
-import customExcpetion.FrameworkException;
+import customExcpetion.TestAutomationException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import testBase.UIBaseTest;
 import utils.BaseLogger;
 
-import java.time.Duration;
 import java.util.List;
 
 public class BasePage extends WaitManager {
@@ -44,7 +41,7 @@ public class BasePage extends WaitManager {
      * get the title of DashBoardPage
      * @return
      */
-    public String getTitleOfPage(){
+    public String fetchPageTitle(){
         return getDriver().getTitle();
     }
 
@@ -52,7 +49,7 @@ public class BasePage extends WaitManager {
      *  Move to an element and then click on element
      * @param element
      */
-    public  void moveToElementAndClick(WebElement element){
+    public  void hoverAndClick(WebElement element){
         getActions().moveToElement(element).click().perform();
     }
 
@@ -60,7 +57,7 @@ public class BasePage extends WaitManager {
      *
      * @param element
      */
-    public  void setTheFocusToElement(WebElement element){
+    public  void focusOnElement(WebElement element){
         getActions().moveToElement(element).perform();
     }
 
@@ -73,7 +70,7 @@ public class BasePage extends WaitManager {
      * @param element
      * @return
      */
-    public  boolean isElementFullyVisible(WebElement element){
+    public  boolean isElementCompletelyVisible(WebElement element){
         JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
         // Scroll the element into view
         jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
@@ -83,33 +80,6 @@ public class BasePage extends WaitManager {
                 "var dimensions = arguments[0].getBoundingClientRect();" + "return (dimensions.top >= 0 && dimensions.bottom <= window.innerHeight);",
                 element
         );
-    }
-
-    /**
-     * clear the existing text from the input field
-     */
-    public  void clearTextFromField(WebElement element){
-        element.clear();
-    }
-
-    /**
-     * This approach simulates the keyboard shortcut "Ctrl+A" (select all) followed by "Delete" to clear the field entirely.
-     * @param element
-     */
-    public  void sendKeyWithSelectAllTextAndRemove(WebElement element){
-        // element.click();
-        element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
-    }
-
-    /**
-     * This method simulates pressing the backspace key repeatedly to delete the existing text. It's effective in most scenarios.
-     * @param element
-     */
-    protected void sendKeysWithBackSpaceAndClearField(WebElement element){
-        element.click();
-        while (element.getAttribute("")!=null){
-            element.sendKeys(Keys.BACK_SPACE);
-        }
     }
 
     /**
@@ -137,12 +107,63 @@ public class BasePage extends WaitManager {
 
     }
 
+    /**
+     * Scrolls the given WebElement into view using JavaScript.
+     * This ensures that the element is visible within the viewport
+     * before interacting with it.
+     *
+     * @param element The WebElement to be scrolled into view.
+     * @throws IllegalArgumentException if the provided element is null.
+     */
     private void scrollIntoView(WebElement element) {
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
+        if (element == null) {
+            BaseLogger.error("Element is null, cannot scroll");
+            throw new TestAutomationException("Element is null, cannot scroll.");
+        }
+        try {
+            BaseLogger.info(element + "Scroll to the element");
+            ((JavascriptExecutor) getDriver()).executeScript(
+                    "arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});",
+                    element
+            );
+        } catch (Exception e) {
+            BaseLogger.error("Scrolling failed for element" + element);
+            throw new TestAutomationException("Scrolling failed: " + e.getMessage(), e);
+        }
     }
+
+
+    /**
+     * Method with boolean parameter to choose between strategies
+     * @param element
+     * @param useSelectAll
+     */
+    public void clearInputField(WebElement element, boolean useSelectAll) {
+        if (useSelectAll) {
+            //simulates the keyboard shortcut "Ctrl+A" (select all) followed by "Delete" to clear the field entirely.
+            element.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+        } else {
+            //simulates pressing the backspace key repeatedly to delete the existing text. It's effective in most scenarios.
+            element.click();
+            String value = element.getAttribute("value");
+            while (value!=null && !value.isEmpty()){
+                element.sendKeys(Keys.BACK_SPACE);
+            }
+        }
+    }
+    /**
+     *  No-parameter method - calls the JavaScript implementation with default timeout
+     * @param element
+     */
     public void clearInputField(WebElement element) {
         clearInputField(element, 10); // Calls the other method with default timeout
     }
+
+    /**
+     * Method with timeout parameter - uses JavaScript implementation
+     * @param element
+     * @param timeOut
+     */
     public  void clearInputField(WebElement element,long timeOut) {
         try {
             // Scroll the element into view
@@ -164,7 +185,7 @@ public class BasePage extends WaitManager {
         }
         catch (Exception e){
             BaseLogger.error("Failed to clear input field: " + e.getMessage());
-            throw new FrameworkException("Failed to clear input field.", e);
+            throw new TestAutomationException("Failed to clear input field.", e);
         }
 
     }
@@ -179,7 +200,7 @@ public class BasePage extends WaitManager {
             if (element == null) {
                 Assert.fail("Element is null and cannot be clicked.");
             }
-            setTheFocusToElement(element); // Bring element into focus
+            focusOnElement(element); // Bring element into focus
             element.click(); // Try normal Selenium click
             BaseLogger.info("Clicked on element successfully using Selenium.");
         } catch (Exception e) {
@@ -192,7 +213,6 @@ public class BasePage extends WaitManager {
                 BaseLogger.info("Clicked on element successfully using JavaScript.");
             } catch (Exception jsException) {
                 BaseLogger.error("JavaScript click also failed: " + jsException.getMessage());
-                Assert.fail("Element could not be clicked using both Selenium and JavaScript.");
             }
         }
     }

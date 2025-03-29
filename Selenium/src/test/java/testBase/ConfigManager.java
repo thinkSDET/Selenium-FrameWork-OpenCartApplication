@@ -21,7 +21,7 @@
  * Uses Try-With-Resources (try (...)) → Ensures the file stream closes properly
  */
 package testBase;
-import customExcpetion.FrameworkException;
+import customExcpetion.TestAutomationException;
 import utils.BaseLogger;
 
 import java.io.FileInputStream;
@@ -62,7 +62,7 @@ public class ConfigManager {
     public static String getBaseUrl() {
         String baseUrl = getProperty("BASE_URL");
         if (baseUrl == null || baseUrl.isEmpty()) {
-            throw new FrameworkException("Base URL is missing in the config file!");
+            throw new TestAutomationException("Base URL is missing in the config file!");
         }
         // Log Base URL only once
         if (!isBaseUrlLogged) {

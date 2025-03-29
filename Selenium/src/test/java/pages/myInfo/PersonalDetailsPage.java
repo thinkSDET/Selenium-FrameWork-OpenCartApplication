@@ -57,7 +57,7 @@ public class PersonalDetailsPage extends BasePage {
      * @param personalDetails
      */
     public void fillPersonalDetails(PersonalDetails personalDetails){
-        isElementFullyVisible(firstName);
+        isElementCompletelyVisible(firstName);
         clearInputField(firstName);
         clearInputField(middleName);
         clearInputField(lastname);

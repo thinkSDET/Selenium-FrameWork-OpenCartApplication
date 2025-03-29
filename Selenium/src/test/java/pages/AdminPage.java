@@ -6,7 +6,7 @@
 
 package pages;
 
-import customExcpetion.FrameworkException;
+import customExcpetion.TestAutomationException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -51,13 +51,13 @@ public class AdminPage extends BasePage {
                }
            }
        }catch (Exception e){
-           throw new FrameworkException("There is no another window open");
+           throw new TestAutomationException("There is no another window open");
        }
         try {
             forceWait();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return getTitleOfPage();
+        return fetchPageTitle();
     }
 }

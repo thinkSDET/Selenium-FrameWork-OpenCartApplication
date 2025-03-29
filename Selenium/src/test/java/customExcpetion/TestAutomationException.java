@@ -6,12 +6,12 @@
 
 package customExcpetion;
 
-public class FrameworkException extends RuntimeException{
+public class TestAutomationException extends RuntimeException{
 
-    public FrameworkException(String message) {
+    public TestAutomationException(String message) {
         super(message);
     }
-    public FrameworkException(String message, Throwable cause) {
+    public TestAutomationException(String message, Throwable cause) {
         super(message, cause);
     }
 }
