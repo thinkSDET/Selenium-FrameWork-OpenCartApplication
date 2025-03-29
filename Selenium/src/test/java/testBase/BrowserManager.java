@@ -6,7 +6,7 @@
 
 package testBase;
 
-import customExcpetion.FrameworkException;
+import customExcpetion.TestAutomationException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -41,7 +41,7 @@ public class BrowserManager {
                 return  setupEdgeDriver();
             default:
                 // CustomException
-                throw new FrameworkException("Invalid browser name: " + browserName + ". Supported browsers: Chrome, Firefox.");
+                throw new TestAutomationException("Invalid browser name: " + browserName + ". Supported browsers: Chrome, Firefox.");
         }
     }
 

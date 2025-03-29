@@ -9,7 +9,7 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import pages.basePage.BasePage;
+import pages.base.BasePage;
 import utils.BaseLogger;
 
 public class MyInfoPage extends BasePage {

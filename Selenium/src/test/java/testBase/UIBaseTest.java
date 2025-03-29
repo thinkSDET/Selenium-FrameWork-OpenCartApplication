@@ -6,7 +6,7 @@
 
 package testBase;
 
-import customExcpetion.FrameworkException;
+import customExcpetion.TestAutomationException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -32,7 +32,7 @@ public class UIBaseTest {
             driverThreadLocal.set(driver);
         } catch (Exception e){
             BaseLogger.error("Error initializing WebDriver: " + e.getMessage());
-            throw new FrameworkException("WebDriver initialization failed.", e);
+            throw new TestAutomationException("WebDriver initialization failed.", e);
         }
     }
 

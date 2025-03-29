@@ -6,11 +6,11 @@
 
 package pages;
 
-import customExcpetion.FrameworkException;
+import customExcpetion.TestAutomationException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import pages.basePage.BasePage;
+import pages.base.BasePage;
 import utils.BaseLogger;
 
 public class LoginPage extends BasePage {
@@ -48,7 +48,7 @@ public class LoginPage extends BasePage {
             BaseLogger.info("Clicked on the submit button");
         }catch (Exception exception){
             BaseLogger.error("Login failed due to an issue: " + exception.getMessage());
-            throw new FrameworkException("Login failed. Please check :", exception);
+            throw new TestAutomationException("Login failed. Please check :", exception);
         }
     }
 
